@@ -1,7 +1,7 @@
 from django.db import models
 from login.models import User
 # Create your models here.
-class patient_waiting_list(models.Model):
+class PatientWaitingList(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     receptionist=models.BooleanField(default=False)
     nurse=models.BooleanField(default=False)
@@ -10,4 +10,7 @@ class patient_waiting_list(models.Model):
     radiologist=models.BooleanField(default=False)
     lab_technician=models.BooleanField(default=False)
     department=models.CharField(max_length=25)
+
+    def __str__(self):
+        return self.user
 
