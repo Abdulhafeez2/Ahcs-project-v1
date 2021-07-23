@@ -1,0 +1,148 @@
+{% extends 'nurse_dashboard_base.html' %}
+
+{% block content %}
+<div class="card card-success">
+  <div class="card-header">
+    <h3 class="card-title">Vital Sign</h3>
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body">
+    <form action="" method="POST">
+      {%csrf_token%}
+      <div class="row">
+        <div class="col-sm-4">
+          <!-- text input -->
+            <div class="form-group">
+              <label>User Name</label>
+            <input type="text" name="Weight" class="form-control" placeholder="Enter username...">
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <!-- text input -->
+            <div class="form-group">
+            
+              <label>First Name</label>
+              <p>No patinet avaliable</p>        
+              </div>
+          </div>
+          <div class="col-sm-4">
+            <!-- text input -->
+            <div class="form-group">
+              <label>Middle Name</label>
+              <p>No patinet avaliable</p>
+            </div>
+          </div>
+        </div>
+
+  
+      <div class="row">
+        <div class="col-sm-4">
+          <!-- text input -->
+          <div class="form-group">
+            <label>Weight(Kgs)</label>
+            <input type="text" name="Weight" class="form-control" placeholder="Enter ...">
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>Height(M)</label>
+            <input type="text" name="Height" class="form-control" placeholder="Enter ...">
+          </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+              <label>BMI(Kg/m2) </label>
+              <input type="text" name="bmi" class="form-control" placeholder="Enter ...">
+            </div>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>Systolic B.P</label>
+            <input type="text" name="systolic_bp" class="form-control" placeholder="Enter ...">
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>Diastolic B.P </label>
+            <input type="text" name="diastolic_bp" class="form-control" placeholder="Enter ...">
+          </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+              <label>Temperature(oC)</label>
+              <input type="text" name="temperature" class="form-control" placeholder="Enter ...">
+            </div>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <!-- text input -->
+          <div class="form-group">
+            <label>Respiartory Rate(/Min)</label>
+            <input type="text" name="respiartory_rate" class="form-control" placeholder="Enter ...">
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>Heart Rate(BPM)</label>
+            <input type="text" name="heart_rate" class="form-control" placeholder="Enter ...">
+          </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+              <label>Urine Output</label>
+              <input type="text" name="urine_output" class="form-control" placeholder="Enter ...">
+            </div>
+          </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-sm-4">
+          <!-- text input -->
+          <div class="form-group">
+            <label>Blood Sugar(F)</label>
+            <input type="text" name="blood_suger_f" class="form-control" placeholder="Enter ...">
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>Blood Sugar(R)</label>
+            <input type="text" name="blood_suger_r" class="form-control" placeholder="Enter ...">
+          </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+              <label>Urine Output</label>
+              <input type="text" class="form-control" placeholder="Enter ...">
+            </div>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <!-- text input -->
+          <div class="form-group">
+            <label>Vital Taken Time</label>
+            <input type="datetime-local" name="vital_taken_time" class="form-control" placeholder="Enter ...">
+          </div>
+        </div>
+      
+      </div>
+        <!-- input states -->
+      <div class="form-group">
+        <label class="col-form-label" for="inputSuccess">Comment</label>
+        <input type="text" name="comment" class="form-control is-valid" id="inputSuccess" placeholder="Enter ...">
+      </div>
+      <div class="form-group col-md-2">
+        <input type="submit" class="btn btn-success" >
+    
+
+    
+<!-- /.card -->
+</div>
+<!--/.col (right) -->
+</form>
+</div>
+</div>
+{% endblock %}

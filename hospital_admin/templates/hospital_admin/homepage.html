@@ -1,0 +1,30 @@
+<!doctype html>
+{% extends 'hospital_admin_dashboard_base.html' %}
+
+{% block navheader %}Hospital Admin Dashboard {% endblock %}
+
+{% block navheaderlist %}
+    <li class="breadcrumb-item"><a href=""><i class="icon-home"></i></a></li>                            
+    <li class="breadcrumb-item active">Dashboard</li>
+{% endblock %}                           
+
+{% block content %}
+    <div class="container-fluid">
+          <h2 class="text-center display-4">Search</h2>
+          <div class="row">
+              <div class="col-md-8 offset-md-2">
+                  <form >
+                      <div class="input-group">
+                          <input type="search" class="form-control form-control-lg" placeholder="Type medical staff username here">
+                          <div class="input-group-append">
+                              <button type="submit" class="btn btn-lg btn-default">
+                                  <i class="icon-magnifier"></i>
+                              </button>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+      <!-- /.content -->
+{% endblock %}

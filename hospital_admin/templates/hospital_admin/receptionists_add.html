@@ -1,0 +1,14 @@
+<!doctype html>
+{% extends 'hospital_admin_dashboard_base.html' %}
+
+{% block navheader %}Add Receptionists {% endblock %}
+
+{% block navheaderlist %}
+    <li class="breadcrumb-item"><a href="index.html"><i class="icon-home"></i></a></li>                            
+    <li class="breadcrumb-item active">Receptionists</li>
+    <li class="breadcrumb-item active">Add Receptionists</li>
+{% endblock %}                           
+
+{% block content %}
+    {% include 'forms/receptionstsform.html' %}
+{% endblock %}
