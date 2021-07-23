@@ -5,11 +5,12 @@ from django.contrib.auth.models import User
 from login.models import User
 
 
+
+
 class user_form(UserCreationForm):
     class Meta:
         model = User
-        fields = ('is_Patient', 'is_Receptionist', 'is_Physician',
-                  'is_Hospital_admin', 'is_Nurse', 'is_Pharmacist', 'is_Radiologist', 'is_Lab_technician')
+        fields = ('role',)
 
 
 class User_registeration_Form(forms.Form):
@@ -51,16 +52,7 @@ class User_registeration_Form(forms.Form):
         attrs={'class': 'form-control', 'placeholder': 'House No here...'}))
     phone = forms.IntegerField(required=True, widget=forms.NumberInput(
         attrs={'class': 'form-control', 'placeholder': 'Phone number here..'}))
-    group = forms.CharField(widget=forms.Select(choices=role_choices, attrs={'class': 'form-control'}), max_length=20,
-                            required=False)
-    is_Hospital_admin = forms.BooleanField(required=False)
-    is_Receptionist = forms.BooleanField(required=False)
-    is_Physician = forms.BooleanField(required=False)
-    is_Nurse = forms.BooleanField(required=False)
-    is_Radiologist = forms.BooleanField(required=False)
-    is_Lab_technician = forms.BooleanField(required=False)
-    is_Pharmacy_admin = forms.BooleanField(required=False)
-    is_Pharmacist = forms.BooleanField(required=False)
+    role = forms.CharField(required=True, max_length=50, widget=forms.Select(choices=role_choices, attrs={'class': 'form-control', 'placeholder': 'Role here... '}))
 
     def save_patient(self):
         password = User.objects.make_random_password()
@@ -79,7 +71,7 @@ class User_registeration_Form(forms.Form):
             kebele=self.cleaned_data.get('kebele'),
             house_no=self.cleaned_data.get('house_no'),
             phone=self.cleaned_data.get('phone'),
-            is_Patient="True",
+            role="patient",
             username=self.cleaned_data.get('firstname') + str(count),
 
         )
@@ -107,14 +99,7 @@ class User_registeration_Form(forms.Form):
             house_no=self.cleaned_data.get('house_no'),
             phone=self.cleaned_data.get('phone'),
             username=self.cleaned_data.get('firstname') + str(count),
-            ############################################
-            is_Hospital_admin=self.cleaned_data.get('is_Hospital_admin'),
-            is_Physician=self.cleaned_data.get('is_Physician'),
-            is_Nurse=self.cleaned_data.get('is_Nurse'),
-            is_Pharmacist=self.cleaned_data.get('is_Pharmacist'),
-            is_Radiologist = self.cleaned_data.get('is_Radiologist'),
-            is_Lab_technician=self.cleaned_data.get('is_Lab_technician'),
-            is_Receptionist=self.cleaned_data.get('is_Receptionist'),
+            role=self.cleaned_data.get('role'),
         )
         new_user.set_password(password)
         new_user.save()

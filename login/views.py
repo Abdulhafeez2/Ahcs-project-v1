@@ -17,43 +17,43 @@ def user_login(request):
             print("form is valid")
             user = authenticate(username=username, password=password)
 
-            if user is not None and user.is_Hospital_admin:
+            if user is not None and user.role == 'Hospital_admin':
                 if user.is_active:
                     login(request, user)
                     return redirect('hospital_admin_homepage_url')
                 else:
                     print("disabled account")
-            elif user is not None and user.is_Receptionist:
+            elif user is not None and user.role == 'Receptionist':
                 if user.is_active:
                     login(request, user)
                     return redirect('receptionist_homepage_url')
                 else:
                     print("disabled account")
-            elif user is not None and user.is_Physician:
+            elif user is not None and user.role == 'Physician':
                 if user.is_active:
                     login(request, user)
                     return redirect('physician_homepage_url')
                 else:
                     print("disabled account")
-            elif user is not None and user.is_Nurse:
+            elif user is not None and user.role == 'Nurse':
                 if user.is_active:
                     login(request, user)
                     return redirect('nurse_homepage_url')
                 else:
                     print("disabled account")
-            elif user is not None and user.is_Radiologist:
+            elif user is not None and user.role == 'Radiologist':
                 if user.is_active:
                     login(request, user)
                     return redirect('radiologist_homepage_url')
                 else:
                     print("disabled account")
-            elif user is not None and user.is_Lab_technician:
+            elif user is not None and user.role == 'Lab_technician':
                 if user.is_active:
                     login(request, user)
                     return redirect('lab_technician_homepage_url')
                 else:
                     print("disabled account")
-            elif user is not None and user.is_Pharmacist:
+            elif user is not None and user.role == 'Pharmacist':
                 if user.is_active:
                     login(request, user)
                     return redirect('pharmacist_homepage_url')

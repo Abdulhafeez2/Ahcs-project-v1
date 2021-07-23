@@ -22,5 +22,4 @@ class UserRegisterationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2', 'is_Patient', 'is_Receptionist','is_Physician',
-                  'is_Hospital_admin', 'is_Nurse')
+        fields = ('username', 'email', 'password1', 'password2', 'role')

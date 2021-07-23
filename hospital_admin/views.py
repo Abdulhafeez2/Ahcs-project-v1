@@ -56,43 +56,43 @@ def add_new_user(request):
 
 # all users
 def all_Users(request):
-    all_users= User.objects.exclude(is_Patient=True)
+    all_users= User.objects.exclude(role='Patient')
     context = {'all_users': all_users}
     return render(request, 'forms/all-users.html', context)
 
 
 def all_physicians(request):
-    all_physicians = User.objects.filter(is_Physician='True')
+    all_physicians = User.objects.filter(role='Physician')
     context = {'all_physicians': all_physicians}
     return render(request, 'forms/all-physicians.html', context)
 
 
 def all_nurses(request):
-    all_nurses = User.objects.filter(is_Nurse='True')
+    all_nurses = User.objects.filter(role='Nurse')
     context = {'all_nurses': all_nurses}
     return render(request, 'forms/all-nurses.html', context)
 
 
 def all_radiologists(request):
-    all_radiologists = User.objects.filter(is_Radiologist='True')
+    all_radiologists = User.objects.filter(role='Radiologist')
     context = {'all_radiologists': all_radiologists}
     return render(request, 'forms/all-radiologists.html', context)
 
 
 def all_lab_technicians(request):
-    all_lab_technicians = User.objects.filter(is_Lab_technician='True')
+    all_lab_technicians = User.objects.filter(role='Lab_technician')
     context = {'all_lab_technicians': all_lab_technicians}
     return render(request, 'forms/all-lab_technicians.html', context)
 
 
 def all_pharmacists(request):
-    all_lab_technician = User.objects.filter(is_pharmacist='True')
+    all_lab_technician = User.objects.filter(role='Pharmacist')
     context = {'all_pharmacists': all_pharmacists}
     return render(request, 'forms/all-pharmacists.html', context)
 
 
 def all_receptionists(request):
-    all_receptionists = User.objects.filter(is_Receptionist='True')
+    all_receptionists = User.objects.filter(role='Receptionist')
     context = {'all_receptionists': all_receptionists}
     return render(request, 'forms/all-receptionists.html', context)
 

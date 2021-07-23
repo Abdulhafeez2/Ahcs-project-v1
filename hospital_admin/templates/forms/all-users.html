@@ -42,19 +42,7 @@
                                             <td>{{user.last_name}}</td>
                                             <td>{{user.age}}</td>
                                             <td>{{user.sex}}</td>
-                                            {% if user.is_Receptionist%}
-                                                <td>Receptionist</td>
-                                            {% elif user.is_Hospital_admin%}
-                                                <td>Hospital admin</td>
-                                            {% elif user.is_Physician%}
-                                                <td>Physician</td>
-                                            {% elif user.is_Radiologist%}
-                                                <td>Radiologist</td>
-                                            {% elif user.is_Nurse%}
-                                                <td>Nurse</td>
-                                            {% elif user.is_superuser%}
-                                                <td>System admin</td>
-                                            {% endif %}
+                                           <td>{{user.role}}</td>
                                             {% if user.is_active %}
                                                 <td>Online</td>
                                             {% else %}

@@ -1,45 +1,46 @@
 <!doctype html>
 {% extends 'hospital_admin_dashboard_base.html' %}
 
-{% block navheader %}{% if user_profile.is_Physician %}
+{% block navheader %}
+{% if user_profile.role == 'Physician' %}
 Doctor Profile
-{% elif user_profile.is_Receptionist%}
+{% elif user_profile.role == 'Receptionist' %}
 Receptionist Profile
-{% elif user_profile.is_Nurse %}
+{% elif user_profile.role == 'Nurse' %}
 Nurse Profile
 
-{% elif user_profile.is_Radiologist%}
+{% elif user_profile.role == 'Radiologist' %}
 Radiologist Profile
-{% elif user_profile.is_Lab_technician%}
+{% elif user_profile.role == 'Lab_technician' %}
 Lab technician Profile
-{% elif user_profile.is_Pharmacist %}
+{% elif user_profile.role == 'Pharmacist' %}
 Pharmacist Profile
-{% elif user_profile.is_Hospital_admin %}
+{% elif user_profile.role == 'Hospital_admin' %}
 Hospital Admin Profile
 {% endif %}
 {% endblock %}
 
 {% block navheaderlist %}
 <li class="breadcrumb-item"><a href="{% url 'hospital_admin_homepage_url'%}"><i class="icon-home"></i></a></li>
-{% if user_profile.is_Physician %}
+{% if user_profile.role == 'Physician' %}
 <li class="breadcrumb-item active">Doctor</li>
 <li class="breadcrumb-item active">Doctor profile</li>
-{% elif user_profile.is_Receptionist%}
+{% elif user_profile.role == 'Receptionist' %}
 <li class="breadcrumb-item active">Receptionist</li>
 <li class="breadcrumb-item active">Receptionist profile</li>
-{% elif user_profile.is_Nurse %}
+{% elif user_profile.role == 'Nurse'  %}
 <li class="breadcrumb-item active">Nurse</li>
 <li class="breadcrumb-item active">Nurse's profile</li>
-{% elif user_profile.is_Radiologist%}
+{% elif user_profile.role == 'Radiologist' %}
 <li class="breadcrumb-item active">Radiologist</li>
 <li class="breadcrumb-item active">Radiologist profile</li>
-{% elif user_profile.is_Lab_technician%}
+{% elif user_profile.role == 'Lab_technician' %}
 <li class="breadcrumb-item active">Lab technician</li>
 <li class="breadcrumb-item active">Lab technician profile</li>
-{% elif user_profile.is_Pharmacist %}
+{% elif user_profile.role == 'Pharmacist'  %}
 <li class="breadcrumb-item active">Pharmacist</li>
 <li class="breadcrumb-item active">Pharmacist profile</li>
-{% elif user_profile.is_Hospital_admin %}
+{% elif user_profile.role == 'Hospital_admin'  %}
 <li class="breadcrumb-item active">Hospital Admin</li>
 <li class="breadcrumb-item active">Hospital Admin profile</li>
 {% endif %}
@@ -54,7 +55,7 @@ Hospital Admin Profile
             <div class="body">
                 <div class="profile-image"><img alt="" class="rounded-circle" src="../assets/images/user.png"></div>
                 <div>
-                    <h4 class="m-b-0"><strong>{% if user_profile.is_Physician %}
+                    <h4 class="m-b-0"><strong>{% if user_profile.role == 'Physician'  %}
                         Dr.{%endif%}{{user_profile.first_name}}</strong> {{user_profile.middle_name}}</h4>
                     <span>Washington, d.c.</span>
                 </div>
