@@ -1,0 +1,55 @@
+{% extends 'hospital_admin_dashboard_base.html' %}
+{% block navheader %}Hospital Admin Dashboard {% endblock %}
+{% block navheaderlist %}
+    <li class="breadcrumb-item"><a href="{% url 'hospital_admin_homepage_url %}"><i class="icon-home"></i></a></li>
+    <li class="breadcrumb-item active">All Radiologist</li>
+{% endblock %}
+{% block content %}
+
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>Radiologists List</h2>
+                        </div>
+                        <div class="body">
+                            <div class="table-responsive">
+                                <table class="table table-hover js-basic-example dataTable table-custom">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>No</th>
+                                            <th>User Name</th>
+                                            <th>First Name</th>
+                                            <th>Middle Name</th>
+                                            <th>Last Name</th>
+                                            <th>Age</th>                                            
+                                            <th>Sex</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for radiologist in all_radiologists %}
+
+                                        <tr>
+                                            <td>{{forloop.counter}}</td>
+                                            <td>{{radiologist.username}}</td>
+                                            <td>{{radiologist.first_name}}</td>
+                                            <td>{{radiologist.middle_name}}</td>
+                                            <td>{{radiologist.last_name}}</td>
+                                            <td>{{radiologist.age}}</td>
+                                            <td>{{radiologist.sex}}M</td>
+                                            <td>Online</td>
+                                            <td><a href="{% url 'user_profile_url' user.id%}"><button type="button" class="btn btn-primary">View Profile</button></a> </td>
+                                        
+                                        <tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+{% endblock content %}
