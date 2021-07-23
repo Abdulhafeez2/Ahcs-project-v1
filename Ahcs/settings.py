@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'lab_technician',
     'pharmacist',
     'profiles',
+    'system_admin',
 
     
     

@@ -30,5 +30,6 @@ urlpatterns = [
     path('receptionist/',include('receptionist.urls')),
     path('nurse/',include('nurse.urls')),
     path('admin/', admin.site.urls),
-    path('user_profile',include('profiles.urls'))
+    path('user_profile/',include('profiles.urls')),
+    path('system_admin/',include('system_admin.urls'))
 ]
