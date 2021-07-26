@@ -48,15 +48,6 @@ def register_new_patient(request):
     return render(request, 'receptionist/form/registeration_form.html', context)
 
 
-def receptionist_profile(request, pk):
-    profile = User.objects.get(id=pk)
-    # info = UserInfo.objects.get(user_id=pk)
-    print(profile)
-    context = {'user_profile': profile}
-
-    return render(request, 'receptionist/user_profile.html', context)
-
-
 def patient_profile(request, pk):
     profile = User.objects.get(id=pk)
     # info = UserInfo.objects.get(user_id=pk)

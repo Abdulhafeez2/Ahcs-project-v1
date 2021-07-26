@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'lab_technician',
     'pharmacist',
     'profiles',
+    'searches',
     'system_admin',
 
     
@@ -68,7 +69,7 @@ ROOT_URLCONF = 'Ahcs.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

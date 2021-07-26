@@ -28,8 +28,9 @@ urlpatterns = [
     path('pharmacist/',include('pharmacist.urls')),
     path('hospital_admin/',include('hospital_admin.urls')),
     path('receptionist/',include('receptionist.urls')),
-    path('nurse/',include('nurse.urls')),
+    path('nurse/', include('nurse.urls')),
     path('admin/', admin.site.urls),
-    path('user_profile/',include('profiles.urls')),
-    path('system_admin/',include('system_admin.urls'))
+    path('profiles/', include('profiles.urls')),
+    path('system_admin/', include('system_admin.urls')),
+    path('searches/', include('searches.urls')),
 ]

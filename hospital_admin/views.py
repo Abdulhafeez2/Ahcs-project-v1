@@ -97,9 +97,3 @@ def all_receptionists(request):
     return render(request, 'forms/all-receptionists.html', context)
 
 
-def user_profile(request, pk):
-    user_profile = User.objects.get(id=pk)
-
-    context = {'user_profile':user_profile}
-    return render(request,'forms/user-profile.html', context)
-

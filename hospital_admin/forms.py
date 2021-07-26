@@ -77,7 +77,7 @@ class User_registeration_Form(forms.Form):
         )
         new_user.set_password(password)
         new_user.save()
-        print(new_user.username,password)
+        print(new_user.username, password)
         context = {'username': new_user.username, "password": password}
         return context
 
@@ -103,6 +103,6 @@ class User_registeration_Form(forms.Form):
         )
         new_user.set_password(password)
         new_user.save()
-        print(new_user.username,password)
+        print(new_user.username, password)
         context = {'username': new_user.username, "password": password}
         return context
