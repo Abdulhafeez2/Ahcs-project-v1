@@ -37,11 +37,11 @@ class HealthCareProviderRegistrationForm(forms.Form):
                                                                                     'placeholder': 'healthcare type '
                                                                                                    'here... '}))
 
-    def save_health_care_provider(self):
+    def save_hospital(self):
         password = User.objects.make_random_password()
         count = User.objects.count()
 
-        new_health_care_provider = HealthCareProvider.objects.create(
+        new_hospital = Hospital.objects.create(
             name=self.cleaned_data.get('name'),
             region=self.cleaned_data.get('region'),
             zone=self.cleaned_data.get('zone'),
@@ -51,4 +51,20 @@ class HealthCareProviderRegistrationForm(forms.Form):
             type=self.cleaned_data.get('type'),
 
         )
+        new_hospital.save_hospital()
 
+        def save_pharmacy(self):
+            password = User.objects.make_random_password()
+            count = User.objects.count()
+
+            new_pharmacy = Pharmacy.objects.create(
+                name=self.cleaned_data.get('name'),
+                region=self.cleaned_data.get('region'),
+                zone=self.cleaned_data.get('zone'),
+                woreda=self.cleaned_data.get('woreda'),
+                kebele=self.cleaned_data.get('kebele'),
+                phone=self.cleaned_data.get('phone'),
+                type=self.cleaned_data.get('type'),
+
+            )
+            new_pharmacy = Pharmacy.save_pharmacy()

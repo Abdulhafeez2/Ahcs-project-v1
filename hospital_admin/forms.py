@@ -52,7 +52,7 @@ class User_registeration_Form(forms.Form):
         attrs={'class': 'form-control', 'placeholder': 'House No here...'}))
     phone = forms.IntegerField(required=True, widget=forms.NumberInput(
         attrs={'class': 'form-control', 'placeholder': 'Phone number here..'}))
-    role = forms.CharField(required=True, max_length=50, widget=forms.Select(choices=role_choices, attrs={'class': 'form-control', 'placeholder': 'Role here... '}))
+    role = forms.CharField(required=False, max_length=50, widget=forms.Select(choices=role_choices, attrs={'class': 'form-control', 'placeholder': 'Role here... '}))
 
     def save_patient(self):
         password = User.objects.make_random_password()
@@ -86,6 +86,7 @@ class User_registeration_Form(forms.Form):
         count = User.objects.count()
 
         new_user = User.objects.create(
+
             first_name=self.cleaned_data.get('firstname'),
             last_name=self.cleaned_data.get('lastname'),
             middle_name=self.cleaned_data.get('middlename'),
@@ -106,3 +107,31 @@ class User_registeration_Form(forms.Form):
         print(new_user.username, password)
         context = {'username': new_user.username, "password": password}
         return context
+
+    def save_admin(self):
+        password = User.objects.make_random_password()
+        count = User.objects.count()
+
+        new_user = User.objects.create(
+
+            first_name=self.cleaned_data.get('firstname'),
+            last_name=self.cleaned_data.get('lastname'),
+            middle_name=self.cleaned_data.get('middlename'),
+            email=self.cleaned_data.get('email'),
+            sex=self.cleaned_data.get('sex'),
+            age=self.cleaned_data.get('age'),
+            region=self.cleaned_data.get('region'),
+            zone=self.cleaned_data.get('zone'),
+            woreda=self.cleaned_data.get('woreda'),
+            kebele=self.cleaned_data.get('kebele'),
+            house_no=self.cleaned_data.get('house_no'),
+            phone=self.cleaned_data.get('phone'),
+            username=self.cleaned_data.get('firstname') + str(count),
+            role="hospital admin"
+        )
+        new_user.set_password(password)
+        new_user.save()
+        print(new_user.username, password)
+        context = {'username': new_user.username, "password": password}
+        return context
+

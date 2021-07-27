@@ -17,13 +17,17 @@ def add_new_healthcare_provider(request):
         form = HealthCareProviderRegistrationForm(request.POST)
         form1 = User_registeration_Form(request.POST)
 
-        if form.is_valid():
-            new_healthcare_provider = form.save_health_care_provider()
-            new_admin = form1.save()
 
-    else:
-        form = HealthCareProviderRegistrationForm
-        form1 = User_registeration_Form
+        print(form1.errors)
+        if form1.is_valid() and form.is_valid():
+
+            new_healthcare_provider = form.save_health_care_provider()
+            new_admin = form1.save_admin()
+
+        else:
+
+            form = HealthCareProviderRegistrationForm
+            form1 = User_registeration_Form
 
     context = {'form': form, 'form1': form1}
     return render(request, 'system_admin/healthcare_provider_add.html', context)
