@@ -1,7 +1,8 @@
 from django.shortcuts import render
 
 # Create your views here.
-def pharmacist_homepage(request):
+from accounts.models import Pharmacy
 
-    context={}
-    return render(request,'pharmacist/pharmacist_homepage.html',context)
+
+def pharmacist_homepage(request):
+    return render(request, 'pharmacist/homepage.html')

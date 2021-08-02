@@ -17,10 +17,23 @@ def user_login(request):
             print("form is valid")
             user = authenticate(username=username, password=password)
 
-            if user is not None and user.role == 'Hospital_admin':
+            if user is not None and user.is_superuser:
+                if user.is_active:
+                    login(request, user)
+                    return redirect('system_admin_homepage_url')
+                else:
+                    print("disabled account")
+
+            elif user is not None and user.role == 'hospital admin':
                 if user.is_active:
                     login(request, user)
                     return redirect('hospital_admin_homepage_url')
+                else:
+                    print("disabled account")
+            elif user is not None and user.role == 'pharmacy admin':
+                if user.is_active:
+                    login(request, user)
+                    return redirect('pharmacy_admin_homepage_url')
                 else:
                     print("disabled account")
             elif user is not None and user.role == 'Receptionist':
@@ -53,13 +66,8 @@ def user_login(request):
                     return redirect('lab_technician_homepage_url')
                 else:
                     print("disabled account")
-            elif user is not None and user.is_superuser:
-                if user.is_active:
-                    login(request, user)
-                    return redirect('system_admin_homepage_url')
-                else:
-                    print("disabled account")
-            elif user is not None and user.role == 'Pharmacist':
+
+            elif user is not None and user.role == 'pharmacist':
                 if user.is_active:
                     login(request, user)
                     return redirect('pharmacist_homepage_url')

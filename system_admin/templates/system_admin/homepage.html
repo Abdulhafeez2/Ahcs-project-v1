@@ -18,9 +18,9 @@
     </div>
     <div class="col-lg-6 col-md-4 col-sm-12 text-right">
             <div class="col-md-10 offset-md-2">
-                <form action="{% url 'search_staff_url' %}">
+                <form action="{% url 'search_healthcare_provider_url' %}">
                     <div class="input-group">
-                        <input type="search" name="search" class="form-control form-control-lg" placeholder="Type staff username here">
+                        <input type="search" name="search" class="form-control form-control-lg" placeholder="Type healthcare provider name here">
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-lg btn-default"><i class="icon-magnifier"></i></button>
                         </div>
@@ -32,18 +32,17 @@
 {% endblock navheaderlist%}
 
 {% block main_menu_list%}
-    <li><a href="javascript:void(0);" class="has-arrow"><i class="icon-user-follow"></i><span>HealthCare Providers</span> </a>
+    <li><a href="javascript:void(0);" class="has-arrow"><i class="icon-user-follow"></i><span>Healthcare Providers</span> </a>
                                 <ul>
-                                    <li><a href="{% url 'add_new_healthcare_provider_url' %}">Add Hospitals</a></li>
-                                    <li><a href=#>Add Pharmacy</a></li>
+                                    <li><a href="{% url 'add_new_healthcare_provider_url' %}">Add Healthcare Providers</a></li>
                                     <li><a href=#>Manage Hospitals</a></li>
                                     <li><a href=#>Manage Pharmacies</a></li>
                                 </ul>
                             </li>
-                            <li><a href="javascript:void(0);" class="has-arrow"><i class="icon-user-follow"></i><span>HealthCare Admins</span> </a>
+                            <li><a href="javascript:void(0);" class="has-arrow"><i class="icon-user-follow"></i><span>Healthcare Admins</span> </a>
                                 <ul>
-                                    <li><a href=#>View Hospital Admins</a></li>
-                                    <li><a href=#>View Pharmacy Admins</a></li>
+                                    <li><a href="{% url 'view_hospital_admins_url' %}">View Hospital Admins</a></li>
+                                    <li><a href="{% url 'view_pharmacy_admins_url' %}">View Pharmacy Admins</a></li>
                                 </ul>
                             </li>
 {% endblock main_menu_list%}

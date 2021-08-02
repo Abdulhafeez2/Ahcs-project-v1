@@ -1,12 +1,12 @@
 from django.db import models
 
 # Create your models here.
-from login.models import User
+from accounts.models import User, Pharmacy
 
 
-class Pharmacist:
-    basic = models.OneToOneField(User, on_delete=models.CASCADE)
-    #pharmacy = models.ManyToOneRel(Pharmacy, on_delete=models.CASCADE)
+class Pharmacist(models.Model):
+    basic = models.ForeignKey(User, on_delete=models.CASCADE)
+    pharmacy = models.ForeignKey(Pharmacy, on_delete=models.CASCADE)
 
     def __str__(self):
         return User.username

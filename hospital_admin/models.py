@@ -4,14 +4,13 @@ from django.db import models
 
 from django.db import models
 
-
 # Create your models here.
-from login.models import User
+from accounts.models import User, Hospital
 
 
-class HospitalAdmin:
+'''class HospitalAdmin:
     basic = models.OneToOneField(User, on_delete=models.CASCADE)
-   # hospital = models.OneToOneField(Hospital, on_delete=models.CASACADE)
+    hospital = models.OneToOneField(Hospital, on_delete=models.CASACADE)
 
     def __str__(self):
-        return User.username
+        return User.username'''

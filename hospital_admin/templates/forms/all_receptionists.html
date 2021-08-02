@@ -1,16 +1,15 @@
-{% extends 'hospital_admin_dashboard_base.html' %}
-{% block navheader %}Hospital Admin Dashboard {% endblock %}
-{% block navheaderlist %}
-    <li class="breadcrumb-item"><a href="{% url 'hospital_admin_homepage_url'%}"><i class="icon-home"></i></a></li>
-    <li class="breadcrumb-item active">All Nurse</li>
-{% endblock %}
+{% extends 'hospital_admin/homepage.html' %}
+
+{% block navlist %}
+    <li class="breadcrumb-item active">all Receptionist</li>
+{% endblock navlist%}
 {% block content %}
 
             <div class="row clearfix">
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="header">
-                            <h2>Nurses List</h2>
+                            <h2>Receptionist List</h2>
                         </div>
                         <div class="body">
                             <div class="table-responsive">
@@ -29,18 +28,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {% for nurse in all_nurses %}
+                                    {% for reception in receptionists %}
+                                    
 
                                         <tr>
                                             <td>{{forloop.counter}}</td>
-                                            <td>{{nurse.username}}</td>
-                                            <td>{{nurse.first_name}}</td>
-                                            <td>{{nurse.middle_name}}</td>
-                                            <td>{{nurse.last_name}}</td>
-                                            <td>{{nurse.age}}</td>
-                                            <td>{{nurse.sex}}</td>
+                                            <td>{{reception.basic.username}}</td>
+                                            <td>{{reception.basic.first_name}}</td>
+                                            <td>{{reception.basic.last_name}}</td>
+                                            <td>{{reception.basic.middle_name}}</td>
+                                            <td>{{reception.basic.age}}</td>
+                                            <td>{{reception.basic.sex}}</td>
                                             <td>Online</td>
-                                            <td><button type="button" class="btn btn-primary">View Profile</button> </td>
+                                            <td><a href="{% url 'user_profile_url' reception.basic.id%}"><button type="button" class="btn btn-primary">View Profile</button></a> </td>
                                         
                                         <tr>
                                         {% endfor %}

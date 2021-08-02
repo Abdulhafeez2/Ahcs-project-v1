@@ -1,6 +1,6 @@
 from django import forms
 
-from hospital_admin.forms import User_registeration_Form
+from hospital_admin.forms import UserRegistrationForm
 from login.models import User
 
 from login.models import User

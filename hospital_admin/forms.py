@@ -2,9 +2,10 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from login.models import User
-
-
+from accounts.models import *
+from patient.models import Patient
+from pharmacist.models import Pharmacist
+from receptionist.models import Receptionist
 
 
 class user_form(UserCreationForm):
@@ -13,7 +14,7 @@ class user_form(UserCreationForm):
         fields = ('role',)
 
 
-class User_registeration_Form(forms.Form):
+class UserRegistrationForm(forms.Form):
     role_choices = [('Receptionist', 'Receptionist'), ('Physician', 'Physician'), ('Nurse', 'Nurse'),
                     ('Radiologist', 'Radiologist'), ('Lab_technician', 'Lab_technician'),
                     ('Pharmacist', 'Pharmacist')]
@@ -54,64 +55,131 @@ class User_registeration_Form(forms.Form):
         attrs={'class': 'form-control', 'placeholder': 'Phone number here..'}))
     role = forms.CharField(required=False, max_length=50, widget=forms.Select(choices=role_choices, attrs={'class': 'form-control', 'placeholder': 'Role here... '}))
 
-    def save_patient(self):
+    def save_patient(self, context):
         password = User.objects.make_random_password()
         count = User.objects.count()
+        new_patient_address = Address.objects.create(
+            region=self.cleaned_data.get('region'),
+            zone=self.cleaned_data.get('zone'),
+            woreda=self.cleaned_data.get('woreda'),
+            kebele=self.cleaned_data.get('kebele'),
+            house_no=self.cleaned_data.get('house_no'),
+        )
 
-        new_user = User.objects.create(
+        new_patient_info = User.objects.create(
             first_name=self.cleaned_data.get('firstname'),
             last_name=self.cleaned_data.get('lastname'),
             middle_name=self.cleaned_data.get('middlename'),
             email=self.cleaned_data.get('email'),
             sex=self.cleaned_data.get('sex'),
             age=self.cleaned_data.get('age'),
-            region=self.cleaned_data.get('region'),
-            zone=self.cleaned_data.get('zone'),
-            woreda=self.cleaned_data.get('woreda'),
-            kebele=self.cleaned_data.get('kebele'),
-            house_no=self.cleaned_data.get('house_no'),
+            address_id=new_patient_address.id,
             phone=self.cleaned_data.get('phone'),
             role="patient",
             username=self.cleaned_data.get('firstname') + str(count),
 
         )
-        new_user.set_password(password)
-        new_user.save()
-        print(new_user.username, password)
-        context = {'username': new_user.username, "password": password}
+
+        new_patient = Patient.objects.create(
+            basic_id=new_patient_info.id,
+        )
+
+        new_patient_info.set_password(password)
+        new_patient_address.save()
+        new_patient_info.save()
+        new_patient.save()
+        new_patient.hospital.add(context['hospital'])
+        print(new_patient_info.username, password)
+        context = {'username': new_patient_info.username, "password": password}
         return context
 
-    def save(self):
+    def save_pharmacist(self, context):
         password = User.objects.make_random_password()
         count = User.objects.count()
+        new_pharmacist_address = Address.objects.create(
+            region=self.cleaned_data.get('region'),
+            zone=self.cleaned_data.get('zone'),
+            woreda=self.cleaned_data.get('woreda'),
+            kebele=self.cleaned_data.get('kebele'),
+            house_no=self.cleaned_data.get('house_no'),
+        )
 
-        new_user = User.objects.create(
-
+        new_pharmacist_info = User.objects.create(
             first_name=self.cleaned_data.get('firstname'),
             last_name=self.cleaned_data.get('lastname'),
             middle_name=self.cleaned_data.get('middlename'),
             email=self.cleaned_data.get('email'),
             sex=self.cleaned_data.get('sex'),
             age=self.cleaned_data.get('age'),
+            address_id=new_pharmacist_address.id,
+            phone=self.cleaned_data.get('phone'),
+            role="pharmacist",
+            username=self.cleaned_data.get('firstname') + str(count),
+
+        )
+
+        new_pharmacist = Pharmacist.objects.create(
+            basic_id=new_pharmacist_info.id,
+            pharmacy_id=context['pharmacy'].id,
+        )
+
+        new_pharmacist_info.set_password(password)
+        new_pharmacist_address.save()
+        new_pharmacist_info.save()
+        new_pharmacist.save()
+        print(new_pharmacist_info.username, password)
+        context = {'username': new_pharmacist_info.username, "password": password}
+        return context
+
+    def save(self, context):
+        password = User.objects.make_random_password()
+        count = User.objects.count()
+        new_staff_address = Address.objects.create(
             region=self.cleaned_data.get('region'),
             zone=self.cleaned_data.get('zone'),
             woreda=self.cleaned_data.get('woreda'),
             kebele=self.cleaned_data.get('kebele'),
             house_no=self.cleaned_data.get('house_no'),
+        )
+
+        new_staff = User.objects.create(
+            first_name=self.cleaned_data.get('firstname'),
+            last_name=self.cleaned_data.get('lastname'),
+            middle_name=self.cleaned_data.get('middlename'),
+            email=self.cleaned_data.get('email'),
+            sex=self.cleaned_data.get('sex'),
+            address_id=new_staff_address.id,
+            age=self.cleaned_data.get('age'),
             phone=self.cleaned_data.get('phone'),
             username=self.cleaned_data.get('firstname') + str(count),
             role=self.cleaned_data.get('role'),
         )
-        new_user.set_password(password)
-        new_user.save()
-        print(new_user.username, password)
-        context = {'username': new_user.username, "password": password}
+        role = self.cleaned_data.get('role')
+        if role == 'Receptionist':
+            new_receptionist = Receptionist.objects.create(
+                basic_id=new_staff.id,
+                hospital_id=context['hospital'].id,
+            )
+            new_receptionist.save()
+        new_staff.set_password(password)
+        new_staff.save()
+        new_staff_address.save()
+
+        print(new_staff.username, password)
+        context = {'username': new_staff.username, "password": password}
         return context
 
-    def save_admin(self):
+    def save_admin(self, admin_type):
+
         password = User.objects.make_random_password()
         count = User.objects.count()
-
+        new_user_address = Address.objects.create(
+            region=self.cleaned_data.get('region'),
+            zone=self.cleaned_data.get('zone'),
+            woreda=self.cleaned_data.get('woreda'),
+            kebele=self.cleaned_data.get('kebele'),
+            house_no=self.cleaned_data.get('house_no'),
+        )
         new_user = User.objects.create(
 
             first_name=self.cleaned_data.get('firstname'),
@@ -120,18 +188,17 @@ class User_registeration_Form(forms.Form):
             email=self.cleaned_data.get('email'),
             sex=self.cleaned_data.get('sex'),
             age=self.cleaned_data.get('age'),
-            region=self.cleaned_data.get('region'),
-            zone=self.cleaned_data.get('zone'),
-            woreda=self.cleaned_data.get('woreda'),
-            kebele=self.cleaned_data.get('kebele'),
-            house_no=self.cleaned_data.get('house_no'),
+            address_id=new_user_address.id,
             phone=self.cleaned_data.get('phone'),
             username=self.cleaned_data.get('firstname') + str(count),
-            role="hospital admin"
+            role=admin_type,
+
         )
+
         new_user.set_password(password)
+        new_user_address.save()
         new_user.save()
         print(new_user.username, password)
-        context = {'username': new_user.username, "password": password}
+        context = {'username': new_user.username, "password": password, "admin_id": new_user.id}
         return context
 

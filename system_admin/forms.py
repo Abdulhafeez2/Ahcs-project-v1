@@ -1,15 +1,10 @@
 from django import forms
-
-from hospital_admin.forms import User_registeration_Form
-from login.models import User
-
-from login.models import User
-from system_admin.models import HealthCareProvider
+from accounts.models import *
 
 
 class HealthCareProviderRegistrationForm(forms.Form):
     type_choice = (
-                      ('Hospital', 'Hospital'), ('Pharmacy', 'Pharmacy')
+        ('Hospital', 'Hospital'), ('Pharmacy', 'Pharmacy')
     )
     region_choice = (
         ("Tigray", "Tigray"), ("Afar", "Afar"), ("Amhara", "Amhara"), ("Oromia", "Oromia"), ("Somali", "Somali"),
@@ -37,18 +32,37 @@ class HealthCareProviderRegistrationForm(forms.Form):
                                                                                     'placeholder': 'healthcare type '
                                                                                                    'here... '}))
 
-    def save_health_care_provider(self):
-        password = User.objects.make_random_password()
-        count = User.objects.count()
+    def save_healthcare_provider(self, admin_id):
+        if self.cleaned_data.get('type') == 'Hospital':
+            new_hospital_address = Address.objects.create(
+                region=self.cleaned_data.get('region'),
+                zone=self.cleaned_data.get('zone'),
+                woreda=self.cleaned_data.get('woreda'),
+                kebele=self.cleaned_data.get('kebele'),
 
-        new_health_care_provider = HealthCareProvider.objects.create(
-            name=self.cleaned_data.get('name'),
-            region=self.cleaned_data.get('region'),
-            zone=self.cleaned_data.get('zone'),
-            woreda=self.cleaned_data.get('woreda'),
-            kebele=self.cleaned_data.get('kebele'),
-            phone=self.cleaned_data.get('phone'),
-            type=self.cleaned_data.get('type'),
+            )
 
-        )
+            new_hospital = Hospital.objects.create(
+                address_id=new_hospital_address.id,
+                admin_id=admin_id,
+                name=self.cleaned_data.get('name'),
+                phone=self.cleaned_data.get('phone'),
+            )
+            new_hospital_address.save()
+            new_hospital.save()
+        else:
+            new_pharmacy_address = Address.objects.create(
+                region=self.cleaned_data.get('region'),
+                zone=self.cleaned_data.get('zone'),
+                woreda=self.cleaned_data.get('woreda'),
+                kebele=self.cleaned_data.get('kebele'),
 
+            )
+            new_pharmacy = Pharmacy.objects.create(
+                address_id=new_pharmacy_address.id,
+                name=self.cleaned_data.get('name'),
+                admin_id=admin_id,
+                phone=self.cleaned_data.get('phone'),
+            )
+            new_pharmacy_address.save()
+            new_pharmacy.save()

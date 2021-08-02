@@ -1,16 +1,17 @@
-{% extends 'hospital_admin_dashboard_base.html' %}
-{% block navheader %}Hospital Admin Dashboard {% endblock %}
-{% block navheaderlist %}
-    <li class="breadcrumb-item"><a href="{% url 'hospital_admin_homepage_url'%}"><i class="icon-home"></i></a></li>
-    <li class="breadcrumb-item active">All Physician</li>
-{% endblock %}
+{% extends 'system_admin/homepage.html' %}
+
+{% block navlist %}
+    <li class="breadcrumb-item active">All Hospital admins</li>
+{% endblock navlist%}
+
 {% block content %}
+
 
             <div class="row clearfix">
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="header">
-                            <h2>Physician List</h2>
+                            <h2>Hospital admins List</h2>
                         </div>
                         <div class="body">
                             <div class="table-responsive">
@@ -24,25 +25,35 @@
                                             <th>Last Name</th>
                                             <th>Age</th>                                            
                                             <th>Sex</th>
+                                            <th>Hospital</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {% for physician in all_physicians%}
+                                    
+                                   
+                                    {% for user in hospital %}
+
                                         <tr>
                                             <td>{{forloop.counter}}</td>
-                                            <td>{{physician.username}}</td>
-                                            <td>{{physician.first_name}}</td>
-                                            <td>{{physician.middle_name}}</td>
-                                            <td>{{physician.last_name}}</td>
-                                            <td>{{physician.age}}</td>
-                                            <td>{{physician.sex}}</td>
-                                            <td>Online</td>
-                                            <td><a href="{% url 'user_profile_url' user.id%}"><button type="button" class="btn btn-primary">View Profile</button></a> </td>
+                                            <td>{{user.admin.username}}</td>
+                                            <td>{{user.admin.first_name}}</td>
+                                            <td>{{user.admin.middle_name}}</td>
+                                            <td>{{user.admin.last_name}}</td>
+                                            <td>{{user.admin.age}}</td>
+                                            <td>{{user.admin.sex}}</td>
+                                            <td>{{user}}</td>
+                                            {% if user.is_active %}
+                                                <td>Online</td>
+                                            {% else %}
+                                                <td>Offline</td>
+                                            {% endif %}
+                                            <td><a href="{% url 'user_profile_url' user.admin.id%}"><button type="button" class="btn btn-primary">View Profile</button></a> </td>
                                         
                                         <tr>
-                                        {% endfor %}
+                                    {% endfor %}   
+                                        
                                     </tbody>
                                 </table>
                             </div>

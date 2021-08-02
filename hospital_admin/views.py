@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from login.models import User
+from accounts.models import User
 from login import decorators
 from .forms import *
 
@@ -9,10 +9,10 @@ from .forms import *
 # from xhtml2pdf import pisa
 
 
-#@decorators.hospital_adminonly
+# @decorators.hospital_adminonly
 def hospital_admin_homepage(request):
-    context = {}
-
+    hospital = Hospital.objects.get(admin=request.user.id)
+    context = {'hospital_name': hospital}
     return render(request, 'hospital_admin/homepage.html', context)
 
 
@@ -22,10 +22,11 @@ def add_new_user(request):
     msg = None
     if request.method == 'POST':
 
-        form = User_registeration_Form(request.POST)
-
+        form = UserRegistrationForm(request.POST)
+        hospital = Hospital.objects.get(admin_id=request.user.id)
+        context = {'hospital': hospital}
         if form.is_valid():
-            new_user = form.save()
+            new_user = form.save(context)
 
             msg = "Staff registered"
             context = {'username': new_user['username'], 'password': new_user['password']}
@@ -46,7 +47,7 @@ def add_new_user(request):
         # return HttpResponse('We had some errors <pre>' + html + '</pre>')
         # return response
     else:
-        form = User_registeration_Form
+        form = UserRegistrationForm
 
     context = {'form': form}
     return render(request, 'hospital_admin/receptionists_add.html', context)
@@ -55,27 +56,32 @@ def add_new_user(request):
 ################################################################################
 
 # all users
-def all_Users(request):
-    all_users= User.objects.exclude(role='Patient')
-    context = {'all_users': all_users}
-    return render(request, 'forms/all-users.html', context)
+def all_users(request):
+    hospital_id = Hospital.objects.get(admin_id=request.user.id).id
+    receptionists = Receptionist.objects.filter(hospital_id=hospital_id)
+    '''physician = Physician.objects.filter(hospital_id=hospital_id)
+    Lab_technician = LabTechnician.objects.filter(hospital_id=hospital_id)
+    nurse = Nurse.objects.filter(hospital_id=hospital_id)
+    nurse = Radiologist.objects.filter(hospital_id=hospital_id)'''
+    context = {'receptionists': receptionists}
+    return render(request, 'forms/all_users.html', context)
 
 
 def all_physicians(request):
-    all_physicians = User.objects.filter(role='Physician')
-    context = {'all_physicians': all_physicians}
+    physicians = User.objects.filter(role='Physician')
+    context = {'all_physicians': physicians}
     return render(request, 'forms/all-physicians.html', context)
 
 
 def all_nurses(request):
-    all_nurses = User.objects.filter(role='Nurse')
-    context = {'all_nurses': all_nurses}
+    nurses = User.objects.filter(role='Nurse')
+    context = {'all_nurses': nurses}
     return render(request, 'forms/all-nurses.html', context)
 
 
 def all_radiologists(request):
-    all_radiologists = User.objects.filter(role='Radiologist')
-    context = {'all_radiologists': all_radiologists}
+    radiologists = User.objects.filter(role='Radiologist')
+    context = {'all_radiologists': radiologists}
     return render(request, 'forms/all-radiologists.html', context)
 
 
@@ -92,8 +98,7 @@ def all_pharmacists(request):
 
 
 def all_receptionists(request):
-    all_receptionists = User.objects.filter(role='Receptionist')
-    context = {'all_receptionists': all_receptionists}
-    return render(request, 'forms/all-receptionists.html', context)
-
-
+    hospital_id = Hospital.objects.get(admin_id=request.user.id).id
+    receptionists = Receptionist.objects.filter(hospital_id=hospital_id)
+    context = {'receptionists': receptionists}
+    return render(request, 'forms/all_receptionists.html', context)

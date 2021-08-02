@@ -39,9 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'registration',
     'login',
+    'accounts',
     'physician',
     'hospital_admin',
+    'pharmacy_admin',
     'nurse',
+    'patient',
     'receptionist',
     'radiologist',
     'lab_technician',
@@ -138,7 +141,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
-AUTH_USER_MODEL= 'login.User'
+AUTH_USER_MODEL= 'accounts.User'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 

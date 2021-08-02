@@ -1,16 +1,16 @@
-{% extends 'receptionist/receptionist_dashboard.html' %}
+{% extends 'pharmacy_admin/homepage.html' %}
 
 {% block navlist %}
-    <li class="breadcrumb-item active">patient registration</li>
+    <li class="breadcrumb-item active">Pharmacist registration</li>
 {% endblock navlist%}
 {% block content %}
 <div class="card card-success">
           <div class="card-header">
-            <h3 class="card-title">Patient Registration Form</h3>
+            <h3 class="card-title">Pharmacist Registration Form</h3>
           </div>
           <!-- /.card-header -->
           <div class="card-body">
-            <form method="POST" action="{% url 'register_new_patient_url'%}">
+            <form method="POST" action="{% url 'register_new_pharmacist_url'%}">
                 {%csrf_token%}
                 <div class="row">
                   <div class="col-sm-4">

@@ -1,16 +1,13 @@
-{% extends 'hospital_admin_dashboard_base.html' %}
-{% block navheader %}Hospital Admin Dashboard {% endblock %}
-{% block navheaderlist %}
-    <li class="breadcrumb-item"><a href="{% url 'hospital_admin_homepage_url '%}"><i class="icon-home"></i></a></li>
-    <li class="breadcrumb-item active">All Receptionist</li>
-{% endblock %}
+{% extends 'hospital_admin/homepage.html' %}
+{% block navlist %}
+    <li class="breadcrumb-item active">all Staff</li>
+{% endblock navlist%}
 {% block content %}
-
             <div class="row clearfix">
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="header">
-                            <h2>Receptionist List</h2>
+                            <h2>Staff List</h2>
                         </div>
                         <div class="body">
                             <div class="table-responsive">
@@ -24,27 +21,34 @@
                                             <th>Last Name</th>
                                             <th>Age</th>                                            
                                             <th>Sex</th>
+                                            <th>Role</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {% for reception in all_receptionists %}
-                                    
+
+                                    {% for user in users %}
 
                                         <tr>
                                             <td>{{forloop.counter}}</td>
-                                            <td>{{reception.username}}</td>
-                                            <td>{{reception.first_name}}</td>
-                                            <td>{{reception.last_name}}</td>
-                                            <td>{{reception.middle_name}}</td>
-                                            <td>{{reception.age}}</td>
-                                            <td>{{reception.sex}}</td>
-                                            <td>Online</td>
+                                            <td>{{user.basic.username}}</td>
+                                            <td>{{user.first_name}}</td>
+                                            <td>{{user.middle_name}}</td>
+                                            <td>{{user.last_name}}</td>
+                                            <td>{{user.age}}</td>
+                                            <td>{{user.sex}}</td>
+                                           <td>{{user.role}}</td>
+                                            {% if user.is_active %}
+                                                <td>Online</td>
+                                            {% else %}
+                                                <td>Offline</td>
+                                            {% endif %}
                                             <td><a href="{% url 'user_profile_url' user.id%}"><button type="button" class="btn btn-primary">View Profile</button></a> </td>
                                         
                                         <tr>
-                                        {% endfor %}
+                                    {% endfor %}
+
                                     </tbody>
                                 </table>
                             </div>
