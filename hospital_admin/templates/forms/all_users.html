@@ -28,23 +28,23 @@
                                     </thead>
                                     <tbody>
 
-                                    {% for user in users %}
+                                    {% for staff in staffs %}
 
                                         <tr>
                                             <td>{{forloop.counter}}</td>
-                                            <td>{{user.basic.username}}</td>
-                                            <td>{{user.first_name}}</td>
-                                            <td>{{user.middle_name}}</td>
-                                            <td>{{user.last_name}}</td>
-                                            <td>{{user.age}}</td>
-                                            <td>{{user.sex}}</td>
-                                           <td>{{user.role}}</td>
-                                            {% if user.is_active %}
+                                            <td>{{staff.basic.username}}</td>
+                                            <td>{{staff.basic.first_name}}</td>
+                                            <td>{{staff.basic.middle_name}}</td>
+                                            <td>{{staff.basic.last_name}}</td>
+                                            <td>{{staff.basic.age}}</td>
+                                            <td>{{staff.basic.sex}}</td>
+                                           <td>{{staff.basic.role}}</td>
+                                            {% if staff.basic.is_active %}
                                                 <td>Online</td>
                                             {% else %}
                                                 <td>Offline</td>
                                             {% endif %}
-                                            <td><a href="{% url 'user_profile_url' user.id%}"><button type="button" class="btn btn-primary">View Profile</button></a> </td>
+                                            <td><a href="{% url 'user_profile_url' staff.basic.id%}"><button type="button" class="btn btn-primary">View Profile</button></a> </td>
                                         
                                         <tr>
                                     {% endfor %}

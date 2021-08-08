@@ -1,25 +1,36 @@
 from django.db import models
-from accounts.models import User
+from accounts.models import User, Hospital, Staff
+
+
 # Create your models here.
+from patient.models import Patient
 
-
-class Physician:
-    basic = models.OneToOneField(User, on_delete=models.CASCADE)
-    #hospital = models.ManyToOneRel(Hospital, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return User.username
 
 class PatientWaitingList(models.Model):
-    user=models.ForeignKey(User,on_delete=models.CASCADE)
-    receptionist=models.BooleanField(default=False)
-    nurse=models.BooleanField(default=False)
-    triage=models.BooleanField(default=False)
-    physician=models.BooleanField(default=False)
-    radiologist=models.BooleanField(default=False)
-    lab_technician=models.BooleanField(default=False)
-    department=models.CharField(max_length=25)
+    hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    physician = models.ForeignKey(Staff, on_delete=models.CASCADE)
+    status = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.user
+        return self.patient
 
+
+class Appointment(models.Model):
+    physician = models.ForeignKey(Staff, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    given_date = models.DateTimeField()
+    appointment_date = models.DateTimeField()
+    case = models.CharField(max_length=50)
+    status = models.CharField(max_length=50)
+
+
+class Referral(models.Model):
+    referred_by = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name='referred_by')
+    referred_to = models.ForeignKey(Hospital, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    referred_on_date = models.DateTimeField()
+    approved_on_date = models.DateTimeField(default='Null')
+    case = models.CharField(max_length=50)
+    status = models.CharField(max_length=50)
+    approved_by = models.ForeignKey(Staff, on_delete=models.CASCADE, default='NuLL', related_name='approved_by')

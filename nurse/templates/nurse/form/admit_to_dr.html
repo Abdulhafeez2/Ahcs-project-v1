@@ -1,0 +1,22 @@
+{% extends 'nurse/homepage.html' %}
+
+{% block content %}
+    <div class="row clearfix">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="header">
+                    <h2>To Physician</h2>
+                </div>
+                <div class="col-lg-4 col-md-12">
+                    <label>Select Department</label>
+                    <select id="department-selection" name="department_selection" class="">
+                        <option value="Optics">Optics</option>
+                        <option value="Gynecology">Gynecology</option>
+                        <option value="Internal">Internal</option>
+                        <option value="Dental">Dental</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

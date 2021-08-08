@@ -1,19 +1,25 @@
+import datetime
+
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.template.loader import get_template
+from django.utils import timezone
 
 from hospital_admin.forms import *
-# from xhtml2pdf import pisa
+from xhtml2pdf import pisa
 from accounts.models import User
 
-
 # Create your views here.
+from receptionist.models import Triage
 
 
 @login_required(login_url='login_url')
 # @decorators.allowed_users(allowed_roles=['Receptionist'])
 # @decorators.receptionistonly
 def receptionist_dashboard(request):
-    context = {}
+    hospital = Hospital.objects.get(id=Staff.objects.get(basic_id=request.user.id).hospital_id)
+    context = {'hospital': hospital}
     return render(request, "receptionist/homepage.html", context)
 
 
@@ -22,11 +28,11 @@ def register_new_patient(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             print('form is valid')
-            hospital = Receptionist.objects.get(basic_id=request.user.id).hospital.id
+            hospital = Staff.objects.get(basic_id=request.user.id).hospital.id
             context = {'hospital': hospital}
             new_user = form.save_patient(context)
             context = {'username': new_user['username'], 'password': new_user['password']}
-            '''template_path = 'receptionist/credentials.html'
+            template_path = 'receptionist/credentials.html'
             # Create a Django response object, and specify content_type as pdf
             response = HttpResponse(content_type='application/pdf')
             ## if want to download it
@@ -41,11 +47,11 @@ def register_new_patient(request):
             # if error then show some funy view
             if pisa_status.err:
                 return HttpResponse('We had some errors <pre>' + html + '</pre>')
-            return response'''
+            return response
     else:
         form = UserRegistrationForm()
     context = {'form': form}
-    return render(request, 'receptionist/form/registeration_form.html', context)
+    return render(request, 'receptionist/form/registration_form.html', context)
 
 
 def patient_profile(request, pk):
@@ -55,9 +61,18 @@ def patient_profile(request, pk):
     context = {'patient': profile}
     return render(request, 'receptionist/patient_profile.html', context)
 
-
-
-
     ## group=request.user.groups.all()[0].name
 
     ##else:
+
+
+def admit_to_triage(request, pk):
+    triage_list = Triage.objects.create(
+        hospital_id=Hospital.objects.get(id=Staff.objects.get(basic_id=request.user.id).hospital_id).id,
+        patient_id=Patient.objects.get(basic_id=pk).id,
+        receptionist_id=request.user.id,
+        status='pending',
+        triage_date=datetime.datetime.now(),
+    )
+    triage_list.save()
+    return redirect('receptionist_homepage_url')

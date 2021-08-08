@@ -4,10 +4,11 @@ from django.contrib.auth.decorators import login_required
 from login import decorators
 # Create your views here.
 
-@login_required(login_url='login_url')
+#@login_required(login_url='login_url')
 #@decorators.physicianonly
 def physician_homepage(request):
-    return render(request,'physician/physician_dashboard.html')
+    context = {}
+    return render(request, 'physician/physician_dashboard.html')
 
 
 @login_required(login_url='login_url')

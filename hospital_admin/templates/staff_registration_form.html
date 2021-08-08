@@ -48,24 +48,6 @@
 
                             </div>
                         </div>
-                        {% block Speciality%}
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="ml-2">Speciality</label>
-                                <select class="form-control show-tick">
-                                    <option value="10">Dermatology</option>
-                                    <option value="20">Neurology</option>
-                                    <option value="30">Dentist</option>
-                                    <option value="40">Internal Medicine</option>
-                                    <option value="50">Pathology</option>
-                                    <option value="60">Obstetrics and Gynecology</option>
-                                    <option value="70">Ophthamology</option>
-                                    <option value="20">Surgery</option>
-                                </select>
-                            </div>
-                        </div>
-                        {% endblock %}
-
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="ml-2">Phone</label>
@@ -88,6 +70,23 @@
                                 {{form.role}}
                             </div>
                         </div>
+                        {% block Speciality%}
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="ml-2">Speciality</label>
+                                <select class="form-control show-tick">
+                                    <option value="10">Dermatology</option>
+                                    <option value="20">Neurology</option>
+                                    <option value="30">Dentist</option>
+                                    <option value="40">Internal Medicine</option>
+                                    <option value="50">Pathology</option>
+                                    <option value="60">Obstetrics and Gynecology</option>
+                                    <option value="70">Ophthamology</option>
+                                    <option value="20">Surgery</option>
+                                </select>
+                            </div>
+                        </div>
+                        {% endblock %}
 
                     <br>
                 </div>
@@ -132,12 +131,7 @@
                                     {{form.kebele}}
                                 </div>
                             </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label>Gott</label>
-                                    <input class="form-control" name="gott" placeholder="Enter ..." type="text">
-                                </div>
-                            </div>
+
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     {{form.house_no.errors}}
@@ -149,7 +143,7 @@
                     </div>
                     <div class="form-group col-md-4">
                         <input class="btn btn-success" type="submit">
-                        <button class="btn btn-outline-secondary" type="submit">Cancel</button>
+                        <button class="btn btn-outline-secondary" target="_blank" type="submit">Cancel</button>
                     </div>
 
                     <!-- /.card -->

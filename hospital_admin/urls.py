@@ -10,7 +10,7 @@ urlpatterns = [
     path('all_users', views.all_users, name="all_users_url"),
     path('all_physicians',views.all_physicians,name="all_physicians_url"),
     path('all_nurses',views.all_nurses,name="all_nurses_url"),
-    path('all_radiologists/',views.all_radiologists,name="all_radiologists_url"),
+    path('all_radiologists/', views.all_radiologists, name="all_radiologists_url"),
     path('all_lab_technicians/',views.all_lab_technicians,name="all_lab_technicians_url"),
     path('all_pharmacists/',views.all_pharmacists,name="all_pharmacists_url"),#path('user_profile/<str:pk>/',views.user_profile,name="user_profile_url"),
 

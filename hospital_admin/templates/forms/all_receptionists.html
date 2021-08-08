@@ -29,21 +29,21 @@
                                     </thead>
                                     <tbody>
                                     {% for reception in receptionists %}
-                                    
+                                        {% if reception.basic.role == 'Receptionist' %}
+                                            <tr>
+                                                <td>{{forloop.counter}}</td>
+                                                <td>{{reception.basic.username}}</td>
+                                                <td>{{reception.basic.first_name}}</td>
+                                                <td>{{reception.basic.last_name}}</td>
+                                                <td>{{reception.basic.middle_name}}</td>
+                                                <td>{{reception.basic.age}}</td>
+                                                <td>{{reception.basic.sex}}</td>
+                                                <td>Online</td>
+                                                <td><a href="{% url 'user_profile_url' reception.basic.id%}"><button type="button" class="btn btn-primary">View Profile</button></a> </td>
+                                            <tr>
+                                        {% endif %}
+                                    {% endfor %}
 
-                                        <tr>
-                                            <td>{{forloop.counter}}</td>
-                                            <td>{{reception.basic.username}}</td>
-                                            <td>{{reception.basic.first_name}}</td>
-                                            <td>{{reception.basic.last_name}}</td>
-                                            <td>{{reception.basic.middle_name}}</td>
-                                            <td>{{reception.basic.age}}</td>
-                                            <td>{{reception.basic.sex}}</td>
-                                            <td>Online</td>
-                                            <td><a href="{% url 'user_profile_url' reception.basic.id%}"><button type="button" class="btn btn-primary">View Profile</button></a> </td>
-                                        
-                                        <tr>
-                                        {% endfor %}
                                     </tbody>
                                 </table>
                             </div>

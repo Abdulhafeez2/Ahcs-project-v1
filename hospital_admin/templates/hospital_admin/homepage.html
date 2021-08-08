@@ -13,9 +13,9 @@
             {% block navlist %}
 
             {% endblock navlist%}
-
         </ul>
     </div>
+    {% block search %}
     <div class="col-lg-6 col-md-4 col-sm-12 text-right">
             <div class="col-md-10 offset-md-2">
                 <form action="{% url 'search_staff_url' %}">
@@ -28,7 +28,7 @@
                 </form>
             </div>
     </div>
-
+    {% endblock %}
 {% endblock navheaderlist%}
 
 {% block main_menu_list%}
@@ -42,17 +42,17 @@
                             </li>
                             <li><a href="javascript:void(0);" class="has-arrow"><i class="icon-user-follow"></i><span>Doctors</span> </a>
                                 <ul>
-                                    <li><a href={% url 'all_physicians_url'%}>All Physicians</a></li>
+                                    <li><a href="{% url 'all_physicians_url'%}">All Physicians</a></li>
                                 </ul>
                             </li>
                             <li><a href="javascript:void(0);" class="has-arrow"><i class="icon-user"></i><span>Nurses</span> </a>
                                 <ul>
-                                    <li><a href={% url 'all_nurses_url' %}>All Nurses</a></li>
+                                    <li><a href="{% url 'all_nurses_url' %}">All Nurses</a></li>
                                 </ul>
                             </li>
                             <li><a href="javascript:void(0);" class="has-arrow"><i class="icon-user"></i><span>Radiologists</span> </a>
                                 <ul>
-                                    <li><a href={% url 'all_radiologists_url'%}>All Radiologists</a></li>
+                                    <li><a href="{% url 'all_radiologists_url'%}">All Radiologists</a></li>
 
                                 </ul>
                             </li>

@@ -1,12 +1,12 @@
 <!doctype html>
-{% extends 'receptionist/receptionist_dashboard.html' %}
+{% extends 'receptionist/homepage.html' %}
 {% block navlist %}
     <li class="breadcrumb-item active">patient Profile</li>
 {% endblock navlist%}
 
 {% block content %}
 {% if found %}
-    {% include '../user_profile.html' %}
+    {% include '../patient_profile.html' %}
 {% elif notfound %}
     {% include '../search_not_found.html' %}
 {% endif %}

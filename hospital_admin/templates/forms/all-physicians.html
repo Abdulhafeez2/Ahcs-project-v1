@@ -1,9 +1,25 @@
-{% extends 'hospital_admin_dashboard_base.html' %}
-{% block navheader %}Hospital Admin Dashboard {% endblock %}
-{% block navheaderlist %}
-    <li class="breadcrumb-item"><a href="{% url 'hospital_admin_homepage_url'%}"><i class="icon-home"></i></a></li>
-    <li class="breadcrumb-item active">All Physician</li>
-{% endblock %}
+{% extends 'hospital_admin/homepage.html' %}
+
+{% block navlist %}
+    <li class="breadcrumb-item active">all Physician</li>
+{% endblock navlist%}
+
+{% block search %}
+    <div class="col-lg-6 col-md-4 col-sm-12 text-right">
+            <div class="col-md-10 offset-md-2">
+                <form action="{% url 'search_physician_url' %}">
+                    <div class="input-group">
+                        <input type="search" name="search" class="form-control form-control-lg" placeholder="Type physician username here">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-lg btn-default"><i class="icon-magnifier"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+    </div>
+    {% endblock %}
+
+
 {% block content %}
 
             <div class="row clearfix">
@@ -22,27 +38,29 @@
                                             <th>First Name</th>
                                             <th>Middle Name</th>
                                             <th>Last Name</th>
-                                            <th>Age</th>                                            
+                                            <th>Age</th>
                                             <th>Sex</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {% for physician in all_physicians%}
-                                        <tr>
-                                            <td>{{forloop.counter}}</td>
-                                            <td>{{physician.username}}</td>
-                                            <td>{{physician.first_name}}</td>
-                                            <td>{{physician.middle_name}}</td>
-                                            <td>{{physician.last_name}}</td>
-                                            <td>{{physician.age}}</td>
-                                            <td>{{physician.sex}}</td>
-                                            <td>Online</td>
-                                            <td><a href="{% url 'user_profile_url' user.id%}"><button type="button" class="btn btn-primary">View Profile</button></a> </td>
-                                        
-                                        <tr>
-                                        {% endfor %}
+                                    {% for physician in staff %}
+                                        {% if physician.basic.role == 'Physician' %}
+                                            <tr>
+                                                <td>{{forloop.counter}}</td>
+                                                <td>{{physician.basic.username}}</td>
+                                                <td>{{physician.basic.first_name}}</td>
+                                                <td>{{physician.basic.last_name}}</td>
+                                                <td>{{physician.basic.middle_name}}</td>
+                                                <td>{{physician.basic.age}}</td>
+                                                <td>{{physician.basic.sex}}</td>
+                                                <td>Online</td>
+                                                <td><a href="{% url 'user_profile_url' physician.basic.id%}"><button type="button" class="btn btn-primary">View Profile</button></a> </td>
+                                            <tr>
+                                        {% endif %}
+                                    {% endfor %}
+
                                     </tbody>
                                 </table>
                             </div>

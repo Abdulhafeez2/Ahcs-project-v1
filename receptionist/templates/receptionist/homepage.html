@@ -6,13 +6,12 @@
 
 {% block navheaderlist %}
     <div class="col-lg-6 col-md-8 col-sm-12">
-        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Receptionist </h2>
+        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a>Receptionist {{ hospital }} </h2>
         <ul class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'receptionist_homepage_url' %}"><i class="icon-home"></i></a></li>
             {% block navlist %}
 
             {% endblock navlist%}
-
         </ul>
     </div>
     <div class="col-lg-6 col-md-4 col-sm-12 text-right">

@@ -25,8 +25,6 @@ def user_profile(request, pk):
         return render(request, 'profiles/system_admin_users_profile.html', context)
 
 
-
-
 def my_profile(request, pk):
     profile = User.objects.get(id=pk)
     role = request.user.role
