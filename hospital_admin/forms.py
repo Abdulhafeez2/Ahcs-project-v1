@@ -149,13 +149,13 @@ class UserRegistrationForm(forms.Form):
         r = None
         s = None
 
-        if self.cleaned_data.get('role') == 'oncology':
+        if self.cleaned_data.get('role') == 'Oncology':
             r = 'Physician'
             s = self.cleaned_data.get('role')
         elif self.cleaned_data.get('role') == 'Internal medicine':
             r = 'Physician'
             s = self.cleaned_data.get('role')
-        if self.cleaned_data.get('role') == 'Pediatrics':
+        elif self.cleaned_data.get('role') == 'Pediatrics':
             r = 'Physician'
             s = self.cleaned_data.get('role')
         elif self.cleaned_data.get('role') == 'Dermatology':

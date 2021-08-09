@@ -1,7 +1,9 @@
+import json
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
-
+from django.http import HttpResponse
 from accounts.models import Staff, User
 from login import decorators, urls
 from login.views import user_logout
@@ -41,7 +43,13 @@ def add_vital_sign(request, pk):
             triage.status = 'approved'
             triage.save()
             #nxt = request.POST.get('next', '/')
-            return redirect('nurse_homepage_url')
+            return redirect('admit_to_dr_url')
+        else:
+            form = VitalSignForm
+            patient = User.objects.get(id=pk)
+            context = {'form': form, 'patient': patient}
+            return render(request, "nurse/form/vital_sign_form.html", context)
+
 
     else:
         form = VitalSignForm
@@ -56,3 +64,7 @@ def admit_to_dr(request, pk):
     patient = User.objects.get(id=pk)
     context = {'form': form, 'patient': patient}
     return render(request, "nurse/form/admit_to_dr.html", context)
+
+def find_available_physician(request,value):
+    doc=User.objects.get(id=Staff.objects.get(specialty=value).basic_id).username
+    return HttpResponse(doc)

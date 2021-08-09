@@ -33,10 +33,10 @@ def add_new_user(request):
             msg = "Staff registered"
             context = {'username': new_user['username'], 'password': new_user['password']}
             template_path = 'hospital_admin/credentials.html'
-            #Create a Django response object, and specify content_type as pdf
+            # Create a Django response object, and specify content_type as pdf
             response = HttpResponse(content_type='application/pdf')
             ## if want to download it
-            ##response['Content-Disposition'] = 'attachment; filename=context["username"]'
+            ## esponse['Content-Disposition'] = 'attachment; filename=context["username"]'
             #if want to display it
             response['Content-Disposition'] = 'filename=context["username"].pdf'
             #find the template and render it.

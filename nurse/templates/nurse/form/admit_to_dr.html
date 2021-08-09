@@ -9,14 +9,32 @@
                 </div>
                 <div class="col-lg-4 col-md-12">
                     <label>Select Department</label>
-                    <select id="department-selection" name="department_selection" class="">
+
+
+                    <select id="department-selection" name="department_selection"  onchange="find_available_physician(this.value)"  class="">
                         <option value="Optics">Optics</option>
                         <option value="Gynecology">Gynecology</option>
-                        <option value="Internal">Internal</option>
+                        <option value="Internal medicine">Internal Medicine</option>
+                        <option value="Dental">Dental</option>
                         <option value="Dental">Dental</option>
                     </select>
+                </div>
+                <div class="col-lg-4 col-md-12">
+                    <label>Avaliable Doctor</label>
+                    <p id="dr">Assigned doctor here..</p>
                 </div>
             </div>
         </div>
     </div>
+<script>
+
+    function find_available_physician(value)
+    {
+         var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", "http://127.0.0.1:8000/nurse/avaliable_physician/" +value, false ); // false for synchronous request
+        xmlHttp.send( null );
+        document.getElementById('dr').innerHTML = xmlHttp.responseText;
+    }
+
+</script>
 {% endblock content %}

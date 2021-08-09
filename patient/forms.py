@@ -29,7 +29,7 @@ class VitalSignForm(forms.Form):
         attrs={'class': 'form-control', 'placeholder': ''}))
     blood_sugar_R = forms.CharField(required=True, widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': ''}))
-    comment = forms.CharField(required=True, widget=forms.TextInput(
+    comment = forms.CharField(required=False, widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': ''}))
 
     def save_vital_sign(self, context):
