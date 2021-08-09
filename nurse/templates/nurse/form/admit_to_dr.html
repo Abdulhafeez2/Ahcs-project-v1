@@ -12,8 +12,8 @@
 
 
                     <select id="department-selection" name="department_selection"  onchange="find_available_physician(this.value)"  class="">
-                        {% for special in specialty %}
-                        <option value="{{special}}">{{special}}</option>
+                        {% for specialty in distinct %}
+                        <option value="{{specialty.specialty}}">{{specialty.specialty}}</option>
                         {% endfor %}
                     </select>
                 </div>
