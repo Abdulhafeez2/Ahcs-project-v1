@@ -60,6 +60,7 @@ def add_vital_sign(request, pk):
 
 
 def admit_to_dr(request, pk):
+
     form = VitalSignForm
     patient = User.objects.get(id=pk)
     context = {'form': form, 'patient': patient}
