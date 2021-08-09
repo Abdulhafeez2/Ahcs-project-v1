@@ -12,11 +12,9 @@
 
 
                     <select id="department-selection" name="department_selection"  onchange="find_available_physician(this.value)"  class="">
-                        <option value="Optics">Optics</option>
-                        <option value="Gynecology">Gynecology</option>
-                        <option value="Internal medicine">Internal Medicine</option>
-                        <option value="Dental">Dental</option>
-                        <option value="Dental">Dental</option>
+                        {% for special in specialty %}
+                        <option value="{{special}}">{{special}}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="col-lg-4 col-md-12">

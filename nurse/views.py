@@ -1,5 +1,6 @@
 import json
 
+from django.db.models import Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -60,10 +61,14 @@ def add_vital_sign(request, pk):
 
 
 def admit_to_dr(request, pk):
+   # distinct = Staff.objects.values('specialty').annotate(name_count=Count('specialty')).filter(name_count=1)
+  #  records = Staff.objects.filter(specialty__in=[item['specialty'] for item in distinct])
+    distinct = Staff.objects.values('specialty').distinct()
+    print(distinct[0]['specialty'])
 
     form = VitalSignForm
     patient = User.objects.get(id=pk)
-    context = {'form': form, 'patient': patient}
+    context = {'form': form, 'patient': patient,'specialty':distinct}
     return render(request, "nurse/form/admit_to_dr.html", context)
 
 def find_available_physician(request,value):
