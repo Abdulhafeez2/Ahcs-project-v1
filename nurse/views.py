@@ -42,7 +42,7 @@ def add_vital_sign(request, pk):
             triage = Triage.objects.filter(patient_id=patient.id).first()
             triage.status = 'approved'
             triage.save()
-            #nxt = request.POST.get('next', '/')
+            # nxt = request.POST.get('next', '/')
             return redirect('admit_to_dr_url')
         else:
             form = VitalSignForm
@@ -60,12 +60,15 @@ def add_vital_sign(request, pk):
 
 
 def admit_to_dr(request, pk):
+    distinct = Staff.objects.filter(hospital_id=Staff.objects.get(basic_id=request.user.id).
+                                    hospital_id).values('specialty').exclude(specialty=None).distinct()
 
     form = VitalSignForm
     patient = User.objects.get(id=pk)
-    context = {'form': form, 'patient': patient}
+    context = {'form': form, 'patient': patient, 'distinct': distinct}
     return render(request, "nurse/form/admit_to_dr.html", context)
 
-def find_available_physician(request,value):
-    doc=User.objects.get(id=Staff.objects.get(specialty=value).basic_id).username
+
+def find_available_physician(request, value):
+    doc = User.objects.get(id=Staff.objects.filter(specialty=value).first().basic_id).username
     return HttpResponse(doc)
