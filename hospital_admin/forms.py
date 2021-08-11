@@ -1,6 +1,9 @@
+import unicodedata
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from past.builtins import unicode
 
 from accounts.models import *
 from nurse.models import Nurse
@@ -14,6 +17,36 @@ class user_form(UserCreationForm):
     class Meta:
         model = User
         fields = ('role',)
+
+
+def generate_username(full_name):
+    name = full_name.split(' ')
+    lastname = name[-1]
+    middlename = name[1]
+    firstname = name[0]
+    print(firstname)
+    print(lastname)
+
+    # try first name initials plus last full name
+    username = '%s%s' % (firstname[0], lastname)
+    if User.objects.filter(username=username).count() > 0:
+        # if that doesn't fit, try full first name plus last name initials
+        username = '%s%s' % (firstname, lastname[0])
+        if User.objects.filter(username=username).count() > 0:
+            # if that doesn't fit, try first name initials plus full middlne name
+            username = '%s%s' % (firstname[0], middlename)
+            if User.objects.filter(username=username).count() > 0:
+                # if it doesn't fit, put the first name plus a number
+                users = User.objects.filter(username__regex=r'^%s[1-9]{1,}$' % firstname).order_by('username').values(
+                    'username')
+                if len(users) > 0:
+                    last_number_used = sorted(map(lambda x: int(x['username'].replace(firstname, '')), users))
+                    last_number_used = last_number_used[-1]
+                    number = last_number_used + 1
+                    username = '%s%s' % (firstname, number)
+                else:
+                    username = '%s%s' % (firstname, 1)
+    return username
 
 
 class UserRegistrationForm(forms.Form):
@@ -64,7 +97,6 @@ class UserRegistrationForm(forms.Form):
 
     def save_patient(self, context):
         password = User.objects.make_random_password()
-        count = User.objects.count()
         new_patient_address = Address.objects.create(
             region=self.cleaned_data.get('region'),
             zone=self.cleaned_data.get('zone'),
@@ -72,6 +104,9 @@ class UserRegistrationForm(forms.Form):
             kebele=self.cleaned_data.get('kebele'),
             house_no=self.cleaned_data.get('house_no'),
         )
+        full_name = self.cleaned_data.get('firstname') + ' ' + self.cleaned_data.get('lastname') + ' ' + self.cleaned_data.get('middlename')
+        username = (generate_username(full_name))
+
         new_patient_info = User.objects.create(
             first_name=self.cleaned_data.get('firstname'),
             last_name=self.cleaned_data.get('lastname'),
@@ -81,8 +116,9 @@ class UserRegistrationForm(forms.Form):
             age=self.cleaned_data.get('age'),
             address_id=new_patient_address.id,
             phone=self.cleaned_data.get('phone'),
+            username=username,
             role="patient",
-            username=self.cleaned_data.get('firstname') + str(count),
+
 
         )
         new_patient = Patient.objects.create(
@@ -108,7 +144,9 @@ class UserRegistrationForm(forms.Form):
             kebele=self.cleaned_data.get('kebele'),
             house_no=self.cleaned_data.get('house_no'),
         )
-
+        full_name = self.cleaned_data.get('firstname') + ' ' + self.cleaned_data.get(
+            'lastname') + ' ' + self.cleaned_data.get('middlename')
+        username = (generate_username(full_name))
         new_pharmacist_info = User.objects.create(
             first_name=self.cleaned_data.get('firstname'),
             last_name=self.cleaned_data.get('lastname'),
@@ -119,7 +157,7 @@ class UserRegistrationForm(forms.Form):
             address_id=new_pharmacist_address.id,
             phone=self.cleaned_data.get('phone'),
             role="pharmacist",
-            username=self.cleaned_data.get('firstname') + str(count),
+            username=username,
 
         )
 
@@ -174,6 +212,9 @@ class UserRegistrationForm(forms.Form):
         print(s)
         print(self.cleaned_data.get('role'))
 
+        full_name = self.cleaned_data.get('firstname') + ' ' + self.cleaned_data.get(
+            'lastname') + ' ' + self.cleaned_data.get('middlename')
+        username = (generate_username(full_name))
         new_staff_basic = User.objects.create(
             first_name=self.cleaned_data.get('firstname'),
             last_name=self.cleaned_data.get('lastname'),
@@ -183,7 +224,7 @@ class UserRegistrationForm(forms.Form):
             address_id=new_staff_address.id,
             age=self.cleaned_data.get('age'),
             phone=self.cleaned_data.get('phone'),
-            username=self.cleaned_data.get('firstname') + str(count),
+            username=username,
             role=r,
         )
         staff = Staff.objects.create(
@@ -211,8 +252,10 @@ class UserRegistrationForm(forms.Form):
             kebele=self.cleaned_data.get('kebele'),
             house_no=self.cleaned_data.get('house_no'),
         )
+        full_name = self.cleaned_data.get('firstname') + ' ' + self.cleaned_data.get(
+            'lastname') + ' ' + self.cleaned_data.get('middlename')
+        username = (generate_username(full_name))
         new_user = User.objects.create(
-
             first_name=self.cleaned_data.get('firstname'),
             last_name=self.cleaned_data.get('lastname'),
             middle_name=self.cleaned_data.get('middlename'),
@@ -221,7 +264,7 @@ class UserRegistrationForm(forms.Form):
             age=self.cleaned_data.get('age'),
             address_id=new_user_address.id,
             phone=self.cleaned_data.get('phone'),
-            username=self.cleaned_data.get('firstname') + str(count),
+            username=username,
             role=admin_type,
 
         )

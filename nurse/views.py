@@ -42,7 +42,7 @@ def add_vital_sign(request, pk):
         if form.is_valid():
             form.save_vital_sign(context)
             # nxt = request.POST.get('next', '/')
-            return redirect('admit_to_dr_url',pk)
+            return redirect('admit_to_dr_url', pk)
         else:
             form = VitalSignForm
             patient = User.objects.get(id=pk)
