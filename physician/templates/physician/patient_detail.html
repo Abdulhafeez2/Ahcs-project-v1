@@ -50,11 +50,15 @@
                 <div class="col-lg-8 col-md-12">
                     <div class="card">
                         <div class="body">
+
                             <ul class="nav nav-tabs-new2">
                             <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#patient_form">Patient Form</a></li>
                                 <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#appointment">View Vital sign</a></li>
                                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#referral">View Referral</a></li>
                                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#summary_sheet">Summary Sheet</a></li>
+                                <a class="nav-item"  href="{% url 'radiology_request_url' %}">Radiology Request</a>
+                                <a class="nav-link"  href="{% url 'lab_request_url' %}">Lab Request</a>
+                                <a class="nav-link"  href="#summary_sheet">Referral Request</a>
 
                             </ul>
                             <div class="tab-content mt-3">

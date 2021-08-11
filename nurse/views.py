@@ -25,11 +25,11 @@ def nurse_homepage(request):
                                             status='pending')
         triage = True
         context = {'triage': triage, 'triage_list': triage_list}
-        return render(request, "nurse/patient_detail.html", context)
+        return render(request, "nurse/homepage.html", context)
     except:
         triage = False
         context = {'triage': triage}
-        return render(request, "nurse/patient_detail.html", context)
+        return render(request, "nurse/homepage.html", context)
 
 
 def add_vital_sign(request, pk):
@@ -42,7 +42,7 @@ def add_vital_sign(request, pk):
         if form.is_valid():
             form.save_vital_sign(context)
             # nxt = request.POST.get('next', '/')
-            return redirect('admit_to_dr_url')
+            return redirect('admit_to_dr_url',pk)
         else:
             form = VitalSignForm
             patient = User.objects.get(id=pk)

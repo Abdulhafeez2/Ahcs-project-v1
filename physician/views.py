@@ -38,8 +38,8 @@ def add_prescription(request):
     return render(request,"physician/forms/prescription_form.html",context)
 
 @login_required(login_url='login_url')
-@decorators.physicianonly
-def add_xray_request(request):
+
+def add_radiology_request(request):
     context={ }
     return render(request,"physician/forms/xray_form.html",context)
 
@@ -51,3 +51,8 @@ def patient_detail(request, pk):
     user_profile = Patient.objects.get(id=pk)
     context = {'patient': pk, 'user_profile': user_profile}
     return render(request, "physician/patient_detail.html", context)
+
+
+def lab_request(request):
+    context = {}
+    return render(request, "physician/forms/lab_request_form.html", context)

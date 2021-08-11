@@ -16,7 +16,7 @@ from xhtml2pdf import pisa
 def hospital_admin_homepage(request):
     hospital = Hospital.objects.get(admin=request.user.id)
     context = {'hospital_name': hospital}
-    return render(request, 'hospital_admin/patient_detail.html', context)
+    return render(request, 'hospital_admin/homepage.html', context)
 
 
 ##############################################################################################################################################

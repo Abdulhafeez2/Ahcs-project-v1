@@ -27,6 +27,8 @@ class Appointment(models.Model):
     appointment_date = models.DateTimeField()
     case = models.CharField(max_length=50)
     status = models.CharField(max_length=50)
+    added_time=models.DateTimeField(auto_now_add=True)
+
 
 
 class Referral(models.Model):
