@@ -8,7 +8,7 @@ from system_admin.forms import HealthCareProviderRegistrationForm
 def homepage(request):
     context = {}
 
-    return render(request, 'system_admin/patient_detail.html', context)
+    return render(request, 'system_admin/homepage.html', context)
 
 
 def add_new_healthcare_provider(request):

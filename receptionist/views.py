@@ -20,25 +20,26 @@ from receptionist.models import Triage
 def receptionist_dashboard(request):
     hospital = Hospital.objects.get(id=Staff.objects.get(basic_id=request.user.id).hospital_id)
     context = {'hospital': hospital}
-    return render(request, "receptionist/patient_detail.html", context)
+    return render(request, "receptionist/homepage.html", context)
+
 
 
 def register_new_patient(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            print('form is valid')
             hospital = Staff.objects.get(basic_id=request.user.id).hospital.id
             context = {'hospital': hospital}
             new_user = form.save_patient(context)
+            username = new_user['username']
             context = {'username': new_user['username'], 'password': new_user['password']}
             template_path = 'receptionist/credentials.html'
             # Create a Django response object, and specify content_type as pdf
             response = HttpResponse(content_type='application/pdf')
             ## if want to download it
-            ##response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+            response['Content-Disposition'] = 'attachment; filename={{username}}.pdf'
             ## if want to display it
-            response['Content-Disposition'] = 'filename=context["username"].pdf'
+            #response['Content-Disposition'] = 'filename={{context["username"]}}.pdf'
             # find the template and render it.
             template = get_template(template_path)
             html = template.render(context)
@@ -48,6 +49,7 @@ def register_new_patient(request):
             if pisa_status.err:
                 return HttpResponse('We had some errors <pre>' + html + '</pre>')
             return response
+
     else:
         form = UserRegistrationForm()
     context = {'form': form}
