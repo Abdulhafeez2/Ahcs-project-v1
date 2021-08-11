@@ -8,6 +8,7 @@
                         <div class="body">
                             <div class="profile-image"> <img src="../assets/images/user.png" class="rounded-circle" alt=""> </div>
                             <div>
+                                <h3><strong>Patient Name</strong></h3>
                                 <h4 class="m-b-0"><strong>{{user_profile.basic.first_name}}</strong> {{user_profile.basic.last_name}}</h4>
                                 <span>{{ user_profile.basic.kebele }}</span>
                             </div>
@@ -16,7 +17,7 @@
 
                     <div class="card">
                         <div class="header">
-                            <h2>Info</h2>
+                            <h2><strong>Info</strong></h2>
                             <ul class="header-dropdown">
                                 <li class="dropdown">
                                     <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
@@ -33,6 +34,8 @@
                             <p>{{user_profile.basic.address.region}}</p>
                             <small class="text-muted">Age: </small>
                             <p>{{user_profile.basic.age}}</p>
+                            <small class="text-muted">Sex: </small>
+                            <p>{{user_profile.basic.sex}}</p>
                             <small class="text-muted">Email address: </small>
                             <p>{{user_profile.basic.email}}</p>
                             <small class="text-muted">Mobile: </small>
@@ -48,40 +51,53 @@
                     <div class="card">
                         <div class="body">
                             <ul class="nav nav-tabs-new2">
-                                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#appointment">View Appointment</a></li>
+                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#patient_form">Patient Form</a></li>
+                                <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#appointment">View Vital sign</a></li>
                                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#referral">View Referral</a></li>
-                                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#register">Register</a></li>
+                                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#summary_sheet">Summary Sheet</a></li>
+
                             </ul>
                             <div class="tab-content mt-3">
 
 
-                                <div class="tab-pane active" id="appointment">
-                                    <div class="body">
-                            <div class="table-responsive">
-                                <table class="table m-b-0">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>By </th>
-                                            <th>Case</th>
-                                            <th>Appointment Given Date</th>
-                                            <th>Appointment Date</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td><span>Dr.John</span></td>
-                                            <td><span class="text-info">Heart Disease</span></td>
-                                            <td>Sept 13, 2017</td>
-                                            <td>Sept 16, 2017</td>
-                                            <td><input type="submit" class="btn btn-success"  value="Accept"></td>
-                                        </tr>
 
-                                    </tbody>
-                                </table>
-                            </div>
+                                <div class="tab-pane " id="appointment">
+                                <h4 >Latest Vital sign</h4>
+                                    <p class="m-b-0 text-right"><b>Date: </b>9/9/2021</p>
+                                    <p class="m-b-0 text-right"><b>At: </b>04:45 PM</p>
+
+                                    <div class="row">
+                                    <div class="col-md-6">
+
+                                    <label><strong>Weight(Kgs)</strong></label>
+                                    <p>dhjklkjhfd</p>
+                                    <label><strong>Height(CM)</strong></label>
+                                    <p>dhjklkjhfd</p>
+                                    <label><strong>BMI(Kg/m2)</strong></label>
+                                    <p>dhjklkjhfd</p>
+                                    <label><strong>Systolic B.P</strong></label>
+                                    <p>dhjklkjhfd</p>
+                                    <label><strong>Diastolic B.P</strong></label>
+                                    <p>dhjklkjhfd</p>
+                                    <label><strong>Temperature(oC)</strong></label>
+                                    <p>dhjklkjhfd</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                    <label><strong>Respiratory Rate(/Min)</strong></label>
+                                    <p>dhjklkjhfd</p>
+                                    <label><strong>Heart Rate(BPM)</strong></label>
+                                    <p>dhjklkjhfd</p>
+                                    <label><strong>Urine Output</strong></label>
+                                    <p>dhjklkjhfd</p>
+                                    <label><strong>Blood Sugar(F)</strong></label>
+                                    <p>dhjklkjhfd</p>
+                                    <label><strong>Blood Sugar(R)</strong></label>
+                                    <p>dhjklkjhfd</p>
+                                    <label><strong>Comment</strong></label>
+                                    <p>dhjklkjhfd</p>
+                                    </div>
+
+
                         </div>
                     </div>
 
@@ -106,7 +122,7 @@
                                             <td><span>Dr John</span></td>
                                             <td><span class="text-info">Adama Hospital and medical collage</span></td>
                                             <td>Sept 13, 2017</td>
-                                            <td><input type="submit" class="btn btn-success" value="Accept"> <input type="submit" class="btn btn-danger" value="Reject"></td>
+                                            <td><input type="submit" class="btn btn-success" value="View"></td>
                                             <td><span class="badge badge-success">Admit</span></td>
                                         </tr>
                                     </tbody>
@@ -114,21 +130,41 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane" id="register">
-                        <div class="body">
-                              <div class="table-responsive">
-
-                                  <a href=""><button type="button" class="btn btn-primary">send to triage</button></a>
-                              </div>
-                        </div>
+                    <div class="tab-pane active" id="patient_form">
+                                    <div class="form-group">
+                                    <label>Add in to Patient Form</label>
+                                    <textarea class="form-control" rows="5" cols="30" required></textarea>
+                                <input type="button" class="btn btn-success" value="attach">
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-md-12">
+                                    <h5>Last Patient Form</h5>
+                                    <div class="col-md-12 text-right">
+                                    <p class="m-b-0"><b>Date: </b>9/9/2021</p>
+                                    </div>
+                                    <p>The medicine given to the patient is that ....</p>
+                                </div>
+                            </div>
                     </div>
+                    <div class="tab-pane " id="summary_sheet">
+                        <div class="form-group">
+                                    <label>Service</label>
+                                    <input type="text" class="form-control" required>
+                        </div
+                        <div class="form-group">
+                                    <label>Dignosis/ Complication or Service detail </label>
+                                    <textarea class="form-control" rows="5" cols="30" required></textarea>
+
+
+                                <input type="button" class="btn btn-success" value="attach">
                             </div>
 
-
                             </div>
 
                         </div>
                     </div>
+
+
                 </div>
             </div>
     </div>
