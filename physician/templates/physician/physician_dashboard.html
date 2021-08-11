@@ -56,6 +56,9 @@
 {% endblock main_menu_list%}
 
 {% block content %}
-  
+{{waiting_list}}
+    {% if waiting_list %}
+        {% include 'physician/forms/waiting_list_table.html' %}
+    {% endif %}
       <!-- /.content -->
  {% endblock %}

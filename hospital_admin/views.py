@@ -16,7 +16,7 @@ from xhtml2pdf import pisa
 def hospital_admin_homepage(request):
     hospital = Hospital.objects.get(admin=request.user.id)
     context = {'hospital_name': hospital}
-    return render(request, 'hospital_admin/homepage.html', context)
+    return render(request, 'hospital_admin/patient_detail.html', context)
 
 
 ##############################################################################################################################################
@@ -33,12 +33,12 @@ def add_new_user(request):
             msg = "Staff registered"
             context = {'username': new_user['username'], 'password': new_user['password']}
             template_path = 'hospital_admin/credentials.html'
-            # Create a Django response object, and specify content_type as pdf
+            #Create a Django response object, and specify content_type as pdf
             response = HttpResponse(content_type='application/pdf')
             ## if want to download it
-            ## esponse['Content-Disposition'] = 'attachment; filename=context["username"]'
+            response['Content-Disposition'] = 'attachment; filename=context["username"]'
             #if want to display it
-            response['Content-Disposition'] = 'filename=context["username"].pdf'
+            #response['Content-Disposition'] = 'filename=context["username"].pdf'
             #find the template and render it.
             template = get_template(template_path)
             html = template.render(context)

@@ -20,7 +20,7 @@ from receptionist.models import Triage
 def receptionist_dashboard(request):
     hospital = Hospital.objects.get(id=Staff.objects.get(basic_id=request.user.id).hospital_id)
     context = {'hospital': hospital}
-    return render(request, "receptionist/homepage.html", context)
+    return render(request, "receptionist/patient_detail.html", context)
 
 
 def register_new_patient(request):

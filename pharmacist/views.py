@@ -5,4 +5,4 @@ from accounts.models import Pharmacy
 
 
 def pharmacist_homepage(request):
-    return render(request, 'pharmacist/homepage.html')
+    return render(request, 'pharmacist/patient_detail.html')
