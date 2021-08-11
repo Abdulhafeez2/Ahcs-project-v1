@@ -3,7 +3,6 @@ from datetime import timezone, datetime
 from django.db import models
 from accounts.models import Hospital, Staff
 
-
 # Create your models here.
 from patient.models import Patient
 
@@ -21,22 +20,27 @@ class PatientWaitingList(models.Model):
 
 
 class Appointment(models.Model):
-    physician = models.ForeignKey(Staff, on_delete=models.CASCADE,)
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE,)
+    physician = models.ForeignKey(Staff, on_delete=models.CASCADE, )
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, )
     given_date = models.DateTimeField(default=datetime.now())
     appointment_date = models.DateTimeField()
     case = models.CharField(max_length=50)
     status = models.CharField(max_length=50)
-    added_time=models.DateTimeField(auto_now_add=True)
-
+    added_time = models.DateTimeField(auto_now_add=True)
 
 
 class Referral(models.Model):
     referred_by = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name='referred_by')
-    referred_to = models.ForeignKey(Hospital, on_delete=models.CASCADE)
+    referring_hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE, related_name='referring_hospital')
+    referred_to = models.ForeignKey(Hospital, on_delete=models.CASCADE, related_name='referred_to')
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    referred_on_date = models.DateTimeField()
-    approved_on_date = models.DateTimeField(default='Null')
-    case = models.CharField(max_length=50)
-    status = models.CharField(max_length=50)
-    approved_by = models.ForeignKey(Staff, on_delete=models.CASCADE, default='NuLL', related_name='approved_by')
+    referral_date = models.DateTimeField()
+    approved_on_date = models.DateTimeField(null=True)
+    health_problem_identified_in_detail = models.TextField()
+    identified_disease_type = models.CharField(max_length=50)
+    action_taken = models.CharField(max_length=50)
+    reason_for_referral = models.CharField(max_length=50)
+    status = models.CharField(max_length=50, default='pending')
+    feedback = models.TextField(null=True)
+    feedback_given_by = models.ForeignKey(Staff, on_delete=models.CASCADE, null=True, related_name='feedback_given_by')
+    approved_by = models.ForeignKey(Staff, on_delete=models.CASCADE, null=True, related_name='referral_approved_by')
