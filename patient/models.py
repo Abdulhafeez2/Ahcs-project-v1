@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-from accounts.models import User, Hospital, Staff
+from accounts.models import User, Hospital, Staff, Pharmacy
 
 
 class Patient(models.Model):
@@ -37,6 +37,25 @@ class PatientForm(models.Model):
     note = models.TextField()
     filled_by = models.ForeignKey(Staff, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
+
+
+class Medication(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    pharmacy = models.ForeignKey(Pharmacy, on_delete=models.CASCADE)
+    medication_name = models.CharField(max_length=150)
+    frequency_perday = models.SmallIntegerField()
+    description = models.TextField()
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+
+
+class AdministeredTreatment(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE)
+    medication_name = models.CharField(max_length=150)
+    given_by = models.ForeignKey(Staff, on_delete=models.CASCADE)
+    description = models.TextField()
+    medication_date = models.DateTimeField()
 
 
 class Prescription(models.Model):
