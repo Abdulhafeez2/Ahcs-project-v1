@@ -43,16 +43,18 @@ class VitalSignForm(forms.Form):
             weight=self.cleaned_data.get('weight'),
             height=self.cleaned_data.get('height'),
             bmi=bmi,
+            temperature=self.cleaned_data.get('temperature'),
             systolic_BP=self.cleaned_data.get('systolic_BP'),
             diastolic_BP=self.cleaned_data.get('diastolic_BP'),
-            temperature=self.cleaned_data.get('temperature'),
+
             respiratory_rate=self.cleaned_data.get('respiratory_rate'),
             heart_rate=self.cleaned_data.get('heart_rate'),
             urine_output=self.cleaned_data.get('urine_output'),
             blood_sugar_R=self.cleaned_data.get('blood_sugar_R'),
             blood_sugar_F=self.cleaned_data.get('blood_sugar_F'),
-            comment=self.cleaned_data.get('comment'),
             taken_by_id=context['staff'].id,
+            comment=self.cleaned_data.get('comment'),
+
             taken_date=datetime.datetime.now(),
             taken_at_hospital_id=context['hospital'].id
 
