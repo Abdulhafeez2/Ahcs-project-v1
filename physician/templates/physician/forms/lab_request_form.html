@@ -1,15 +1,15 @@
 {% extends 'physician/physician_dashboard.html' %}
 {% block  content%}
 <ul class="nav nav-tabs">
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#x-ray">Urine Analysis Request Form</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#ultrasound">Stool Examination Request Form </a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#mri">Heamatology Lab Request Form</a></li>
+                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#urine-analysis">Urine Analysis Request Form</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#stool-examination">Stool Examination Request Form </a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#hematology">Heamatology Lab Request Form</a></li>
 
             </ul>
                 
             <!-- Tab panes -->
             <div class="tab-content p-l-0 p-r-0">
-                <div class="tab-pane" id="x-ray">
+                <div class="tab-pane active" id="urine-analysis">
                     <nav class="sidebar-nav">
                         <div class="row" >
         <div class="col-md-8">
@@ -142,7 +142,7 @@
       </div>
     </nav>
 </div>
-                <div class="tab-pane p-l-15 p-r-15" id="ultrasound">
+                <div class="tab-pane p-l-15 p-r-15" id="stool-examination">
                     <div class="row" >
         <div class="col-md-8">
           <div class="card card-primary ">
@@ -193,7 +193,7 @@
         </div>
       </div>
                 </div>
-                <div class="tab-pane p-l-15 p-r-15" id="mri">
+                <div class="tab-pane p-l-15 p-r-15" id="hematology">
                     <div class="row" >
         <div class="col-md-8">
           <div class="card card-primary ">

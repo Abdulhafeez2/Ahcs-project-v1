@@ -9,18 +9,18 @@ from django.contrib.auth.decorators import login_required
 from login import decorators
 # Create your views here.
 
-#@login_required(login_url='login_url')
-#@decorators.physicianonly
-from patient.models import Patient, VitalSign
-from physician.forms import AddPatientForm, ReferralRequestForm, UrineAnalysisRequestForm, \
-    HematologyExaminationRequestForm, StoolExaminationRequestForm, Administred_Treatment_Form
+# @login_required(login_url='login_url')
+# @decorators.physicianonly
+from patient.models import Patient, VitalSign, PatientForm
+from physician.forms import AddPatientForm, ReferralRequestForm, PrescriptionForm, AdministeredTreatmentForm
 from physician.models import PatientWaitingList, Referral
 
 
 def physician_homepage(request):
     try:
-        patient_waiting_list = PatientWaitingList.objects.filter(physician_id=Staff.objects.get(basic_id=request.user.id).id,
-                                                                 status='pending')
+        patient_waiting_list = PatientWaitingList.objects.filter(
+            physician_id=Staff.objects.get(basic_id=request.user.id).id,
+            status='pending')
         waiting_list = True
         context = {'patient_waiting_list': patient_waiting_list, 'waiting_list': waiting_list}
         return render(request, "physician/physician_dashboard.html", context)
@@ -30,23 +30,23 @@ def physician_homepage(request):
         return render(request, "physician/physician_dashboard.html", context)
 
 
-#@login_required(login_url='login_url')
-#@decorators.physicianonly
+# @login_required(login_url='login_url')
+# @decorators.physicianonly
 def view_waiting_list(request):
-    context = { }
+    context = {}
     return render(request, "physician/forms/view_waiting_list.html", context)
 
-@login_required(login_url='login_url')
 
+@login_required(login_url='login_url')
+@decorators.physicianonly
 def add_prescription(request):
+    context = {}
+    return render(request, "physician/forms/prescription_form.html", context)
 
-    context={}
-    return render(request,"physician/forms/prescription_form.html",context)
 
 @login_required(login_url='login_url')
-
 def add_radiology_request(request):
-    context={ }
+    context = {}
     return render(request, "physician/forms/xray_form.html", context)
 
 
@@ -56,6 +56,11 @@ def patient_detail(request, pk):
     waiting_list.approval_time = datetime.datetime.now()
     waiting_list.save()
     user_profile = Patient.objects.get(id=pk)
+
+    try:
+        latest_patient_form = PatientForm.objects.filter(patient_id=pk).latest('date')
+    except:
+        latest_patient_form = None
     try:
         vital_sign = VitalSign.objects.filter(patient_id=pk).latest('taken_date')
     except:
@@ -65,20 +70,18 @@ def patient_detail(request, pk):
     except:
         referral = None
     patient_form = AddPatientForm
+    prescription_form = PrescriptionForm
     referral_request = ReferralRequestForm
-    context = {'patient': pk, 'user_profile': user_profile, 'vital_sign': vital_sign, 'patient_form': patient_form,
-               'referral': referral}
+    administered_treatment = AdministeredTreatmentForm
+    context = {'patient': pk, 'user_profile': user_profile, 'vital_sign': vital_sign,
+               'patient_form': patient_form, 'prescription_form': prescription_form,
+               'referral': referral, 'referral_request': referral_request,
+               'latest_patient_form': latest_patient_form, 'administered_treatment': administered_treatment}
     return render(request, "physician/patient_detail.html", context)
 
 
-
-
 def lab_request(request):
-
-    urine_analysis=UrineAnalysisRequestForm(request.POST)
-    hematology=HematologyExaminationRequestForm(request.POST)
-    stool=StoolExaminationRequestForm(request.POST)
-    context = {'urine_analysis':urine_analysis,'hematology':hematology,'stool':stool}
+    context = {}
     return render(request, "physician/forms/lab_request_form.html", context)
 
 
@@ -113,12 +116,27 @@ def add_referral(request, pk):
             return redirect('patient_detail_url', pk)
 
 
-def lab_result(request):
-    context = {}
-    return render(request, "physician/forms/lab_result_form.html", context)
+def add_prescription(request, pk):
+    if request.method == 'POST':
+        prescription_form = PrescriptionForm(request.POST)
+        patient = Patient.objects.get(id=pk)
+        staff = Staff.objects.get(basic_id=request.user.id)
+        hospital = staff.hospital
+        context = {'patient': patient, 'staff': staff, 'hospital': hospital}
+        if prescription_form.is_valid():
+            prescription_form.save_prescription(context)
+            # nxt = request.POST.get('next', '/')
+            return redirect('patient_detail_url', pk)
 
 
-def administred_treatment(request):
-    medication=Administred_Treatment_Form(request.POST)
-    context = {'medication':medication}
-    return render(request, "physician/forms/administered_treatment.html", context)
+def administered_treatment(request, pk):
+    if request.method == 'POST':
+        administered_treatment_form = AdministeredTreatmentForm(request.POST)
+        patient = Patient.objects.get(id=pk)
+        staff = Staff.objects.get(basic_id=request.user.id)
+        hospital = staff.hospital
+        context = {'patient': patient, 'staff': staff, 'hospital': hospital}
+        if administered_treatment_form.is_valid():
+            administered_treatment_form.save_administered_treatment(context)
+            # nxt = request.POST.get('next', '/')
+            return redirect('patient_detail_url', pk)
