@@ -11,7 +11,7 @@ from login import decorators
 
 #@login_required(login_url='login_url')
 #@decorators.physicianonly
-from patient.models import Patient, VitalSign
+from patient.models import Patient, VitalSign, PatientForm
 from physician.forms import AddPatientForm, ReferralRequestForm
 from physician.models import PatientWaitingList, Referral
 
@@ -54,6 +54,11 @@ def patient_detail(request, pk):
     waiting_list.approval_time = datetime.datetime.now()
     waiting_list.save()
     user_profile = Patient.objects.get(id=pk)
+
+    try:
+        latest_patient_form = PatientForm.objects.filter(patient_id=pk).latest('date')
+    except:
+        latest_patient_form = None
     try:
         vital_sign = VitalSign.objects.filter(patient_id=pk).latest('taken_date')
     except:
@@ -65,7 +70,7 @@ def patient_detail(request, pk):
     patient_form = AddPatientForm
     referral_request = ReferralRequestForm
     context = {'patient': pk, 'user_profile': user_profile, 'vital_sign': vital_sign, 'patient_form': patient_form,
-               'referral': referral}
+               'referral': referral, 'referral_request': referral_request, 'latest_patient_form': latest_patient_form}
     return render(request, "physician/patient_detail.html", context)
 
 

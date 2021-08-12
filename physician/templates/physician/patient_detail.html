@@ -75,19 +75,33 @@
 
                                             <th>From (Hospital)</th>
                                             <th>Referral Given Date</th>
-                                            <th>Action</th>
                                             <th>Status</th>
+                                            <th>Detail</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><span class="text-info">Adama Hospital and medical collage</span></td>
-                                            <td>Sept 13, 2017</td>
-                                            <td><input type="submit" class="btn btn-success" value="View"></td>
-                                            <td><span class="badge badge-success">Admit</span></td>
+                                            <td><span class="text-info">{{referral.referring_hospital.name}}</span></td>
+                                            <td>{{referral.referral_date.date}}</td>
+                                            <td><span class="badge badge-success">{{referral.status}}</span></td>
+                                            <td><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapsereferral" aria-expanded="false" aria-controls="collapseExample">view</button></td>
                                         </tr>
                                     </tbody>
                                 </table>
+                            </div>
+                            <div class="collapse" id="collapsereferral">
+                              <div class="card card-body">
+
+                                  <label><strong>Health problem identified in detail</strong></label>
+                                  <p>{{referral.health_problem_identified_in_detail}}</p>
+                                  <label><strong>Identified Disease Type</strong></label>
+                                  <p>{{referral.identified_disease_type}}</p>
+                                  <label><strong>Action Taken</strong></label>
+                                  <p>{{referral.action_taken}}</p>
+                                  <label><strong>Reason for Referral</strong></label>
+                                  <p>{{referral.reason_for_referral}}</p>
+
+                              </div>
                             </div>
                                     {% else %}
                                     <p><strong>No referral found for {{user_profile.basic.first_name}} </strong></p>
@@ -106,35 +120,71 @@
 
                                 {{patient_form.note}}
                             </div>
-                            <input type="submit" class="btn btn-success" value="attach">
+                            <div class="form-group">
+                                <div class="col-sm-8">
+                                <input type="submit" class="btn btn-success" value="attach">
+                                </div>
+                            </div>
                         </form>
                         </div>
                         </div>
-
                             <div class="row clearfix">
                                 <div class="col-md-12">
-                                    <h5>Last Patient Form</h5>
+                                    <h6>Latest Patient Form</h6>
+                                    {% if latest_patient_form %}
                                     <div class="col-md-12 text-right">
-                                    <p class="m-b-0"><b>Date: </b>9/9/2021</p>
+                                    <p class="m-b-0"><b>Date Added: </b>{{latest_patient_form.date.date}}</p>
                                     </div>
-                                    <p>The medicine given to the patient is that ....</p>
+                                    <p>{{latest_patient_form.note}}</p>
+                                    {% else %}
+                                    <p><strong>No patient form yet</strong></p>
+                                    {% endif %}
                                 </div>
                             </div>
                     </div>
                     <div class="tab-pane " id="referral_request">
                         <form action="{% url 'add_referral_url' user_profile.id %}" method="POST">
                             {%csrf_token%}
-                            <div class="form-group">
-                                        <label>Service</label>
-                                        <input type="text" class="form-control" required>
+                            <div class="form-group ">
+
+                                {{referral_request.health_problem_identified_in_detail.errors}}
+                                    <label>Health problem Identified in Detail </label>
+                                {{referral_request.health_problem_identified_in_detail}}
                             </div>
                             <div class="form-group">
-                                        <label>Dignosis/ Complication or Service detail </label>
-                                        <textarea class="form-control" rows="5" cols="30" required></textarea>
-
-
-                                    <input type="button" class="btn btn-success" value="attach">
+                                <div class="col-sm-8">
+                                {{referral_request.identified_disease_type.errors}}
+                                    <label>Identified Disease Type</label>
+                                {{referral_request.identified_disease_type}}
                                 </div>
+                            </div>
+                             <div class="form-group">
+                                 <div class="col-sm-8">
+                                {{referral_request.action_taken.errors}}
+                                    <label>Action Taken </label>
+                                {{referral_request.action_taken}}
+                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-8">
+                                {{referral_request.reason_for_referral.errors}}
+                                    <label>Reason for Referral </label>
+                                {{referral_request.reason_for_referral}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-8">
+                                {{ referral_request.referred_to_hospital.errors }}
+                                <label for="information">Refer to Hospital</label>
+                                {{ referral_request.referred_to_hospital }}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-8">
+                                <input type="submit" class="btn btn-success" value="attach">
+                                </div>
+                            </div>
 
                         </form>
                     </div>
@@ -146,6 +196,17 @@
                 </div>
             </div>
     </div>
-    </div>
+</div>
+
+<script>
+    function find_available_Hospital(value)
+    {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", "http://127.0.0.1:8000/nurse/avaliable_physician/" +value, false ); // false for synchronous request
+        xmlHttp.send( null );
+        document.getElementById('dr').innerHTML = xmlHttp.responseText;
+        document.getElementById('doctor').value = xmlHttp.responseText;
+    }
+</script>
 
 {% endblock content%}

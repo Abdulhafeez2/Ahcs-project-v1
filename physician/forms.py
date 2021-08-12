@@ -1,13 +1,15 @@
 import datetime
 
 from django import forms
+from django.http import request
 
+from accounts.models import Hospital
 from patient.models import PatientForm
 from physician.models import Referral
 
 
 class AddPatientForm(forms.Form):
-    note = forms.CharField(widget=forms.Textarea, required=True)
+    note = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}), required=True)
 
     def save_patient_form(self, context):
         patient_form = PatientForm.objects.create(
@@ -21,23 +23,30 @@ class AddPatientForm(forms.Form):
 
 
 class ReferralRequestForm(forms.Form):
-    health_problem_identified_in_detail = forms.CharField(widget=forms.Textarea, required=True)
+    health_problem_identified_in_detail = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}),
+                                                          required=True)
     identified_disease_type = forms.CharField(required=True, widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'disease type here... '}))
     action_taken = forms.CharField(required=True, widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': 'disease type here... '}))
+        attrs={'class': 'form-control', 'placeholder': 'action taken here... '}))
     reason_for_referral = forms.CharField(required=True, widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': 'disease type here... '}))
+        attrs={'class': 'form-control', 'placeholder': 'reason for referral here... '}))
+    referred_to_hospital = forms.ChoiceField(widget=forms.Select(attrs={'class': 'form-control'}))
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['referred_to_hospital'].choices = [(hospital.id, hospital.name) for hospital in Hospital
+            .objects.all()]
 
     def save_referral(self, context):
         referral = Referral.objects.create(
             referred_by_id=context['staff'].id,
             referring_hospital_id=context['hospital'].id,
-            referred_to_hospital=context['hospital'].id,
+            referred_to_hospital_id=self.cleaned_data.get('referred_to_hospital'),
             patient_id=context['patient'].id,
             health_problem_identified_in_detail=self.cleaned_data.get('health_problem_identified_in_detail'),
             action_taken=self.cleaned_data.get('action_taken'),
-            reason_for_referral=self.cleaned_data.get('health_problem_identified_in_detail'),
+            reason_for_referral=self.cleaned_data.get('reason_for_referral'),
             referral_date=datetime.datetime.now(),
         )
         referral.save()
