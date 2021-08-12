@@ -1,5 +1,47 @@
+import datetime
+
 from django import forms
 
+from patient.models import PatientForm
+from physician.models import Referral
+
+
+class AddPatientForm(forms.Form):
+    note = forms.CharField(widget=forms.Textarea, required=True)
+
+    def save_patient_form(self, context):
+        patient_form = PatientForm.objects.create(
+            hospital_id=context['hospital'].id,
+            patient_id=context['patient'].id,
+            note=self.cleaned_data.get('note'),
+            filled_by_id=context['staff'].id,
+            date=datetime.datetime.now()
+        )
+        patient_form.save()
+
+
+class ReferralRequestForm(forms.Form):
+    health_problem_identified_in_detail = forms.CharField(widget=forms.Textarea, required=True)
+    identified_disease_type = forms.CharField(required=True, widget=forms.CharField(attrs={'class': 'form-control'}))
+    action_taken = forms.CharField(required=True, widget=forms.CharField(attrs={'class': 'form-control'}))
+    reason_for_referral = forms.CharField(required=True, widget=forms.CharField(attrs={'class': 'form-control'}))
+
+    def save_referral(self, context):
+        referral = Referral.objects.create(
+            referred_by_id=context['staff'].id,
+            referring_hospital_id=context['hospital'].id,
+            referred_to_hospital=context['hospital'].id,
+            patient_id=context['patient'].id,
+            health_problem_identified_in_detail=self.cleaned_data.get('health_problem_identified_in_detail'),
+            action_taken=self.cleaned_data.get('action_taken'),
+            reason_for_referral=self.cleaned_data.get('health_problem_identified_in_detail'),
+            referral_date=datetime.datetime.now(),
+        )
+        referral.save()
+
+
+
+'''
 class UrineAnalysisRequestForm(forms.Form):
     albumine=forms.BooleanField(required=False,widget=forms.BooleanField(attrs={'class': 'form-control'}))
     blood = forms.BooleanField(required=False, widget=forms.BooleanField(attrs={'class': 'form-control'}))
@@ -59,12 +101,4 @@ class HematologyExaminationRequestForm(forms.Form):
     blood_group=forms.BooleanField(required=False,widget=forms.BooleanField(attrs={'class': 'form-control'}))
     fibrinogen=forms.BooleanField(required=False,widget=forms.BooleanField(attrs={'class': 'form-control'}))
     coomos_test=forms.BooleanField(required=False,widget=forms.BooleanField(attrs={'class': 'form-control'}))
-    cd4=forms.BooleanField(required=False,widget=forms.BooleanField(attrs={'class': 'form-control'}))
-
-
-
-
-
-
-
-
+    cd4=forms.BooleanField(required=False,widget=forms.BooleanField(attrs={'class': 'form-control'}))'''

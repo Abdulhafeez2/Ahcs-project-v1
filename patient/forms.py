@@ -36,7 +36,7 @@ class VitalSignForm(forms.Form):
         print('saving vital sign...')
         print(h)
         print(w)
-        bmi = w/pow(h/100, 2)
+        bmi = w / pow(h / 100, 2)
         print(bmi)
         vital_sign = VitalSign.objects.create(
             patient_id=context['patient'].id,

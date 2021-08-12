@@ -52,7 +52,6 @@ def add_vital_sign(request, pk):
 
     else:
         form = VitalSignForm
-
         patient = User.objects.get(id=pk)
         context = {'form': form, 'patient': patient}
         return render(request, "nurse/form/vital_sign_form.html", context)

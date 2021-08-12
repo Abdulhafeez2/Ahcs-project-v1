@@ -1,9 +1,9 @@
 import datetime
 from time import timezone
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-from accounts.models import Staff
+from accounts.models import Staff, User
 from login import urls
 from django.contrib.auth.decorators import login_required
 from login import decorators
@@ -12,7 +12,8 @@ from login import decorators
 #@login_required(login_url='login_url')
 #@decorators.physicianonly
 from patient.models import Patient, VitalSign
-from physician.models import PatientWaitingList
+from physician.forms import AddPatientForm
+from physician.models import PatientWaitingList, Referral
 
 
 def physician_homepage(request):
@@ -53,10 +54,17 @@ def patient_detail(request, pk):
     waiting_list.approval_time = datetime.datetime.now()
     waiting_list.save()
     user_profile = Patient.objects.get(id=pk)
-    vital_sign = VitalSign.objects.filter(patient_id=pk).latest('taken_date')
-    vital = True
-    print(vital)
-    context = {'patient': pk, 'user_profile': user_profile, 'vital_sign': vital_sign}
+    try:
+        vital_sign = VitalSign.objects.filter(patient_id=pk).latest('taken_date')
+    except:
+        vital_sign = None
+    try:
+        referral = Referral.objects.get(patient_id=pk, status='pending')
+    except:
+        referral = None
+    patient_form = AddPatientForm
+    context = {'patient': pk, 'user_profile': user_profile, 'vital_sign': vital_sign, 'patient_form': patient_form,
+               'referral': referral}
     return render(request, "physician/patient_detail.html", context)
 
 
@@ -65,3 +73,21 @@ def patient_detail(request, pk):
 def lab_request(request):
     context = {}
     return render(request, "physician/forms/lab_request_form.html", context)
+
+
+def add_patient_form(request, pk):
+    if request.method == 'POST':
+        patient_form = AddPatientForm(request.POST)
+        patient = Patient.objects.get(id=pk)
+        staff = Staff.objects.get(basic_id=request.user.id)
+        hospital = staff.hospital
+        context = {'patient': patient, 'staff': staff, 'hospital': hospital}
+        if patient_form.is_valid():
+            patient_form.save_patient_form(context)
+            # nxt = request.POST.get('next', '/')
+            return redirect('patient_detail_url', pk)
+        else:
+            patient_form = AddPatientForm(request.POST)
+            patient = User.objects.get(id=pk)
+            context = {'patient_form': patient_form, 'patient': patient}
+            return render(request, "nurse/form/vital_sign_form.html", context)

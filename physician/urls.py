@@ -10,5 +10,6 @@ urlpatterns = [
     path('radiology_request/', views.add_radiology_request, name='radiology_request_url'),
     path('lab_request/', views.lab_request, name='lab_request_url'),
     path('patient_detail/<str:pk>/', views.patient_detail, name='patient_detail_url'),
+    path('patient_form/<str:pk>/', views.add_patient_form, name='add_patient_form_url'),
 ]
 

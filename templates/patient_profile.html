@@ -116,8 +116,11 @@
                     <div class="tab-pane" id="register">
                         <div class="body">
                               <div class="table-responsive">
-                                  
+                                  {% if registered %}
+                                  <p><strong>Patient is already in triage list</strong></p>
+                                  {% else %}
                                   <a href="{% url 'admit_to_triage_url' user_profile.basic.id  %}"><button type="button" class="btn btn-primary">send to triage</button></a>
+                                  {% endif %}
                               </div>
                         </div>
                     </div>
