@@ -11,5 +11,6 @@ urlpatterns = [
     path('lab_request/', views.lab_request, name='lab_request_url'),
     path('patient_detail/<str:pk>/', views.patient_detail, name='patient_detail_url'),
     path('patient_form/<str:pk>/', views.add_patient_form, name='add_patient_form_url'),
+    path('add_referral/<str:pk>/', views.add_referral, name='add_referral_url'),
 ]
 

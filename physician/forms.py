@@ -22,9 +22,12 @@ class AddPatientForm(forms.Form):
 
 class ReferralRequestForm(forms.Form):
     health_problem_identified_in_detail = forms.CharField(widget=forms.Textarea, required=True)
-    identified_disease_type = forms.CharField(required=True, widget=forms.CharField(attrs={'class': 'form-control'}))
-    action_taken = forms.CharField(required=True, widget=forms.CharField(attrs={'class': 'form-control'}))
-    reason_for_referral = forms.CharField(required=True, widget=forms.CharField(attrs={'class': 'form-control'}))
+    identified_disease_type = forms.CharField(required=True, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'disease type here... '}))
+    action_taken = forms.CharField(required=True, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'disease type here... '}))
+    reason_for_referral = forms.CharField(required=True, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'disease type here... '}))
 
     def save_referral(self, context):
         referral = Referral.objects.create(
@@ -38,7 +41,6 @@ class ReferralRequestForm(forms.Form):
             referral_date=datetime.datetime.now(),
         )
         referral.save()
-
 
 
 '''

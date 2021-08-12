@@ -12,7 +12,7 @@ from login import decorators
 #@login_required(login_url='login_url')
 #@decorators.physicianonly
 from patient.models import Patient, VitalSign
-from physician.forms import AddPatientForm
+from physician.forms import AddPatientForm, ReferralRequestForm
 from physician.models import PatientWaitingList, Referral
 
 
@@ -91,3 +91,16 @@ def add_patient_form(request, pk):
             patient = User.objects.get(id=pk)
             context = {'patient_form': patient_form, 'patient': patient}
             return render(request, "nurse/form/vital_sign_form.html", context)
+
+
+def add_referral(request, pk):
+    if request.method == 'POST':
+        referral_form = ReferralRequestForm(request.POST)
+        patient = Patient.objects.get(id=pk)
+        staff = Staff.objects.get(basic_id=request.user.id)
+        hospital = staff.hospital
+        context = {'patient': patient, 'staff': staff, 'hospital': hospital}
+        if referral_form.is_valid():
+            referral_form.save_referral(context)
+            # nxt = request.POST.get('next', '/')
+            return redirect('patient_detail_url', pk)
