@@ -58,11 +58,13 @@
                                 <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#referral_request">Referral Request</a></li>
                             </ul>
                             <div class="tab-content mt-3">
+                                <div class="tab-pane " id="vital_sign">
                                 {% if vital_sign %}
                                     {% include 'physician/forms/vital_sign_view.html' %}
                                 {% else %}
                                     <p><strong>No Vital Sign found for {{user_profile.basic.first_name}} </strong></p>
                                 {% endif %}
+                                </div>
                             <div class="tab-pane" id="referral">
                                 <div class="body">
                                     {% if referral %}

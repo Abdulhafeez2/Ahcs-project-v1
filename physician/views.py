@@ -63,6 +63,7 @@ def patient_detail(request, pk):
     except:
         referral = None
     patient_form = AddPatientForm
+    referral_request = ReferralRequestForm
     context = {'patient': pk, 'user_profile': user_profile, 'vital_sign': vital_sign, 'patient_form': patient_form,
                'referral': referral}
     return render(request, "physician/patient_detail.html", context)
