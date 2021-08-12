@@ -1,15 +1,15 @@
 {% extends 'physician/physician_dashboard.html' %}
 {% block  content%}
 <ul class="nav nav-tabs">
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#x-ray">Urine Analysis Request Form</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#ultrasound">Stool Examination Request Form </a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#mri">Heamatology Lab Request Form</a></li>
+                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#urine-analysis">Urine Analysis Request Form</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#stool-examination">Stool Examination Request Form </a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#hematology">Heamatology Lab Request Form</a></li>
 
             </ul>
                 
             <!-- Tab panes -->
             <div class="tab-content p-l-0 p-r-0">
-                <div class="tab-pane" id="x-ray">
+                <div class="tab-pane active" id="urine-analysis">
                     <nav class="sidebar-nav">
                         <div class="row" >
         <div class="col-md-8">
@@ -23,43 +23,43 @@
                 <label>Urine Chemical test</label>
                                     <br/>
                                     <label class="fancy-checkbox">
-                                        {{urine_analysis.albumine}}
+                                        <input type="checkbox" name="checkbox" required data-parsley-errors-container="#error-checkbox">
                                         <span>Albumine</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{urine_analysis.blood}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Blood</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{urine_analysis.leukocyte}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Leukocyte</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{urine_analysis.glucose}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Glucose</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{urine_analysis.ph}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>PH</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{urine_analysis.nitrate}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Nitrate</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{urine_analysis.urbilonogen}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Urbilonogen</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{urine_analysis.ketone}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Ketone</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{urine_analysis.bilirubin}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Bilirubin</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{urine_analysis.specific_gravity}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Specific Gravity</span>
                                     </label>
 
@@ -70,57 +70,57 @@
                       <label> Cell</label>
                           <br>
                                     <label class="fancy-checkbox">
-                                        {{urine_analysis.mleukocytes}}
+                                        <input type="checkbox" name="checkbox" required data-parsley-errors-container="#error-checkbox">
                                         <span>Leukocytes</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{urine_analysis.erythrocytes}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Erythrocytes</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{urine_analysis.yeast}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Yeast</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{urine_analysis.bacteria}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Bacteria</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{urine_analysis.squamous_epithelial_cells}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Squamous epithelial cells</span>
                                     </label>
                           <br>
                           <label> Casts</label>
                           <br>
                           <label class="fancy-checkbox">
-                                         {{urine_analysis.hyaline_casts}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Hyaline Casts</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                         {{urine_analysis.granular_cast}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Granular Cast</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                         {{urine_analysis.wbc_cast}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>WBC Cast</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{urine_analysis.rbc_ast}}>
+                                        <input type="checkbox" name="checkbox">
                                         <span>RBC Cast</span>
                                     </label>
                           <br>
                           <label> Casts</label>
                           <br>
                           <label class="fancy-checkbox">
-                                        {{urine_analysis.uric_acid}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Uric Acid</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{urine_analysis.calcium_oxalate}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Calcium Oxalate</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{urine_analysis.triplate_phosphate}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Triplate phosphate</span>
                                     </label>
 
@@ -142,7 +142,7 @@
       </div>
     </nav>
 </div>
-                <div class="tab-pane p-l-15 p-r-15" id="ultrasound">
+                <div class="tab-pane p-l-15 p-r-15" id="stool-examination">
                     <div class="row" >
         <div class="col-md-8">
           <div class="card card-primary ">
@@ -154,27 +154,27 @@
                                     <label>Microscopic Examinaions</label>
                                     <br/>
                                     <label class="fancy-checkbox">
-                                        {{stool.parasites}}
+                                        <input type="checkbox" name="checkbox" required data-parsley-errors-container="#error-checkbox">
                                         <span>Parasites</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{stool.puss_cell}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Puss Cell</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{stool.red_blood_cell}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Red Blood Cell</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{stool.yeast_cell}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Yeast Cell</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{stool.obt}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Occult Blood Test(OBT)</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{stool.Hpylori_test}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>H.pylori Stool Ag test</span>
                                     </label>
                                     <p id="error-checkbox"></p>
@@ -193,7 +193,7 @@
         </div>
       </div>
                 </div>
-                <div class="tab-pane p-l-15 p-r-15" id="mri">
+                <div class="tab-pane p-l-15 p-r-15" id="hematology">
                     <div class="row" >
         <div class="col-md-8">
           <div class="card card-primary ">
@@ -206,131 +206,131 @@
                                     <br/>
                                     <div class="text-primary">
                                     <label class="fancy-checkbox">
-                                        {{hematology.cbc}}
+                                        <input type="checkbox" name="checkbox" required data-parsley-errors-container="#error-checkbox">
                                         <span>CBC</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.bc}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>BC</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.twc}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>TWC</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.differntial}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Differntial</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.neutrophil}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Neutrophil(%)</span>
                                     </label>
                                     </div>
                                     <br>
                                     <div class="text-success" >
                                     <label class="fancy-checkbox">
-                                        {{hematology.eosinophil}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Eosinophil(%)</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.basophiles}}
+                                        <input type="checkbox" name="checkbox" required data-parsley-errors-container="#error-checkbox">
                                         <span>Basophiles(%)</span>
                                     </label>
 
                                     <label class="fancy-checkbox">
-                                        {{hematology.monocyt}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Monocyt(g/dl)</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.hemoglobin}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Hemoglobin(%)</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.hemotcrit}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Hemotcrit(ft)</span>
                                     </label>
                                     </div>
                                     <br>
                                     <div class="text-warning">
                                     <label class="fancy-checkbox">
-                                        {{hematology.mcv}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>MCV</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.mch}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>MCH(pg)</span>
                                     </label>
 
                                     <label class="fancy-checkbox">
-                                        {{hematology.mchc}}
+                                        <input type="checkbox" name="checkbox" required data-parsley-errors-container="#error-checkbox">
                                         <span>MCHC(pg)</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.rbc}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>RBC(cell/mm)</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.rbc_morphology}}}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>RBC Morphology</span>
                                     </label>
                                     </div>
                                     <br>
                                     <div class="text-danger">
                                     <label class="fancy-checkbox">
-                                        {{hematology.platlet_count}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Platelet Count(*10^2)</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.esr}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>ESR(mm/hr)</span>
                                     </label>
 
                                     <label class="fancy-checkbox">
-                                        <{{hematology.bleeding_time_test}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Bleeding Time Test</span>
                                     </label>
 
 
                                     <label class="fancy-checkbox">
-                                        {{hematology.clot_reaction}}
+                                        <input type="checkbox" name="checkbox" required data-parsley-errors-container="#error-checkbox">
                                         <span>Clot Reaction</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.coagulation_time}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Coagulation Time</span>
                                     </label>
                                     </div>
                                     <br>
                                     <div class="text-info">
                                     <label class="fancy-checkbox">
-                                        {{hematology.prothromin_time}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Prothromin Time</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.p_t_t}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>P.T.T</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.fbs_rbs}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>FBS/RBS</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.blood_group}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Blood Group</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.fibrinogen}}
+                                        <input type="checkbox" name="checkbox" required data-parsley-errors-container="#error-checkbox">
                                         <span>Fibrinogen</span>
                                     </label>
                                     </div>
                                     <br>
                                     <div class="text-secondary">
                                     <label class="fancy-checkbox">
-                                        {{hematology.coomos_test}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>Coomos Test</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.cd4}}
+                                        <input type="checkbox" name="checkbox">
                                         <span>CD4(absolute cell/ul)</span>
                                     </label>
                                         </div>
