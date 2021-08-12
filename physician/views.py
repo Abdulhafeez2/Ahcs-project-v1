@@ -11,8 +11,9 @@ from login import decorators
 
 #@login_required(login_url='login_url')
 #@decorators.physicianonly
-from patient.models import Patient, VitalSign, PatientForm
-from physician.forms import AddPatientForm, ReferralRequestForm
+from patient.models import Patient, VitalSign
+from physician.forms import AddPatientForm, ReferralRequestForm, UrineAnalysisRequestForm, \
+    HematologyExaminationRequestForm, StoolExaminationRequestForm, Administred_Treatment_Form
 from physician.models import PatientWaitingList, Referral
 
 
@@ -36,9 +37,10 @@ def view_waiting_list(request):
     return render(request, "physician/forms/view_waiting_list.html", context)
 
 @login_required(login_url='login_url')
-@decorators.physicianonly
+
 def add_prescription(request):
-    context={ }
+
+    context={}
     return render(request,"physician/forms/prescription_form.html",context)
 
 @login_required(login_url='login_url')
@@ -54,11 +56,6 @@ def patient_detail(request, pk):
     waiting_list.approval_time = datetime.datetime.now()
     waiting_list.save()
     user_profile = Patient.objects.get(id=pk)
-
-    try:
-        latest_patient_form = PatientForm.objects.filter(patient_id=pk).latest('date')
-    except:
-        latest_patient_form = None
     try:
         vital_sign = VitalSign.objects.filter(patient_id=pk).latest('taken_date')
     except:
@@ -70,14 +67,18 @@ def patient_detail(request, pk):
     patient_form = AddPatientForm
     referral_request = ReferralRequestForm
     context = {'patient': pk, 'user_profile': user_profile, 'vital_sign': vital_sign, 'patient_form': patient_form,
-               'referral': referral, 'referral_request': referral_request, 'latest_patient_form': latest_patient_form}
+               'referral': referral}
     return render(request, "physician/patient_detail.html", context)
 
 
 
 
 def lab_request(request):
-    context = {}
+
+    urine_analysis=UrineAnalysisRequestForm(request.POST)
+    hematology=HematologyExaminationRequestForm(request.POST)
+    stool=StoolExaminationRequestForm(request.POST)
+    context = {'urine_analysis':urine_analysis,'hematology':hematology,'stool':stool}
     return render(request, "physician/forms/lab_request_form.html", context)
 
 
@@ -110,3 +111,14 @@ def add_referral(request, pk):
             referral_form.save_referral(context)
             # nxt = request.POST.get('next', '/')
             return redirect('patient_detail_url', pk)
+
+
+def lab_result(request):
+    context = {}
+    return render(request, "physician/forms/lab_result_form.html", context)
+
+
+def administred_treatment(request):
+    medication=Administred_Treatment_Form(request.POST)
+    context = {'medication':medication}
+    return render(request, "physician/forms/administered_treatment.html", context)
