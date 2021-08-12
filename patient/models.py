@@ -27,6 +27,7 @@ class VitalSign(models.Model):
     blood_sugar_F = models.CharField(max_length=10)
     taken_by = models.ForeignKey(Staff, on_delete=models.CASCADE)
     taken_date = models.DateTimeField()
+    taken_at_hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE)
     comment = models.TextField()
 
 
@@ -50,6 +51,7 @@ class UltraSound(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     organ_to_be_examined = models.CharField(max_length=50)
     requested_by = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name='ultrasound_requested_by')
+    hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE)
     date_of_request = models.DateTimeField(auto_now_add=True)
     ultra_sound_image = models.ImageField(null=True)
     sonographic_report = models.TextField(null=True)
@@ -62,6 +64,7 @@ class XrayExamination(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     examination_requested = models.CharField(max_length=50)
     requested_by = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name='xray_requested_by')
+    hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE)
     date_of_request = models.DateTimeField(auto_now_add=True)
     x_ray_image = models.ImageField(null=True)
     x_ray_report = models.TextField(null=True)
@@ -75,6 +78,7 @@ class Hematology(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     clinical_history = models.CharField(max_length=150, null=True)
     requested_by = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name='hematology_requested_by')
+    hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE)
     date_of_request = models.DateTimeField(null=True)
     status = models.CharField(max_length=50, default='pending')
     reported_by = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name='hematology_reported_by', null=True)
@@ -113,6 +117,7 @@ class Hematology(models.Model):
 class StoolExamination(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     requested_by = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name='stool_requested_by')
+    hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE)
     date_of_request = models.DateTimeField()
     status = models.CharField(max_length=50, default='pending')
     parasites = models.CharField(max_length=50, null=True)
@@ -128,6 +133,7 @@ class StoolExamination(models.Model):
 class UrineAnalysis(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     requested_by = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name='urine_requested_by')
+    hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE)
     date_of_request = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=50, default='pending')
     reported_by = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name='urine_reported_by', null=True)

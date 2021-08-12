@@ -14,6 +14,7 @@ class PatientWaitingList(models.Model):
     physician = models.ForeignKey(Staff, on_delete=models.CASCADE)
     status = models.CharField(max_length=50)
     added_date = models.DateTimeField(auto_now_add=True)
+    approval_time = models.DateTimeField(null=True)
 
     def __str__(self):
         return self.patient
@@ -22,24 +23,24 @@ class PatientWaitingList(models.Model):
 class Appointment(models.Model):
     physician = models.ForeignKey(Staff, on_delete=models.CASCADE, )
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, )
-    given_date = models.DateTimeField(default=datetime.now())
-    appointment_date = models.DateTimeField()
+    hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE, null=True)
+    booked_date = models.DateTimeField()
+    appointment_date = models.DateTimeField(null=True)
     case = models.CharField(max_length=50)
     status = models.CharField(max_length=50)
-    added_time = models.DateTimeField(auto_now_add=True)
 
 
 class Referral(models.Model):
     referred_by = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name='referred_by')
     referring_hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE, related_name='referring_hospital')
-    referred_to = models.ForeignKey(Hospital, on_delete=models.CASCADE, related_name='referred_to')
+    referred_to_hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE, related_name='referred_to_hospital')
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     referral_date = models.DateTimeField()
     approved_on_date = models.DateTimeField(null=True)
-    health_problem_identified_in_detail = models.TextField()
-    identified_disease_type = models.CharField(max_length=50)
-    action_taken = models.CharField(max_length=50)
-    reason_for_referral = models.CharField(max_length=50)
+    health_problem_identified_in_detail = models.TextField(null=True)
+    identified_disease_type = models.CharField(max_length=50, null=True)
+    action_taken = models.CharField(max_length=50, null=True)
+    reason_for_referral = models.CharField(max_length=50, null=True)
     status = models.CharField(max_length=50, default='pending')
     feedback = models.TextField(null=True)
     feedback_given_by = models.ForeignKey(Staff, on_delete=models.CASCADE, null=True, related_name='feedback_given_by')

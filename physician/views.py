@@ -1,3 +1,6 @@
+import datetime
+from time import timezone
+
 from django.shortcuts import render
 
 from accounts.models import Staff
@@ -8,7 +11,7 @@ from login import decorators
 
 #@login_required(login_url='login_url')
 #@decorators.physicianonly
-from patient.models import Patient
+from patient.models import Patient, VitalSign
 from physician.models import PatientWaitingList
 
 
@@ -41,16 +44,22 @@ def add_prescription(request):
 
 def add_radiology_request(request):
     context={ }
-    return render(request,"physician/forms/xray_form.html",context)
+    return render(request, "physician/forms/xray_form.html", context)
 
 
 def patient_detail(request, pk):
     waiting_list = PatientWaitingList.objects.filter(patient_id=pk).first()
     waiting_list.status = 'approved'
+    waiting_list.approval_time = datetime.datetime.now()
     waiting_list.save()
     user_profile = Patient.objects.get(id=pk)
-    context = {'patient': pk, 'user_profile': user_profile}
+    vital_sign = VitalSign.objects.filter(patient_id=pk).latest('taken_date')
+    vital = True
+    print(vital)
+    context = {'patient': pk, 'user_profile': user_profile, 'vital_sign': vital_sign}
     return render(request, "physician/patient_detail.html", context)
+
+
 
 
 def lab_request(request):

@@ -7,14 +7,6 @@ from accounts.models import User, Hospital
 from patient.models import Patient
 
 
-class Receptionist(models.Model):
-    basic = models.ForeignKey(User, on_delete=models.CASCADE)
-    hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return User.username
-
-
 class Triage(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE)

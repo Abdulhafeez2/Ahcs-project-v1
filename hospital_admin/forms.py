@@ -6,11 +6,8 @@ from django.contrib.auth.models import User
 from past.builtins import unicode
 
 from accounts.models import *
-from nurse.models import Nurse
 from patient.models import Patient
-from pharmacist.models import Pharmacist
-from radiologist.models import Radiologist
-from receptionist.models import Receptionist
+
 
 
 class user_form(UserCreationForm):

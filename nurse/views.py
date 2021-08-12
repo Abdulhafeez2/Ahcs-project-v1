@@ -38,7 +38,8 @@ def add_vital_sign(request, pk):
         form = VitalSignForm(request.POST)
         patient = Patient.objects.get(basic_id=pk)
         staff = Staff.objects.get(basic_id=request.user.id)
-        context = {'patient': patient, 'staff': staff}
+        hospital = staff.hospital
+        context = {'patient': patient, 'staff': staff, 'hospital': hospital}
         if form.is_valid():
             form.save_vital_sign(context)
             # nxt = request.POST.get('next', '/')

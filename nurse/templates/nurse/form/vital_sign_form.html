@@ -49,14 +49,14 @@
             {{form.height}}
           </div>
         </div>
-
         <div class="col-sm-4">
-          <div class="form-group">
-            {{form.bmi.errors}}
-            <label>BMI(Kg/m2)</label>
-            {{form.bmi}}
-          </div>
-      </div>
+            <div class="form-group">
+              {{form.temperature.errors}}
+            <label>Temperature</label>
+            {{form.temperature}}
+            </div>
+        </div>
+
     </div>
 
       <div class="row">
@@ -77,9 +77,9 @@
         </div>
         <div class="col-sm-4">
             <div class="form-group">
-              {{form.temperature.errors}}
-            <label>Temperature</label>
-            {{form.temperature}}
+              {{form.urine_output.errors}}
+              <label>Urine Output</label>
+              {{form.urine_output}}
             </div>
           </div>
       </div>
@@ -100,22 +100,15 @@
           </div>
         </div>
         <div class="col-sm-4">
-            <div class="form-group">
-              {{form.urine_output.errors}}
-              <label>Urine Output</label>
-              {{form.urine_output}}
-            </div>
-          </div>
-      </div>
-      
-      <div class="row">
-        <div class="col-sm-4">
           <!-- text input -->
           <div class="form-group">
             {{form.blood_sugar_F.errors}}
               <label>Blood Sugar(F)</label>
               {{form.blood_sugar_F}}
           </div>
+      </div>
+      
+      <div class="row">
         </div>
         <div class="col-sm-4">
           <div class="form-group">
