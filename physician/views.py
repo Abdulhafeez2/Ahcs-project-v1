@@ -65,3 +65,8 @@ def patient_detail(request, pk):
 def lab_request(request):
     context = {}
     return render(request, "physician/forms/lab_request_form.html", context)
+
+
+def lab_result(request):
+    context = {}
+    return render(request, "physician/forms/lab_result_form.html", context)
