@@ -7,7 +7,7 @@ from past.builtins import unicode
 
 from accounts.models import *
 from patient.models import Patient
-
+from pharmacist.models import Pharmacist
 
 
 class user_form(UserCreationForm):

@@ -9,4 +9,5 @@ urlpatterns = [
     path('search_lab_technician/', views.search_lab_technician, name='search_lab_technician_url'),
     path('search_healthcare_provider/', views.search_healthcare_provider, name='search_healthcare_provider_url'),
     path('search_patient/', views.search_patient, name='search_patient_url'),
+    path('pharmacist_search_patient/', views.pharmacist_search_patient, name='pharmacist_search_patient_url'),
 ]

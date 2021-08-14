@@ -7,7 +7,6 @@ from accounts.models import Hospital
 from patient.models import PatientForm, Prescription, AdministeredTreatment
 from physician.models import Referral
 
-
 class AddPatientForm(forms.Form):
     note = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}), required=True)
 
@@ -73,7 +72,7 @@ class AdministeredTreatmentForm(forms.Form):
             given_by_id=context['staff'].id,
             medication_name=self.cleaned_data.get('medication_name'),
             description=self.cleaned_data.get('description'),
-            medication_date=datetime.datetime.now(),
+            medication_pdate=datetime.datetime.now(),
         )
         administered_treatment.save()
 
