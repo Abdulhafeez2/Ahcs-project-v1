@@ -50,8 +50,9 @@ class UserRegistrationForm(forms.Form):
     speciality_choice = [('Internal medicine', 'Internal medicine'), ('Pediatrics', 'Pediatrics'), ('Dermatology', 'Dermatology'),
                          ('Ophthalmology', 'Ophthalmology'), ('Oncology', 'Oncology'), ('Obstetrics', 'Obstetrics')
                          ]
+    radiology_speciality_choice=[('X-ray','X-ray'),('Ultrasound','Ultrasound')]
     role_choices = [('Receptionist', 'Receptionist'), ('Physician', speciality_choice), ('Nurse', 'Nurse'),
-                    ('Radiologist', 'Radiologist'), ('Lab_technician', 'Lab_technician'),
+                    ('Radiologist', radiology_speciality_choice), ('Lab_technician', 'Lab_technician'),
                     ('Pharmacist', 'Pharmacist')]
     sex_choices = [('Male', 'Male'), ('Female', 'Female')]
     region_choice = (
@@ -189,6 +190,12 @@ class UserRegistrationForm(forms.Form):
             s = self.cleaned_data.get('role')
         elif self.cleaned_data.get('role') == 'Internal medicine':
             r = 'Physician'
+            s = self.cleaned_data.get('role')
+        elif self.cleaned_data.get('role') == 'X-ray':
+            r = 'Radiology'
+            s = self.cleaned_data.get('role')
+        elif self.cleaned_data.get('role') == 'Ultrasound':
+            r = 'Radiology'
             s = self.cleaned_data.get('role')
         elif self.cleaned_data.get('role') == 'Pediatrics':
             r = 'Physician'
