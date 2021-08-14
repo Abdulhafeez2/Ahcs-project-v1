@@ -1,9 +1,10 @@
 import datetime
 from time import timezone
 
+from django import forms
 from django.shortcuts import render, redirect
 
-from accounts.models import Staff, User
+from accounts.models import Staff, User, Hospital
 from login import urls
 from django.contrib.auth.decorators import login_required
 from login import decorators
@@ -12,7 +13,8 @@ from login import decorators
 # @login_required(login_url='login_url')
 # @decorators.physicianonly
 from patient.models import Patient, VitalSign, PatientForm
-from physician.forms import AddPatientForm, ReferralRequestForm, PrescriptionForm, AdministeredTreatmentForm
+from physician.forms import AddPatientForm, ReferralRequestForm, PrescriptionForm, AdministeredTreatmentForm, \
+    XrayRequestForm
 from physician.models import PatientWaitingList, Referral
 
 
@@ -46,7 +48,9 @@ def add_prescription(request):
 
 @login_required(login_url='login_url')
 def add_radiology_request(request):
-    context = {}
+    xray_form = XrayRequestForm()
+    xray_form.set_requested_to_choice(request.user.id)
+    context = {'xray_form': xray_form}
     return render(request, "physician/forms/xray_form.html", context)
 
 
@@ -71,7 +75,11 @@ def patient_detail(request, pk):
         referral = None
     patient_form = AddPatientForm
     prescription_form = PrescriptionForm
-    referral_request = ReferralRequestForm
+
+    hospital_id = Staff.objects.get(basic_id=request.user.id).hospital.id
+    referral_request = ReferralRequestForm()
+    referral_request.set_hospital_choice(hospital_id)
+
     administered_treatment = AdministeredTreatmentForm
     context = {'patient': pk, 'user_profile': user_profile, 'vital_sign': vital_sign,
                'patient_form': patient_form, 'prescription_form': prescription_form,

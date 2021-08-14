@@ -81,7 +81,8 @@ class UltraSound(models.Model):
 
 class XrayExamination(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    examination_requested = models.CharField(max_length=50)
+    examination_requested = models.TextField()
+    finding_and_diagnosis = models.TextField(null=True)
     requested_by = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name='xray_requested_by')
     hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE)
     date_of_request = models.DateTimeField(auto_now_add=True)

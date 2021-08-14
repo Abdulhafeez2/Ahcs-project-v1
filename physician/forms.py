@@ -3,9 +3,10 @@ import datetime
 from django import forms
 from django.http import request
 
-from accounts.models import Hospital
+from accounts.models import Hospital, User, Staff
 from patient.models import PatientForm, Prescription, AdministeredTreatment
 from physician.models import Referral
+
 
 class AddPatientForm(forms.Form):
     note = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}), required=True)
@@ -32,10 +33,14 @@ class ReferralRequestForm(forms.Form):
         attrs={'class': 'form-control', 'placeholder': 'reason for referral here... '}))
     referred_to_hospital = forms.ChoiceField(widget=forms.Select(attrs={'class': 'form-control'}))
 
-    def __init__(self, *args, **kwargs):
+    def set_hospital_choice(self, pk):
+        self.fields['referred_to_hospital'].choices = [(hospital.id, hospital.name) for hospital in Hospital
+            .objects.all().exclude(id=pk)]
+
+    '''def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['referred_to_hospital'].choices = [(hospital.id, hospital.name) for hospital in Hospital
-            .objects.all()]
+            .objects.all()]'''
 
     def save_referral(self, context):
         referral = Referral.objects.create(
@@ -53,7 +58,14 @@ class ReferralRequestForm(forms.Form):
 
 class XrayRequestForm(forms.Form):
     examination_requested = forms.CharField(required=True, widget=forms.Textarea(attrs={'class': 'form-control'}))
-    diagnosis = forms.CharField(required=True, widget=forms.Textarea(attrs={'class': 'form-control'}))
+    finding_and_diagnosis = forms.CharField(required=True, widget=forms.Textarea(attrs={'class': 'form-control'}))
+    requested_to = forms.ChoiceField(widget=forms.Select(attrs={'class': 'form-control'}))
+
+    def set_requested_to_choice(self, pk):
+        self.fields['requested_to'].choices = [(radiologist.id, radiologist.basic.username) for
+                                               radiologist in
+                                               Staff.objects.filter(hospital_id=Staff.objects.get(basic_id=pk).
+                                                                    hospital_id)]
 
 
 class UltrasoundRequestForm(forms.Form):
@@ -89,7 +101,6 @@ class PrescriptionForm(forms.Form):
             date=datetime.datetime.now()
         )
         prescription.save()
-
 
 
 '''
