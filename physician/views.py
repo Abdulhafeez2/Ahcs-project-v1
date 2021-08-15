@@ -55,10 +55,14 @@ def add_radiology_request(request):
 
 
 def patient_detail(request, pk):
-    waiting_list = PatientWaitingList.objects.filter(patient_id=pk).first()
+    waiting_list = PatientWaitingList.objects.get(patient_id=pk, physician_id=Staff.objects.
+                                                     get(basic_id=request.user.id).id, status='pending')
     waiting_list.status = 'approved'
     waiting_list.approval_time = datetime.datetime.now()
     waiting_list.save()
+    staff = Staff.objects.get(basic_id=request.user.id)
+    staff.num_waiting = staff.num_waiting - 1
+    staff.save()
     user_profile = Patient.objects.get(id=pk)
 
     try:

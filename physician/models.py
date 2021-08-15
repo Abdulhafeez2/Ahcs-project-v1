@@ -12,6 +12,7 @@ class PatientWaitingList(models.Model):
     hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     physician = models.ForeignKey(Staff, on_delete=models.CASCADE)
+    physician_speciality = models.CharField(max_length=50)
     status = models.CharField(max_length=50)
     added_date = models.DateTimeField(auto_now_add=True)
     approval_time = models.DateTimeField(null=True)

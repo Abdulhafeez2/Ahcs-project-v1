@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 
+from django.db.models import Count, Min
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -68,8 +69,13 @@ def admit_to_dr(request, pk):
 
 
 def find_available_physician(request, value):
-    doc = User.objects.get(id=Staff.objects.filter(specialty=value).first().basic_id)
-    return HttpResponse(doc)
+    """free_dr = PatientWaitingList.objects.filter(hospital_id=Staff.objects.get(basic_id=request.user.id).hospital_id,
+                                            physician_speciality=value, status='pending').annotate(
+        num_waiting=Count('physician_id')).order_by('num_waiting')"""
+    hospital_id = Staff.objects.get(basic_id=request.user.id).hospital_id
+    free_dr = Staff.objects.filter(hospital_id=hospital_id, specialty=value).order_by('-num_waiting').last().basic
+    return HttpResponse(free_dr)
+
 
 
 def assign_doctor(request):
@@ -78,12 +84,16 @@ def assign_doctor(request):
     waiting_list = PatientWaitingList.objects.create(
         hospital_id=Hospital.objects.get(id=Staff.objects.get(basic_id=request.user.id).hospital_id).id,
         physician_id=Staff.objects.get(basic_id=User.objects.get(username=doctor)).id,
+        physician_speciality=Staff.objects.get(basic_id=User.objects.get(username=doctor)).specialty,
         patient_id=Patient.objects.get(basic_id=User.objects.get(id=patient)).id,
         added_by_id=Staff.objects.get(basic_id=request.user.id).id,
         status='pending',
     )
     waiting_list.save()
-    triage = Triage.objects.filter(patient_id=Patient.objects.get(basic_id=patient)).first()
+    staff = Staff.objects.get(basic_id=User.objects.get(username=doctor).id)
+    staff.num_waiting = staff.num_waiting + 1
+    staff.save()
+    triage = Triage.objects.get(patient_id=Patient.objects.get(basic_id=patient), status='pending')
     triage.status = 'approved'
     triage.save()
     return redirect('nurse_homepage_url')
