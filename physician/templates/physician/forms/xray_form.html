@@ -17,6 +17,8 @@
               <h5 class="card-title">X-ray Request Form</h5>
             </div>
             <div class="card-body">
+                <form action="{% url 'add_xray_request_url' pk %}" method="POST">
+                    {%csrf_token%}
               <div class="form-group" >
                   {{xray_form.finding_and_diagnosis.errors}}
                 <label for="inputName">Pertinent clinical history, Operation,Physical, Findings & Diagnosis </label>
@@ -39,7 +41,7 @@
                         <input type="submit" class="btn btn-success" value="attach">
                     </div>
                 </div>
-
+                </form>
             </div>
             <!-- /.card-body -->
           </div>

@@ -37,10 +37,10 @@ class ReferralRequestForm(forms.Form):
         self.fields['referred_to_hospital'].choices = [(hospital.id, hospital.name) for hospital in Hospital
             .objects.all().exclude(id=pk)]
 
-    '''def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['referred_to_hospital'].choices = [(hospital.id, hospital.name) for hospital in Hospital
-            .objects.all()]'''
+        self.fields['referred_to_hospital'].choices = [(int(hospital.id), hospital.name) for hospital in Hospital
+            .objects.all()]''''''
 
     def save_referral(self, context):
         referral = Referral.objects.create(
@@ -65,11 +65,39 @@ class XrayRequestForm(forms.Form):
         self.fields['requested_to'].choices = [(radiologist.id, radiologist.basic.username) for
                                                radiologist in
                                                Staff.objects.filter(hospital_id=Staff.objects.get(basic_id=pk).
-                                                                    hospital_id)]
+                                                                    hospital_id, specialty='X-ray')]
+
+    def save_xray_request(self, context):
+        xray_request = XrayRequestForm.objects.create(
+            hospital_id=context['hospital'].id,
+            patient_id=context['patient'].id,
+            requested_by=context['staff'].id,
+            requested_to=self.cleaned_data.get('requested_to'),
+            examination_requested=self.cleaned_data.get('examination_requested'),
+            finding_and_diagnosis=self.cleaned_data.get('finding_and_diagnosis'),
+        )
+        xray_request.save()
 
 
 class UltrasoundRequestForm(forms.Form):
     organ_to_be_examined = forms.CharField(required=True, widget=forms.Textarea(attrs={'class': 'form-control'}))
+    requested_to = forms.ChoiceField(widget=forms.Select(attrs={'class': 'form-control'}))
+
+    def set_requested_to_choice(self, pk):
+        self.fields['requested_to'].choices = [(radiologist.id, radiologist.basic.username) for
+                                               radiologist in
+                                               Staff.objects.filter(hospital_id=Staff.objects.get(basic_id=pk).
+                                                                    hospital_id, specialty='ultrasound')]
+
+    def save_ultrasound_request(self, context):
+        ultrasound_request = UltrasoundRequestForm.objects.create(
+            hospital_id=context['hospital'].id,
+            patient_id=context['patient'].id,
+            requested_by=context['staff'].id,
+            requested_to=self.cleaned_data.get('requested_to'),
+            organ_to_be_examined=self.cleaned_data.get('organ_to_be_examined'),
+        )
+        ultrasound_request.save()
 
 
 class AdministeredTreatmentForm(forms.Form):
@@ -84,7 +112,7 @@ class AdministeredTreatmentForm(forms.Form):
             given_by_id=context['staff'].id,
             medication_name=self.cleaned_data.get('medication_name'),
             description=self.cleaned_data.get('description'),
-            medication_pdate=datetime.datetime.now(),
+            medication_date=datetime.datetime.now(),
         )
         administered_treatment.save()
 

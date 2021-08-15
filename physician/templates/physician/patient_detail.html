@@ -47,10 +47,11 @@
                             <p class="m-b-0">October 22th, 1990</p>
                         </div>
                     </div>
-
-
                 </div>
+
                 <div class="col-lg-8 col-md-12">
+                    <a class="btn btn-danger float-right"  href="{% url 'remove_from_list_url' user_profile.id %}">Remove from List</a>
+
                     <div class="card">
                             <ul class="nav nav-tabs-new2">
                                 <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#patient_form">Patient Form</a></li>
@@ -59,9 +60,10 @@
                                 <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#vital_sign">View Vital sign</a></li>
                                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#referral">View Referral</a></li>
                                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#administered_treatment">Administered treatment form</a></li>
-                                <li class="nav-item"><a class="nav-link"  href="{% url 'radiology_request_url' %}">Radiology Request</a></li>
-                                <li class="nav-item"><a class="nav-link"  href="{% url 'lab_request_url' %}">Lab Request</a></li>
+                                <li class="nav-item"><a class="nav-link"  href="{% url 'radiology_request_url' user_profile.id %}">Radiology Request</a></li>
+                                <li class="nav-item"><a class="nav-link"  href="{% url 'lab_request_url' user_profile.id %}">Lab Request</a></li>
                                 <li class="nav-item"><a class="nav-link"  href="">Medical History</a></li>
+
 
 
 

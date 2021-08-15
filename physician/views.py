@@ -46,25 +46,27 @@ def add_prescription(request):
     return render(request, "physician/forms/prescription_form.html", context)
 
 
-@login_required(login_url='login_url')
-def add_radiology_request(request):
+# @login_required(login_url='login_url')
+def add_radiology_request(request, pk):
     xray_form = XrayRequestForm()
     xray_form.set_requested_to_choice(request.user.id)
-    context = {'xray_form': xray_form}
+    context = {'xray_form': xray_form, 'pk': pk}
     return render(request, "physician/forms/xray_form.html", context)
 
 
-def patient_detail(request, pk):
-    waiting_list = PatientWaitingList.objects.get(patient_id=pk, physician_id=Staff.objects.
-                                                     get(basic_id=request.user.id).id, status='pending')
+def remove_from_list(request, pk):
+    waiting_list = PatientWaitingList.objects.get(patient_id=pk, status='pending')
     waiting_list.status = 'approved'
     waiting_list.approval_time = datetime.datetime.now()
     waiting_list.save()
     staff = Staff.objects.get(basic_id=request.user.id)
     staff.num_waiting = staff.num_waiting - 1
     staff.save()
-    user_profile = Patient.objects.get(id=pk)
+    return redirect('physician_homepage_url')
 
+
+def patient_detail(request, pk):
+    user_profile = Patient.objects.get(id=pk)
     try:
         latest_patient_form = PatientForm.objects.filter(patient_id=pk).latest('date')
     except:
@@ -81,8 +83,9 @@ def patient_detail(request, pk):
     prescription_form = PrescriptionForm
 
     hospital_id = Staff.objects.get(basic_id=request.user.id).hospital.id
-    referral_request = ReferralRequestForm()
-    referral_request.set_hospital_choice(hospital_id)
+    referral_request = ReferralRequestForm(request)
+    referral_request.pk = pk
+    #referral_request.set_hospital_choice(hospital_id)
 
     administered_treatment = AdministeredTreatmentForm
     context = {'patient': pk, 'user_profile': user_profile, 'vital_sign': vital_sign,
@@ -126,6 +129,8 @@ def add_referral(request, pk):
             referral_form.save_referral(context)
             # nxt = request.POST.get('next', '/')
             return redirect('patient_detail_url', pk)
+        else:
+           print(referral_form.errors)
 
 
 def add_prescription(request, pk):
@@ -152,3 +157,21 @@ def administered_treatment(request, pk):
             administered_treatment_form.save_administered_treatment(context)
             # nxt = request.POST.get('next', '/')
             return redirect('patient_detail_url', pk)
+
+
+def add_xray_request(request, pk):
+    if request.method == 'POST':
+        xray_request = XrayRequestForm(request.POST)
+        print(xray_request.is_valid())
+        patient = Patient.objects.get(id=pk)
+        staff = Staff.objects.get(basic_id=request.user.id)
+        hospital = staff.hospital
+        context = {'patient': patient, 'staff': staff, 'hospital': hospital}
+
+        if xray_request.is_valid():
+            print('valid')
+            xray_request.save_xray_request(context)
+            # nxt = request.POST.get('next', '/')
+            return redirect('physician/forms/xray_form.html', pk)
+        else:
+           print(xray_request.requested_to.errors)
