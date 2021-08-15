@@ -89,7 +89,7 @@ class XrayExamination(models.Model):
     x_ray_image = models.ImageField(null=True)
     x_ray_report = models.TextField(null=True)
     impressions = models.TextField(null=True)
-    requested_to = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name='xray_reported_to')
+    requested_to = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name='xray_requested_to')
     date_of_report = models.DateTimeField(null=True)
     status = models.CharField(max_length=50, default='pending')
 

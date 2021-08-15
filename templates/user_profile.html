@@ -45,39 +45,43 @@
                 </div>
 
                 <div class="col-lg-8 col-md-12">
-
                     <div class="card">
-                        <div class="row profile_state">
-                            <div class="col-lg-3 col-6">
-                                <div class="body">
-                                    <i class="fa fa-thumbs-up"></i>
-                                    <h5 class="m-b-0 number count-to" data-from="0" data-to="2365" data-speed="1000" data-fresh-interval="700">2365</h5>
-                                    <small>Experience</small>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-6">
-                                <div class="body">
-                                    <i class="fa fa-star"></i>
-                                    <h5 class="m-b-0 number count-to" data-from="0" data-to="1203" data-speed="1000" data-fresh-interval="700">1203</h5>
-                                    <small>Awards</small>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-6">
-                                <div class="body">
-                                    <i class="fa fa-user"></i>
-                                    <h5 class="m-b-0 number count-to" data-from="0" data-to="324" data-speed="1000" data-fresh-interval="700">324</h5>
-                                    <small>Clients</small>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-6">
-                                <div class="body">
-                                    <i class="fa fa-bug"></i>
-                                    <h5 class="m-b-0 number count-to" data-from="0" data-to="1980" data-speed="1000" data-fresh-interval="700">1980</h5>
-                                    <small>Surgery</small>
-                                </div>
-                            </div>
+                        <div class="body">
+                            <ul class="nav nav-tabs-new2">
+                                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#appointment">Change Password</a></li>
+                                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#referral">Edit Profile</a></li>
+                                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#register">Register</a></li>
+                            </ul>
+                            <div class="tab-content mt-3">
+
+
+                                <div class="tab-pane active" id="appointment">
+                                    <div class="body">
+                            <form id="wizard_with_validation" method="POST">
+                                <h3>Change Password</h3>
+                                <fieldset>
+                                    <div class="form-group form-float">
+                                        <input type="text" class="form-control" placeholder="Current Password *" name="username" required>
+                                    </div>
+                                    <div class="form-group form-float">
+                                        <input type="password" class="form-control" placeholder="Password *" name="password" id="password" required>
+                                    </div>
+                                    <div class="form-group form-float">
+                                        <input type="password" class="form-control" placeholder="Confirm Password *" name="confirm" required>
+                                    </div>
+                                    <div >
+                                        <input type="submit" class="btn btn-primary" value="Change Password">
+                                    </div>
+                                </fieldset>
+
+
+                            </form>
                         </div>
                     </div>
+
+
+                                <div class="tab-pane" id="referral">
+
 
                     <div class="card">
                         <div class="body">
@@ -94,74 +98,59 @@
                         <div class="tab-pane active" id="Basic">
                             <div class="card">
                                 <div class="body">
-                                    <h6>Basic Information</h6>
+                                    <h5>Basic Information</h5>
                                     <div class="row clearfix">
                                         <div class="col-lg-12 col-md-12">
-                                        <div class="label">
-                                            <div class="form-group"> 
-                                                <label>First Name: </label><label> First Name </label>                                              
-                                                <input type="text" class="form-control" placeholder="First Name">
-                                            </div>
-                                            <div class="form-group">                                                
-                                                <input type="text" class="form-control" placeholder="Last Name">
+                                            <div class="form-group">
+                                                <label>First Name</label>
+                                                {{form.firstname}}
+
                                             </div>
                                             <div class="form-group">
-                                                <div>
-                                                    <label class="fancy-radio">
-                                                        <input name="gender2" value="male" type="radio" checked>
-                                                        <span><i></i>Male</span>
-                                                    </label>
-                                                    <label class="fancy-radio">
-                                                        <input name="gender2" value="female" type="radio">
-                                                        <span><i></i>Female</span>
-                                                    </label>
-                                                </div>
+                                                <label>Middle Name</label>
+                                                {{form.middlename}}
                                             </div>
                                             <div class="form-group">
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text"><i class="icon-calendar"></i></span>
-                                                    </div>
-                                                    <input data-provide="datepicker" data-date-autoclose="true" class="form-control" placeholder="Birthdate">
-                                                </div>
+                                                <label>Last Name</label>
+                                                {{form.lastname}}
+                                            </div>
+
+                                            <div class="form-group">
+                                                <h5>Address Info</h5>
                                             </div>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="http://">
+                                                <label>Region</label>
+                                                {{form.region}}
                                             </div>
                                         </div>
                                         <div class="col-lg-12 col-md-12">
-                                            <div class="form-group">                                                
-                                                <input type="text" class="form-control" placeholder="Address Line 1">
-                                            </div>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Address Line 2">
+                                                <div>
+                                                    <label class="fancy-radio">
+                                                        <label>Zone</label>
+                                                        {{form.zone}}
+                                                    </label>
+                                                    <label class="fancy-radio">
+                                                        <label>Woreda</label>
+                                                        {{form.woreda}}
+                                                    </label>
+                                                    <label class="fancy-radio">
+                                                        <label>Kebele</label>
+                                                        {{form.kebele}}
+                                                    </label>
+                                                    <label class="fancy-radio">
+                                                        <label>House No</label>
+                                                        {{form.house_no}}
+                                                    </label>
+                                                     <label class="fancy-radio">
+                                                        <label>Phone No</label>
+                                                        {{form.phone}}
+                                                    </label>
+                                                </div>
                                             </div>
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="City">
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="State/Province">
-                                            </div>
-                                            <div class="form-group">
-                                                <select class="form-control">
-                                                    <option value="">-- Select Country --</option>
-                                                    <option value="AF">Afghanistan</option>
-                                                    <option value="AX">Åland Islands</option>
-                                                    <option value="AL">Albania</option>
-                                                    <option value="DZ">Algeria</option>
-                                                    <option value="AS">American Samoa</option>
-                                                    <option value="AD">Andorra</option>
-                                                    <option value="AO">Angola</option>
-                                                    <option value="AI">Anguilla</option>
-                                                    <option value="AQ">Antarctica</option>
-                                                    <option value="AG">Antigua and Barbuda</option>
-                                                    <option value="AR">Argentina</option>
-                                                    <option value="AM">Armenia</option>
-                                                    <option value="YE">Yemen</option>
-                                                    <option value="ZM">Zambia</option>
-                                                    <option value="ZW">Zimbabwe</option>
-                                                </select>
-                                            </div>
+
+
+
                                         </div>
                                     </div>
                                     <button type="button" class="btn btn-primary">Update</button> &nbsp;&nbsp;
@@ -175,7 +164,7 @@
                                     <div class="row clearfix">
                                         <div class="col-lg-12 col-md-12">
                                             <h6>Account Data</h6>
-                                            <div class="form-group">                                                
+                                            <div class="form-group">
                                                 <input type="text" class="form-control" value="ChandlerBing" disabled placeholder="Username">
                                             </div>
                                             <div class="form-group">
@@ -186,18 +175,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-12 col-md-12">
-                                            <h6>Change Password</h6>
-                                            <div class="form-group">
-                                                <input type="password" class="form-control" placeholder="Current Password">
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="password" class="form-control" placeholder="New Password">
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="password" class="form-control" placeholder="Confirm New Password">
-                                            </div>
-                                        </div>
+
                                     </div>
                                     <button type="button" class="btn btn-primary">Update</button> &nbsp;&nbsp;
                                     <button class="btn btn-default">Cancel</button>
@@ -213,15 +191,8 @@
                                             <div class="form-group">
                                                 <input type="text" class="form-control" placeholder="Phone Number">
                                             </div>
-                                            <div class="form-group">
-                                                <select class="form-control">
-                                                    <option>--Select Language</option>
-                                                    <option value="en_US" lang="en">English (United States)</option>
-                                                    <option value="ar" lang="ar">العربية</option>
-                                                    
-                                                </select>
-                                            </div>
-                                            
+
+
                                             <div class="form-group">
                                                 <label>Date Format</label>
                                                 <div class="fancy-radio">
@@ -263,7 +234,24 @@
                         </div>
 
                     </div>
-                    
+
+
+                    </div>
+                    <div class="tab-pane" id="register">
+                                    <div class="body">
+                              <div class="table-responsive">
+                                <input type="submit" class="btn btn-primary" value="Register">
+                            </div>
+                        </div>
+                    </div>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
       <!-- /.content -->
