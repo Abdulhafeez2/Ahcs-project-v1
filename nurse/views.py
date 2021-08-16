@@ -60,8 +60,7 @@ def add_vital_sign(request, pk):
 
 def admit_to_dr(request, pk):
     distinct = Staff.objects.filter(hospital_id=Staff.objects.get(basic_id=request.user.id).
-                                    hospital_id).values('specialty').exclude(specialty=None ).distinct()
-
+                                    hospital_id).values('specialty').exclude(specialty=None).distinct()
 
     form = VitalSignForm
     patient = User.objects.get(id=pk)
@@ -76,7 +75,6 @@ def find_available_physician(request, value):
     hospital_id = Staff.objects.get(basic_id=request.user.id).hospital_id
     free_dr = Staff.objects.filter(hospital_id=hospital_id, specialty=value).order_by('-num_waiting').last().basic
     return HttpResponse(free_dr)
-
 
 
 def assign_doctor(request):

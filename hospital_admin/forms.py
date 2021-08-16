@@ -192,10 +192,10 @@ class UserRegistrationForm(forms.Form):
             r = 'Physician'
             s = self.cleaned_data.get('role')
         elif self.cleaned_data.get('role') == 'X-ray':
-            r = 'Radiology'
+            r = 'Radiologist'
             s = self.cleaned_data.get('role')
         elif self.cleaned_data.get('role') == 'Ultrasound':
-            r = 'Radiology'
+            r = 'Radiologist'
             s = self.cleaned_data.get('role')
         elif self.cleaned_data.get('role') == 'Pediatrics':
             r = 'Physician'

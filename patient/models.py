@@ -70,11 +70,12 @@ class UltraSound(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     organ_to_be_examined = models.CharField(max_length=50)
     requested_by = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name='ultrasound_requested_by')
+    requested_to = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name='ultrasound_requested_to')
     hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE)
     date_of_request = models.DateTimeField(auto_now_add=True)
     ultra_sound_image = models.ImageField(null=True)
     sonographic_report = models.TextField(null=True)
-    reported_by = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name='ultrasound_reported_by')
+    reported_by = models.ForeignKey(Staff, null=True, on_delete=models.CASCADE, related_name='ultrasound_reported_by')
     date_of_report = models.DateTimeField(null=True)
     status = models.CharField(max_length=50, default='pending')
 

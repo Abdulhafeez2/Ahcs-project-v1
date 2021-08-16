@@ -14,7 +14,7 @@ from login import decorators
 # @decorators.physicianonly
 from patient.models import Patient, VitalSign, PatientForm
 from physician.forms import AddPatientForm, ReferralRequestForm, PrescriptionForm, AdministeredTreatmentForm, \
-    XrayRequestForm
+    XrayRequestForm, UltrasoundRequestForm
 from physician.models import PatientWaitingList, Referral
 
 
@@ -47,10 +47,11 @@ def add_prescription(request):
 
 
 # @login_required(login_url='login_url')
-def add_radiology_request(request, pk):
-    xray_form = XrayRequestForm()
-    xray_form.set_requested_to_choice(request.user.id)
-    context = {'xray_form': xray_form, 'pk': pk}
+def radiology_requests(request, pk):
+    hospital_id = Staff.objects.get(basic_id=request.user.id).hospital.id
+    xray_form = XrayRequestForm
+    ultrasound_form = UltrasoundRequestForm
+    context = {'xray_form': xray_form, 'ultrasound_form': ultrasound_form, 'pk': pk}
     return render(request, "physician/forms/xray_form.html", context)
 
 
@@ -83,9 +84,7 @@ def patient_detail(request, pk):
     prescription_form = PrescriptionForm
 
     hospital_id = Staff.objects.get(basic_id=request.user.id).hospital.id
-    referral_request = ReferralRequestForm(request)
-    referral_request.pk = pk
-    #referral_request.set_hospital_choice(hospital_id)
+    referral_request = ReferralRequestForm(pk=hospital_id)
 
     administered_treatment = AdministeredTreatmentForm
     context = {'patient': pk, 'user_profile': user_profile, 'vital_sign': vital_sign,
@@ -130,7 +129,7 @@ def add_referral(request, pk):
             # nxt = request.POST.get('next', '/')
             return redirect('patient_detail_url', pk)
         else:
-           print(referral_form.errors)
+            print(referral_form.errors)
 
 
 def add_prescription(request, pk):
@@ -161,17 +160,30 @@ def administered_treatment(request, pk):
 
 def add_xray_request(request, pk):
     if request.method == 'POST':
-        xray_request = XrayRequestForm(request.POST)
-        print(xray_request.is_valid())
+        xray_form = XrayRequestForm(request.POST)
+        print(xray_form.is_valid())
         patient = Patient.objects.get(id=pk)
         staff = Staff.objects.get(basic_id=request.user.id)
         hospital = staff.hospital
         context = {'patient': patient, 'staff': staff, 'hospital': hospital}
-
-        if xray_request.is_valid():
-            print('valid')
-            xray_request.save_xray_request(context)
+        if xray_form.is_valid():
+            xray_form.save_xray_request(context)
             # nxt = request.POST.get('next', '/')
-            return redirect('physician/forms/xray_form.html', pk)
+            return redirect('radiology_request_url', pk)
         else:
-           print(xray_request.requested_to.errors)
+            print(xray_form.errors)
+
+
+def add_ultrasound_request(request, pk):
+    ultrasound_request = UltrasoundRequestForm(request.POST)
+    print(ultrasound_request.is_valid())
+    patient = Patient.objects.get(id=pk)
+    staff = Staff.objects.get(basic_id=request.user.id)
+    hospital = staff.hospital
+    context = {'patient': patient, 'staff': staff, 'hospital': hospital}
+    if ultrasound_request.is_valid():
+        ultrasound_request.save_ultrasound_request(context)
+        # nxt = request.POST.get('next', '/')
+        return redirect('radiology_request_url', pk)
+    else:
+        print(ultrasound_request.errors)
