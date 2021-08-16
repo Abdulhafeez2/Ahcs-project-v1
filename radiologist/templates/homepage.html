@@ -40,8 +40,11 @@
 {% endblock main_menu_list%}
 
 {% block content %}
-    {% if rqst_list %}
+    {% if request_list.all %}
         {% include 'radiologist/request_table.html' %}
+    {% else %}
+<p>You have no Radiology Request</p>
     {% endif %}
+
       <!-- /.content -->
  {% endblock %}

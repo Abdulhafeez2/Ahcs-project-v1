@@ -1,3 +1,6 @@
+import datetime
+import os.path
+
 from django.db import models
 
 # Create your models here.
@@ -66,6 +69,13 @@ class Prescription(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
 
+def filepath(request, filename):
+    old_filename = filename
+    timeNow = datetime.datetime.now()
+    filename = "%s%s", (timeNow, old_filename)
+    return os.path.join('images/', filename)
+
+
 class UltraSound(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     organ_to_be_examined = models.CharField(max_length=50)
@@ -73,9 +83,8 @@ class UltraSound(models.Model):
     requested_to = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name='ultrasound_requested_to')
     hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE)
     date_of_request = models.DateTimeField(auto_now_add=True)
-    ultra_sound_image = models.ImageField(null=True)
+    ultra_sound_image = models.ImageField(upload_to='images/', blank=True, null=True)
     sonographic_report = models.TextField(null=True)
-    reported_by = models.ForeignKey(Staff, null=True, on_delete=models.CASCADE, related_name='ultrasound_reported_by')
     date_of_report = models.DateTimeField(null=True)
     status = models.CharField(max_length=50, default='pending')
 
@@ -87,8 +96,7 @@ class XrayExamination(models.Model):
     requested_by = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name='xray_requested_by')
     hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE)
     date_of_request = models.DateTimeField(auto_now_add=True)
-    x_ray_image = models.ImageField(null=True)
-    x_ray_report = models.TextField(null=True)
+    x_ray_image = models.ImageField(upload_to='images/', blank=True, null=True)
     impressions = models.TextField(null=True)
     requested_to = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name='xray_requested_to')
     date_of_report = models.DateTimeField(null=True)

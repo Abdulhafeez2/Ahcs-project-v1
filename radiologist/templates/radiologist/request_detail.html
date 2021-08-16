@@ -43,6 +43,7 @@
                 </div>
                 {% if specialty == "X-ray" %}
                 <div class="col-lg-8 col-md-12">
+                    <a class="btn btn-danger float-right"  href="{% url 'remove_from_list_url' user_profile.id %}">Remove from List</a>
                     <div class="card">
                             <ul class="nav nav-tabs-new2">
                                 <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#view_x_ray_request">X-ray Request Detail</a></li>
@@ -53,8 +54,6 @@
                     <div class="tab-pane active" id="view_x_ray_request">
                         <div class="row">
                         <div class="col-md-12">
-                        <form action="#" method="POST">
-                            {%csrf_token%}
                             <label class="text-success">Pertinent clinical history, Operation,Physical, Findings & Diagnosis  </label>
                             <div class="form-group">
                                 <p>{{rqst.finding_and_diagnosis}}</p>
@@ -66,7 +65,6 @@
                                 <p>{{rqst.examination_requested}}</p>
                             </div>
                             </div>
-                        </form>
                         </div>
                         </div>
 
@@ -79,19 +77,16 @@
                               <h5 class="card-title">X-ray Result Form</h5>
                             </div>
                             <div class="card-body">
-                                <form action="#" method="POST">
+                                <form action="{% url 'request_detail_url' user_profile.id %}" enctype="multipart/form-data" method="POST">
                                     {%csrf_token%}
                                     <div class="form-group">
-
                                         <label for="inputDescription">Impression </label>
-                                        <textarea class="form-control"></textarea>
+                                        {{ result_form.impression}}
                                     </div>
                                     <div class="form-group">
 
-                                        <label for="inputDescription">Imaging Result </label>
-                                         <div class="body">
-                                             <input type="file" class="dropify">
-                                         </div>
+                                        <label for="inputDescription">X-ray imaging Result: </label>
+                                             {{ result_form.x_ray_image }}
                                     </div>
                                     <div class="col-4">
                                         <input type="submit" value="Attach" class="btn btn-success">
@@ -104,7 +99,6 @@
                    </div>
                    </div>
                    </div>
-
                     </div>
                 </div>
             </div>
@@ -112,6 +106,8 @@
                 {% elif specialty == "Ultrasound" %}
 
                 <div class="col-lg-8 col-md-12">
+                    <a class="btn btn-danger float-right"  href="{% url 'remove_from_list_url' user_profile.id %}">Remove from List</a>
+
                     <div class="card">
                             <ul class="nav nav-tabs-new2">
                                     <li class="nav-item"><a class="nav-link active " data-toggle="tab" href="#view_ultrasound_request">Ultrasound Request Detail</a></li>
@@ -122,14 +118,11 @@
                           <div class="tab-pane active" id="view_ultrasound_request">
                         <div class="row">
                         <div class="col-md-12">
-                        <form action="#" method="POST">
-                            {%csrf_token%}
                             <label class="text-success">Organ to be examined </label>
                             <br>
                             <div class="form-group">
                                 <p>{{ rqst.organ_to_be_examined}}</p>
                             </div>
-                        </form>
                         </div>
                         </div>
 
@@ -145,19 +138,17 @@
                               <h5 class="card-title">Ultrsound Result Form</h5>
                             </div>
                             <div class="card-body">
-                                <form action="#" method="POST">
+                                <form action="{% url 'request_detail_url' user_profile.id %}" enctype="multipart/form-data" method="POST">
                                     {%csrf_token%}
                                     <div class="form-group">
-
-                                        <label for="inputDescription">Sonograhic Report </label>
-                                        <textarea class="form-control"></textarea>
+                                        {{ result_from.sonographic_report.errors }}
+                                        <label for="inputDescription">Sonographic Report </label>
+                                        {{ result_form.sonographic_report}}
                                     </div>
                                     <div class="form-group">
-
+                                        {{ result_form.ultrasound_image.errors }}
                                         <label for="inputDescription">Imaging Result </label>
-                                         <div class="body">
-                                             <input type="file" class="dropify">
-                                         </div>
+                                        {{ result_form.ultrasound_image }}
                                     </div>
                                     <div class="col-4">
                                         <input type="submit" value="Attach" class="btn btn-success">
