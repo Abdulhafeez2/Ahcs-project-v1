@@ -78,7 +78,9 @@ def patient_detail(request, pk):
         vital_sign = None
     try:
         referral = Referral.objects.get(patient_id=pk, status='pending')
+        print(referral)
     except:
+        print("no referral")
         referral = None
     patient_form = AddPatientForm
     prescription_form = PrescriptionForm
@@ -92,6 +94,8 @@ def patient_detail(request, pk):
                'referral': referral, 'referral_request': referral_request,
                'latest_patient_form': latest_patient_form, 'administered_treatment': administered_treatment}
     return render(request, "physician/patient_detail.html", context)
+
+
 
 
 def lab_request(request):
@@ -187,3 +191,23 @@ def add_ultrasound_request(request, pk):
         return redirect('radiology_request_url', pk)
     else:
         print(ultrasound_request.errors)
+
+
+def view_lab_result_waiting_list(request):
+    context={}
+    return render(request, "physician/forms/lab_result_waiting_list.html", context)
+
+
+def view_radiology_result_waiting_list(request):
+    context = {}
+    return render(request, "physician/forms/radiology_result_wating_list.html", context)
+
+
+def patient_radiology_result_detail(request):
+    context = {}
+    return render(request, "physician/forms/Patient_radiology_result.html", context)
+
+
+def medical_history(request):
+    context = {}
+    return render(request, "physician/forms/medical_history.html", context)

@@ -17,5 +17,11 @@ urlpatterns = [
     path('add_prescription/<str:pk>/', views.add_prescription, name='add_prescription_url'),
     path('remove_from_list/<str:pk>/', views.remove_from_list, name='remove_from_list_url'),
     path('add_administered_treatment/<str:pk>/', views.administered_treatment, name='add_administered_treatment_url'),
+    path('View_lab_result_waiting_list/', views.view_lab_result_waiting_list, name='view_lab_result_waiting_list_url'),
+    path('View_radiology_result_waiting_list/', views.view_radiology_result_waiting_list, name='view_radiology_list_url'),
+    path('patient_radiology_result_detail/', views.patient_radiology_result_detail, name='patient_radiology_detail_url'),
+    path('medical_history/',views.medical_history,name='medical_history_url')
+
+    # path('refer/<str:value>/', views.find_available_physician, name="find_available_physician_url"),
 ]
 

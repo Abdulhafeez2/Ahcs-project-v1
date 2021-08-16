@@ -18,16 +18,7 @@
                     <div class="card">
                         <div class="header">
                             <h2><strong>Info</strong></h2>
-                            <ul class="header-dropdown">
-                                <li class="dropdown">
-                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
-                                    <ul class="dropdown-menu dropdown-menu-right">
-                                        <li><a href="javascript:void(0);">Action</a></li>
-                                        <li><a href="javascript:void(0);">Another Action</a></li>
-                                        <li><a href="javascript:void(0);">Something else</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
+
                         </div>
                         <div class="body">
                             <small class="text-muted">Address: </small>
@@ -62,7 +53,7 @@
                                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#administered_treatment">Administered treatment form</a></li>
                                 <li class="nav-item"><a class="nav-link"  href="{% url 'radiology_request_url' user_profile.id %}">Radiology Request</a></li>
                                 <li class="nav-item"><a class="nav-link"  href="{% url 'lab_request_url' user_profile.id %}">Lab Request</a></li>
-                                <li class="nav-item"><a class="nav-link"  href="">Medical History</a></li>
+                                <li class="nav-item"><a class="nav-link"  href="{% url 'medical_history_url'%}">Medical History</a></li>
 
 
 
@@ -195,7 +186,7 @@
                                 <div class="col-sm-8">
                                 {{ referral_request.referred_to_hospital.errors }}
                                 <label for="information">Refer to Hospital</label>
-                                {{ referral_request.referred_to_hospital }}
+                                {{referral_request.referred_to_hospital}}
                                 </div>
                             </div>
 
@@ -275,7 +266,7 @@
 </div>
 
 <script>
-    function find_available_Hospital(value)
+    function requested_to(value)
     {
         var xmlHttp = new XMLHttpRequest();
         xmlHttp.open( "GET", "http://127.0.0.1:8000/nurse/avaliable_physician/" +value, false ); // false for synchronous request

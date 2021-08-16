@@ -1,0 +1,88 @@
+{% extends 'physician/physician_dashboard.html' %}
+{% block  content%}
+<ul class="nav nav-tabs">
+                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#x-ray">X-ray Request Form</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#ultrasound">Ultrasound Request Form</a></li>
+
+            </ul>
+                
+            <!-- Tab panes -->
+            <div class="tab-content p-l-0 p-r-0">
+                <div class="tab-pane active" id="x-ray">
+                    <nav class="sidebar-nav">
+                        <div class="row" >
+        <div class="col-md-8">
+          <div class="card card-primary ">
+            <div class="card-header">
+              <h5 class="card-title">X-ray Result Form</h5>
+            </div>
+            <div class="card-body">
+                <form action="#" method="POST">
+                    {%csrf_token%}
+              <div class="form-group" >
+                  {{xray_form.finding_and_diagnosis.errors}}
+                <label for="inputName">Sonographic Result </label>
+                  <p>the x-ray result.....................</p>
+              </div>
+              <div class="form-group">
+                  {{xray_form.examination_requested.errors}}
+                <label for="inputDescription">Imagining Result </label>
+                  <div class="form-control">
+                <img src="../assets/images/xs/avatar9.jpg" data-toggle="tooltip" data-placement="top" title="Dr. Avatar" alt="Avatar">
+              </div>
+                  </div>
+
+                </form>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+    </nav>
+</div>
+                <div class="tab-pane p-l-15 p-r-15" id="ultrasound">
+                    <div class="row" >
+        <div class="col-md-8">
+          <div class="card card-primary ">
+            <div class="card-header">
+              <h3 class="card-title">Ultrasound Result Form</h3>
+            </div>
+            <div class="card-body">
+                <form action="#" method="POST">
+                    {%csrf_token%}
+              <div class="form-group">
+                <label for="inputDescription"> </label>
+                  {{ultrasound_form.organ_to_be_examined.errors}}
+                        <label for="information">Result of examination</label>
+                  <p>Result of the examination .....</p>
+              </div>
+                 <div class="form-group">
+                  {{xray_form.examination_requested.errors}}
+                <label for="inputDescription">Imagining Result </label>
+                     <div class="form-control">
+                <img src="../assets/images/xs/avatar9.jpg" data-toggle="tooltip" data-placement="top" title="Dr. Avatar" alt="Avatar">
+                        </div>
+              </div>
+
+                </form>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+
+                </div>
+
+            </div> 
+    <!-- /.content 
+
+
+
+{% endblock  %}
+
+
+
+
+

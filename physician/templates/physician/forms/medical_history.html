@@ -1,0 +1,145 @@
+{% extends 'physician/physician_dashboard.html' %}
+{% block  content%}
+<ul class="nav nav-tabs">
+                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#patient_form">Patient Form</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#ultrasound">Vital Signs</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#prescribed_medication">Prescribed medications</a></li>
+
+            </ul>
+                
+            <!-- Tab panes -->
+            <div class="tab-content p-l-0 p-r-0">
+                <div class="tab-pane active" id="patient_form">
+                    <nav class="sidebar-nav">
+                        <div class="row" >
+        <div class="col-md-8">
+          <div class="card card-primary ">
+            <div class="card-header">
+              <h5 class="card-title">Patinet Form</h5>
+            </div>
+            <div class="card-body">
+                <div class="row clearfix">
+
+                                <div class="col-md-12">
+                                    <div>
+                                <p class="m-b-0 float-right"><b>Date: </b>{{vital_sign.taken_date.date}}</p>
+                                        <br>
+                                <p class="m-b-0 float-right"><b>At: </b>{{vital_sign.taken_date.time}}</p>
+                                    </div>
+                                    <h6>Last Patient Form</h6>
+                                    {% if latest_patient_form %}
+                                    <div class="col-md-12 text-right">
+                                    <p class="m-b-0"><b>Date Added: </b>{{latest_patient_form.date.date}}</p>
+                                    </div>
+                                    <p>{{latest_patient_form.note}}</p>
+                                    {% else %}
+                                    <p><strong>No patient form yet</strong></p>
+                                    {% endif %}
+                                </div>
+                            </div>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+    </nav>
+</div>
+                <div class="tab-pane " id="prescribed_medication">
+                    <nav class="sidebar-nav">
+                        <div class="row" >
+        <div class="col-md-8">
+          <div class="card card-primary ">
+            <div class="card-header">
+              <h5 class="card-title">Prescription Forms</h5>
+            </div>
+            <div class="card-body">
+                <div class="row clearfix">
+
+                                <div class="col-md-12">
+                                    <div>
+                                <p class="m-b-0 float-right"><b>Date: </b>{{vital_sign.taken_date.date}}</p>
+                                        <br>
+                                <p class="m-b-0 float-right"><b>At: </b>{{vital_sign.taken_date.time}}</p>
+                                    </div>
+                                    <h6>Medication Prescription</h6>
+                                        {% if latest_patient_form %}
+                                    <div class="col-md-12 text-right">
+                                    <p class="m-b-0"><b>Date Added: </b>{{latest_patient_form.date.date}}</p>
+                                    </div>
+                                    <p>{{latest_patient_form.note}}</p>
+                                    {% else %}
+                                    <p><strong>No prescription Yet</strong></p>
+                                    {% endif %}
+                                </div>
+                            </div>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+    </nav>
+</div>
+                <div class="tab-pane p-l-15 p-r-15" id="ultrasound">
+                    <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>Vital Signs List</h2>
+                        </div>
+                        <div class="body">
+                            <div class="table-responsive">
+                                <table class="table table-hover js-basic-example dataTable table-custom">
+                                    <thead class="thead-success">
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Date</th>
+                                            <th>Weight</th>
+                                            <th>Height</th>
+                                            <th>BMI</th>
+                                            <th>Systolic BP</th>
+                                            <th>Diastolic BP</th>
+                                            <th>Heart Rate</th>
+                                            <th>Temp</th>
+                                            <th>Allergies</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for patient in patient_waiting_list %}
+                                            <tr>
+                                                <td>{{forloop.counter}}</td>
+                                                <td>{{patient.patient.basic.username}}</td>
+                                                <td>{{patient.patient.basic.first_name}}</td>
+                                                <td>{{patient.patient.basic.last_name}}</td>
+                                                <td>{{patient.patient.basic.middle_name}}</td>
+                                                <td>{{patient.patient.basic.age}}</td>
+                                                <td>{{patient.patient.basic.sex}}</td>
+                                                <td><a href="{% url 'patient_detail_url' patient.patient.id %}">
+                                                        <button type="button" class="btn btn-primary">Accept</button>
+                                                    </a>
+                                                </td>
+                                            <tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                </div>
+
+            </div> 
+    <!-- /.content 
+
+
+
+{% endblock  %}
+
+
+
+
+
