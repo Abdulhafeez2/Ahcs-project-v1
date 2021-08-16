@@ -40,9 +40,8 @@
 {% endblock main_menu_list%}
 
 {% block content %}
- {% include 'radiologist/request_table.html' %}
-    {% if triage %}
-        {% include 'nurse/form/triage_table.html' %}
+    {% if rqst_list %}
+        {% include 'radiologist/request_table.html' %}
     {% endif %}
       <!-- /.content -->
  {% endblock %}

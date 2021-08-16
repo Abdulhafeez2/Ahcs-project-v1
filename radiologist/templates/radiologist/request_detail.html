@@ -44,16 +44,13 @@
                 <div class="col-lg-8 col-md-12">
                     <div class="card">
                             <ul class="nav nav-tabs-new2">
-                                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#view_x_ray_request">View X-ray Request</a></li>
-                                <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#view_ultrasound_request">View Ultrasound Request</a></li>
-                                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#add_x_ray_result">Add X-ray Result</a></li>
-                                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#add_ultrasound_result">Add Ultrasound-ray Result</a></li>
-
-
-
-
-
-
+                                {% if specialty == "X-ray" %}
+                                    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#view_x_ray_request">X-ray Request Detail</a></li>
+                                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#add_x_ray_result">Add X-ray Result</a></li>
+                                 {% elif specialty == "Ultrasound" %}
+                                    <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#view_ultrasound_request">Ultrasound Request Detail</a></li>
+                                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#add_ultrasound_result">Add Ultrasound Result</a></li>
+                                {% endif %}
                             </ul>
                             <div class="tab-content mt-3">
 
@@ -97,9 +94,8 @@
                                 <p>Organ to be examined...</p>
                             </div>
                             <div class="col-4">
-                                        <input type="submit" value="Accept" class="btn btn-success">
-                                    </div>
-
+                                <input type="submit" value="Accept" class="btn btn-success">
+                            </div>
 
                         </form>
                         </div>
