@@ -1,7 +1,7 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.template.loader import get_template
-
+from django.contrib import messages
 from accounts.models import User
 from login import decorators
 from .forms import *
@@ -29,6 +29,7 @@ def add_new_user(request):
         context = {'hospital': hospital}
         if form.is_valid():
             new_user = form.save(context)
+            messages.success(request, "Staff registered Successfully")
 
             msg = "Staff registered"
             context = {'username': new_user['username'], 'password': new_user['password']}
@@ -45,6 +46,7 @@ def add_new_user(request):
             # create a pdf
             pisa_status = pisa.CreatePDF(html, dest=response)
             #if error then show some funy view
+
             if pisa_status.err:
                 return HttpResponse('We had some errors <pre>' + html + '</pre>')
             return response

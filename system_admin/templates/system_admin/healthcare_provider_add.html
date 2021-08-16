@@ -7,7 +7,9 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row clearfix">
+
+
+        <div class="row clearfix">
         <form action="{% url 'add_new_healthcare_provider_url'%}" method="post">
             {% csrf_token %}
 
@@ -217,5 +219,13 @@
                 <br>
             </div>
         </form>
+
     </div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+ {% for msg in messages %}
+    swal('{{msg}}')
+ {% endfor %}
+</script>
 {% endblock %}

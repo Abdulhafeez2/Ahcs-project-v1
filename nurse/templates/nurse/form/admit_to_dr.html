@@ -10,7 +10,7 @@
                 <div class="col-lg-4 col-md-12">
                     <label>Select Department</label>
                     <select id="department-selection" name="department_selection"
-                            onclick="find_available_physician(this.value)"  class="">
+                            onclick="find_available_physician(this.value)"  class="form-control">
                         {% for specialty in distinct %}
                         <option value="{{ specialty.specialty }}">{{ specialty.specialty }}</option>
                         {% endfor %}

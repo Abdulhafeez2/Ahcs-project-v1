@@ -30,27 +30,13 @@
 {% endblock navheaderlist%}
 
 {% block main_menu_list%}
-    <li><a href="javascript:void(0);" class="has-arrow"><i class="icon-user-follow"></i><span>Add</span> </a>
-        <ul>
-            <li><a href="{% url 'add_prescription' %}">Add prescription</a></li>
-             <li><a href="doctor-profile.html">Add administered treatment</a></li>
-        </ul>
-    </li>
-    <li><a href="javascript:void(0);" class="has-arrow"><i class="icon-user"></i><span>Requests</span> </a>
-        <ul>
-            <li><a href="#">Laboratory Request</a></li>
-            <li><a href="#">Radiology Request</a></li>
-            <li><a href="patient-profile.html">Referral Request</a></li>
-        </ul>
-    </li>
+
      <li><a href="javascript:void(0);" class="has-arrow"><i class="icon-wallet"></i><span>View</span> </a>
         <ul>
-            <li><a href="{% url 'view_waiting_list' %}">View patient waiting list</a></li>
-            <li><a href="payments-add.html">View Lab result</a></li>
+            <li><a href="{% url 'view_lab_result_waiting_list_url' %}">View lab result waiting list</a></li>
+            <li><a href="{% url 'view_radiology_list_url'%}">View Radiology result waiting list</a></li>
             <li><a href="payments-invoice.html">View medical history</a></li>
             <li><a href="payments-invoice.html">View suggestion</a></li>
-            <li><a href="payments-invoice.html">View Referral</a></li>
-            <li><a href="payments-invoice.html">View Imaging result</a></li>
         </ul>
       </li>
 {% endblock main_menu_list%}

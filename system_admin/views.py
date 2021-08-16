@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from accounts.models import *
 # Create your views here.
 from hospital_admin.forms import UserRegistrationForm
 from system_admin.forms import HealthCareProviderRegistrationForm
-
+from django.contrib import messages
 
 def homepage(request):
     context = {}
@@ -25,6 +25,8 @@ def add_new_healthcare_provider(request):
                 admin_type = 'hospital admin'
             admin = form1.save_admin(admin_type)
             form.save_healthcare_provider(admin["admin_id"])
+            messages.success(request,"Health Care Provider Registered Succesfully")
+            return redirect('add_new_healthcare_provider_url')
     else:
         form = HealthCareProviderRegistrationForm
         form1 = UserRegistrationForm
