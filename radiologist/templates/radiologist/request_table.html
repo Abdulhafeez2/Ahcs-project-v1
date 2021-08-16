@@ -20,20 +20,20 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-
+                                    {% for rqst in request_list %}
                                             <tr>
-                                                <td>1</td>
-                                                <td>username</td>
-                                                <td>firstname</td>
-                                                <td>middle name</td>
-                                                <td>last name</td>
-                                                <td>age</td>
-                                                <td>sex</td>
+                                                <td>{{forloop.counter}}</td>
+                                                <td>{{rqst.patient.basic.username}}</td>
+                                                <td>{{rqst.patient.basic.first_name}}</td>
+                                                <td>{{rqst.patient.basic.middle_name}}</td>
+                                                <td>{{rqst.patient.basic.last_name}}</td>
+                                                <td>{{rqst.patient.basic.age}}</td>
+                                                <td>{{rqst.patient.basic.sex}}</td>
                                                 <td>
-                                                    <a href="{% url 'request_detail_url' %}" ><button class="btn btn-primary">View detail </button></a>
+                                                    <a href="{% url 'request_detail_url' rqst.patient.id %}" ><button class="btn btn-primary">View detail </button></a>
                                                 </td>
                                             <tr>
-
+                                    {% endfor %}
                                     </tbody>
                                 </table>
                             </div>

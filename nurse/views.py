@@ -92,7 +92,7 @@ def assign_doctor(request):
     staff = Staff.objects.get(basic_id=User.objects.get(username=doctor).id)
     staff.num_waiting = staff.num_waiting + 1
     staff.save()
-    triage = Triage.objects.get(patient_id=Patient.objects.get(basic_id=patient), status='pending')
+    triage = Triage.objects.get(patient_id=Patient.objects.get(basic_id=patient), hospital_id=staff.hospital_id, status='pending')
     triage.status = 'approved'
     triage.save()
     return redirect('nurse_homepage_url')

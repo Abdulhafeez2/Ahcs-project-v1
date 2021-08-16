@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from accounts.models import Hospital, Staff
-from patient.models import UltraSound, XrayExamination
+from patient.models import UltraSound, XrayExamination, Patient
 
 
 def radiologist_homepage(request):
@@ -35,9 +35,18 @@ def radiologist_homepage(request):
             return render(request, 'homepage.html', context)
 
 
-def request_detail(request):
+def request_detail(request, pk):
     hospital = Hospital.objects.get(id=Staff.objects.get(basic_id=request.user.id).hospital_id)
     staff = Staff.objects.get(basic_id=request.user.id)
+    user_profile = Patient.objects.get(id=pk)
     specialty = staff.specialty
-    context = {'hospital': hospital, 'specialty': specialty}
+    rqst = None
+    if specialty == 'Ultrasound':
+        rqst = UltraSound.objects.get(hospital_id=hospital.id, requested_to_id=staff.id,
+                                                     patient_id=pk, status='pending')
+    elif specialty == 'X-ray':
+        rqst = XrayExamination.objects.get(hospital_id=hospital.id, requested_to_id=staff.id,
+                                              patient_id=pk, status='pending')
+
+    context = {'hospital': hospital, 'specialty': specialty, 'user_profile': user_profile, 'rqst': rqst}
     return render(request, 'radiologist/request_detail.html', context)
