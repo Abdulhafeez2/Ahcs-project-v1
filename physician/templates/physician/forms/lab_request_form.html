@@ -205,36 +205,42 @@
               <h5 class="card-title">Hematology Lab Request Form</h5>
             </div>
             <div class="card-body">
+                <form action="{% url 'add_hematology_request_url' pk %}" method="POST">
+                            {%csrf_token%}
               <div class="form-group" >
                 <label>Hematology Examinaions</label>
                                     <br/>
                                     <div class="text-primary">
                                     <label class="fancy-checkbox">
-                                        {{hematology.cbc}}
+                                        {{hematology.CBC}}
                                         <span>CBC</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.bc}}
+                                        {{hematology.BE}}
                                         <span>BC</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.twc}}
-                                        <span>TWC</span>
+                                        {{hematology.TWBC}}
+                                        <span>TWBC</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.differntial}}
-                                        <span>Differntial</span>
+                                        {{hematology.differential}}
+                                        <span>Differential</span>
                                     </label>
                                     <label class="fancy-checkbox">
                                         {{hematology.neutrophil}}
                                         <span>Neutrophil(%)</span>
                                     </label>
+                                        <label class="fancy-checkbox">
+                                        {{hematology.lymphocyte}}
+                                        <span>lymphocyte(%)</span>
+                                    </label>
                                     </div>
                                     <br>
                                     <div class="text-success" >
                                     <label class="fancy-checkbox">
-                                        {{hematology.eosinophil}}
-                                        <span>Eosinophil(%)</span>
+                                        {{hematology.eocynophil}}
+                                        <span>Eocynophil(%)</span>
                                     </label>
                                     <label class="fancy-checkbox">
                                         {{hematology.basophiles}}
@@ -246,35 +252,35 @@
                                         <span>Monocyt(g/dl)</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.hemoglobin}}
+                                        {{hematology.haemoglobin}}
                                         <span>Hemoglobin(%)</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.hemotcrit}}
+                                        {{hematology.hemo_TCRIT}}
                                         <span>Hemotcrit(ft)</span>
                                     </label>
                                     </div>
                                     <br>
                                     <div class="text-warning">
                                     <label class="fancy-checkbox">
-                                        {{hematology.mcv}}
+                                        {{hematology.MCV}}
                                         <span>MCV</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.mch}}
+                                        {{hematology.MCH}}
                                         <span>MCH(pg)</span>
                                     </label>
 
                                     <label class="fancy-checkbox">
-                                        {{hematology.mchc}}
+                                        {{hematology.MCHC}}
                                         <span>MCHC(pg)</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.rbc}}
+                                        {{hematology.RBC}}
                                         <span>RBC(cell/mm)</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.rbc_morphology}}}}
+                                        {{hematology.RBC_morphology}}
                                         <span>RBC Morphology</span>
                                     </label>
                                     </div>
@@ -285,7 +291,7 @@
                                         <span>Platelet Count</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.esr}}
+                                        {{hematology.EST}}
                                         <span>ESR</span>
                                     </label>
 
@@ -296,7 +302,7 @@
 
 
                                     <label class="fancy-checkbox">
-                                        {{hematology.clot_reaction}}
+                                        {{hematology.clot_retraction}}
                                         <span>Clot Reaction</span>
                                     </label>
                                     <label class="fancy-checkbox">
@@ -307,15 +313,15 @@
                                     <br>
                                     <div class="text-info">
                                     <label class="fancy-checkbox">
-                                        {{hematology.prothromin_time}}
+                                        {{hematology.prothrombin_time}}
                                         <span>Prothromin Time</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.p_t_t}}
+                                        {{hematology.PTT}}
                                         <span>P.T.T</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.fbs_rbs}}
+                                        {{hematology.FBS_RBS}}
                                         <span>FBS/RBS</span>
                                     </label>
                                     <label class="fancy-checkbox">
@@ -330,15 +336,21 @@
                                     <br>
                                     <div class="text-secondary">
                                     <label class="fancy-checkbox">
-                                        {{hematology.coomos_test}}
+                                        {{hematology.coombs_test}}
                                         <span>Coomos Test</span>
                                     </label>
                                     <label class="fancy-checkbox">
-                                        {{hematology.cd4}}
+                                        {{hematology.CD4}}
                                         <span>CD4</span>
                                     </label>
                                         </div>
                                 </div>
+                    <div class="row">
+        <div class="col-6">
+          <input type="submit" value="Send Request" class="btn btn-success float-right">
+        </div>
+      </div>
+                </form>
 
             </div>
             <!-- /.card-body -->
@@ -346,12 +358,7 @@
           <!-- /.card -->
         </div>
       </div>
-      <div class="row">
-        <div class="col-6">
-          <a href="#" class="btn btn-danger">Cancel</a>
-          <input type="submit" value="Send Request" class="btn btn-success float-right">
-        </div>
-      </div>
+
                 </div>
                 <div class="tab-pane p-l-15 p-r-15" id="city_scan">
                     <div class="row" >

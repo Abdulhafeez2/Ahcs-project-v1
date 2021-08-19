@@ -129,7 +129,7 @@ class Hematology(models.Model):
     MCH = models.SmallIntegerField(null=True)
     MCHC = models.SmallIntegerField(null=True)
     RBC = models.SmallIntegerField(null=True)
-    RBC_morophology = models.SmallIntegerField(null=True)
+    RBC_morphology = models.SmallIntegerField(null=True)
     platlet_count = models.SmallIntegerField(null=True)
     EST = models.SmallIntegerField(null=True)
     bleeding_time_test = models.CharField(max_length=50, null=True)

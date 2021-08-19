@@ -23,6 +23,8 @@ urlpatterns = [
     path('medical_history/',views.medical_history,name='medical_history_url'),
     path('add_stool_examination_request/<str:pk>/', views.add_stool_examination_request, name='add_stool_examination_request_url'),
     path('add_urine_analysis_request/<str:pk>/', views.add_urine_analysis_request, name='add_urine_analysis_request_url'),
+    path('add_hematology_request/<str:pk>/', views.add_hematology_request, name='add_hematology_request_url'),
+
 
     # path('refer/<str:value>/', views.find_available_physician, name="find_available_physician_url"),
 ]

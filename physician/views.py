@@ -12,7 +12,8 @@ from login import decorators
 
 # @login_required(login_url='login_url')
 # @decorators.physicianonly
-from patient.models import Patient, VitalSign, PatientForm, UltraSound, XrayExamination, StoolExamination, UrineAnalysis
+from patient.models import Patient, VitalSign, PatientForm, UltraSound, XrayExamination, StoolExamination, \
+    UrineAnalysis, Hematology
 from physician.forms import AddPatientForm, ReferralRequestForm, PrescriptionForm, AdministeredTreatmentForm, \
     XrayRequestForm, UltrasoundRequestForm, UrineAnalysisRequestForm, StoolExaminationRequestForm, \
     HematologyExaminationRequestForm
@@ -282,6 +283,32 @@ def add_urine_analysis_request(request, pk):
                 if urine_analysis.cleaned_data.get(urine.name):
                     setattr(urine_analysis_object, urine.name, 1)
             urine_analysis_object.save()
+            lab_tech = Staff.objects.get(id=lab_technician.id)
+            lab_tech.num_waiting = staff.num_waiting + 1
+            lab_tech.save()
+            return redirect('lab_request_url', pk)
+
+
+def add_hematology_request(request, pk):
+    if request.method == 'POST':
+        hematology_request = HematologyExaminationRequestForm(request.POST)
+        patient = Patient.objects.get(id=pk)
+        staff = Staff.objects.get(basic_id=request.user.id)
+        hospital = staff.hospital
+        context = {'patient': patient, 'staff': staff, 'hospital': hospital}
+        if hematology_request.is_valid():
+            lab_technician = Staff.objects.filter(hospital_id=context['hospital'].id, specialty='Lab_technician'). \
+                order_by('-num_waiting').last()
+            hematology_object = Hematology.objects.create(
+                patient_id=patient.id,
+                requested_by_id=staff.id,
+                requested_to_id=lab_technician.id,
+                hospital_id=hospital.id,
+            )
+            for hematology in hematology_request:
+                if hematology_request.cleaned_data.get(hematology.name):
+                    setattr(hematology_object, hematology.name, 1)
+            hematology_object.save()
             lab_tech = Staff.objects.get(id=lab_technician.id)
             lab_tech.num_waiting = staff.num_waiting + 1
             lab_tech.save()
