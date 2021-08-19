@@ -12,9 +12,10 @@ from login import decorators
 
 # @login_required(login_url='login_url')
 # @decorators.physicianonly
-from patient.models import Patient, VitalSign, PatientForm
+from patient.models import Patient, VitalSign, PatientForm, UltraSound, XrayExamination, StoolExamination, UrineAnalysis
 from physician.forms import AddPatientForm, ReferralRequestForm, PrescriptionForm, AdministeredTreatmentForm, \
-    XrayRequestForm, UltrasoundRequestForm
+    XrayRequestForm, UltrasoundRequestForm, UrineAnalysisRequestForm, StoolExaminationRequestForm, \
+    HematologyExaminationRequestForm
 from physician.models import PatientWaitingList, Referral
 
 
@@ -96,10 +97,11 @@ def patient_detail(request, pk):
     return render(request, "physician/patient_detail.html", context)
 
 
-
-
-def lab_request(request):
-    context = {}
+def lab_request(request, pk):
+    urine_analysis = UrineAnalysisRequestForm
+    stool = StoolExaminationRequestForm
+    hematology = HematologyExaminationRequestForm
+    context = {'urine_analysis': urine_analysis, 'stool': stool, 'hematology': hematology, 'pk': pk}
     return render(request, "physician/forms/lab_request_form.html", context)
 
 
@@ -194,20 +196,93 @@ def add_ultrasound_request(request, pk):
 
 
 def view_lab_result_waiting_list(request):
-    context={}
+    hospital = Hospital.objects.get(id=Staff.objects.get(basic_id=request.user.id).hospital_id)
+    staff = Staff.objects.get(basic_id=request.user.id)
+    specialty = staff.specialty
+    if specialty == 'Ultrasound':
+        report = UltraSound.objects.get(hospital_id=hospital.id, requested_by_id=staff.id, status='reported')
+    elif specialty == 'X-ray':
+        report = XrayExamination.objects.get(hospital_id=hospital.id, requested_by_id=staff.id, status='reported')
+
+    context = {}
     return render(request, "physician/forms/lab_result_waiting_list.html", context)
 
 
 def view_radiology_result_waiting_list(request):
-    context = {}
+    hospital = Hospital.objects.get(id=Staff.objects.get(basic_id=request.user.id).hospital_id)
+    staff = Staff.objects.get(basic_id=request.user.id)
+    reports = {}
+    ultra_report = UltraSound.objects.filter(hospital_id=hospital.id, requested_by_id=staff.id, status='reported')
+    if ultra_report.all:
+        reports['ultra'] = ultra_report
+    xray_report = XrayExamination.objects.filter(hospital_id=hospital.id, requested_by_id=staff.id, status='reported')
+    if xray_report.all:
+        reports['xray'] = 'xray_report'
+    context = {'ultra_report': ultra_report, 'xray_report': xray_report, 'reports': reports}
     return render(request, "physician/forms/radiology_result_wating_list.html", context)
 
 
-def patient_radiology_result_detail(request):
-    context = {}
+def patient_radiology_result_detail(request, pk):
+    hospital = Hospital.objects.get(id=Staff.objects.get(basic_id=request.user.id).hospital_id)
+    staff = Staff.objects.get(basic_id=request.user.id)
+    ultra_report = UltraSound.objects.filter(hospital_id=hospital.id, requested_by_id=staff.id, status='reported', patient_id=pk)
+    xray_report = XrayExamination.objects.filter(hospital_id=hospital.id, requested_by_id=staff.id, status='reported', patient_id=pk)
+    context = {'ultra_report': ultra_report, 'xray_report': xray_report, 'pk': pk}
     return render(request, "physician/forms/Patient_radiology_result.html", context)
 
 
 def medical_history(request):
     context = {}
     return render(request, "physician/forms/medical_history.html", context)
+
+
+def add_stool_examination_request(request, pk):
+    if request.method == 'POST':
+        stool = StoolExaminationRequestForm(request.POST)
+        patient = Patient.objects.get(id=pk)
+        staff = Staff.objects.get(basic_id=request.user.id)
+        hospital = staff.hospital
+        context = {'patient': patient, 'staff': staff, 'hospital': hospital}
+        if stool.is_valid():
+            lab_technician = Staff.objects.filter(hospital_id=context['hospital'].id, specialty='Lab_technician'). \
+                order_by('-num_waiting').last()
+            stool_request = StoolExamination.objects.create(
+                patient_id=patient.id,
+                requested_by_id=staff.id,
+                requested_to_id=lab_technician.id,
+                hospital_id=hospital.id,
+            )
+            for s in stool:
+                if stool.cleaned_data.get(s.name):
+                    setattr(stool_request, s.name, 'requested')
+            stool_request.save()
+            lab_tech = Staff.objects.get(id=lab_technician.id)
+            lab_tech.num_waiting = staff.num_waiting + 1
+            lab_tech.save()
+            return redirect('lab_request_url', pk)
+
+
+def add_urine_analysis_request(request, pk):
+    if request.method == 'POST':
+        urine_analysis = UrineAnalysisRequestForm(request.POST)
+        patient = Patient.objects.get(id=pk)
+        staff = Staff.objects.get(basic_id=request.user.id)
+        hospital = staff.hospital
+        context = {'patient': patient, 'staff': staff, 'hospital': hospital}
+        if urine_analysis.is_valid():
+            lab_technician = Staff.objects.filter(hospital_id=context['hospital'].id, specialty='Lab_technician'). \
+                order_by('-num_waiting').last()
+            urine_analysis_object = UrineAnalysis.objects.create(
+                patient_id=patient.id,
+                requested_by_id=staff.id,
+                requested_to_id=lab_technician.id,
+                hospital_id=hospital.id,
+            )
+            for urine in urine_analysis:
+                if urine_analysis.cleaned_data.get(urine.name):
+                    setattr(urine_analysis_object, urine.name, 1)
+            urine_analysis_object.save()
+            lab_tech = Staff.objects.get(id=lab_technician.id)
+            lab_tech.num_waiting = staff.num_waiting + 1
+            lab_tech.save()
+            return redirect('lab_request_url', pk)

@@ -94,7 +94,7 @@ def remove_from_list(request, pk):
     if specialty == 'Ultrasound':
         rqst = UltraSound.objects.get(hospital_id=hospital.id, requested_to_id=staff.id,
                                       patient_id=pk, status='pending')
-        rqst.status = 'approved'
+        rqst.status = 'reported'
         staff.num_waiting = staff.num_waiting - 1
         rqst.save()
         staff.save()
@@ -102,7 +102,7 @@ def remove_from_list(request, pk):
     elif specialty == 'X-ray':
         rqst = XrayExamination.objects.get(hospital_id=hospital.id, requested_to_id=staff.id,
                                               patient_id=pk, status='pending')
-        rqst.status = 'approved'
+        rqst.status = 'reported'
         staff.num_waiting = staff.num_waiting - 1
         rqst.save()
         staff.save()
