@@ -43,11 +43,10 @@
                                     {% endfor %}
                                     </tbody>
                                 </table>
-                                </div>
-                                 {% else %}
+                                    {% else %}
                                       <label><p>No Result Yet</p> </label>
                                 {% endif %}
-
+                                </div>
 
                                 <div class="tab-pane table-responsive" id="Ultrasound">
                                     {% if ultra_report.all %}
@@ -82,10 +81,11 @@
                                     {% endfor %}
                                     </tbody>
                                 </table>
-                                </div>
-                                 {% else %}
+                                    {% else %}
                                    <label><p>No Result Yet</p> </label>
                                  {% endif %}
+                                </div>
+
                             </div>
                         </div>
                     </div>

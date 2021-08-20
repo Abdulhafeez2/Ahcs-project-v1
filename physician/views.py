@@ -5,6 +5,7 @@ from django import forms
 from django.shortcuts import render, redirect
 
 from accounts.models import Staff, User, Hospital
+from lab_technician.models import UrineAnalysisWaitingList, HematologyWaitingList
 from login import urls
 from django.contrib.auth.decorators import login_required
 from login import decorators
@@ -279,10 +280,17 @@ def add_urine_analysis_request(request, pk):
                 requested_to_id=lab_technician.id,
                 hospital_id=hospital.id,
             )
+            urine_rqst = UrineAnalysisWaitingList.objects.create(
+                patient_id=patient.id,
+                requested_by_id=staff.id,
+                requested_to_id=lab_technician.id,
+                hospital_id=hospital.id,
+            )
             for urine in urine_analysis:
                 if urine_analysis.cleaned_data.get(urine.name):
-                    setattr(urine_analysis_object, urine.name, 1)
+                    setattr(urine_rqst, urine.name, True)
             urine_analysis_object.save()
+            urine_rqst.save()
             lab_tech = Staff.objects.get(id=lab_technician.id)
             lab_tech.num_waiting = staff.num_waiting + 1
             lab_tech.save()
@@ -305,10 +313,17 @@ def add_hematology_request(request, pk):
                 requested_to_id=lab_technician.id,
                 hospital_id=hospital.id,
             )
+            hematology_rqst = HematologyWaitingList.objects.create(
+                patient_id=patient.id,
+                requested_by_id=staff.id,
+                requested_to_id=lab_technician.id,
+                hospital_id=hospital.id,
+            )
             for hematology in hematology_request:
                 if hematology_request.cleaned_data.get(hematology.name):
-                    setattr(hematology_object, hematology.name, 1)
+                    setattr(hematology_rqst, hematology.name, True)
             hematology_object.save()
+            hematology_rqst.save()
             lab_tech = Staff.objects.get(id=lab_technician.id)
             lab_tech.num_waiting = staff.num_waiting + 1
             lab_tech.save()

@@ -19,11 +19,11 @@ def radiologist_homepage(request):
             print(request_list)
             rqst_list = True
             context = {'hospital': hospital, 'rqst_list': rqst_list, 'request_list': request_list}
-            return render(request, 'homepage.html', context)
+            return render(request, 'radiologist/homepage.html', context)
         except:
             rqst_list = False
             context = {'hospital': hospital, 'rqst_list': rqst_list}
-            return render(request, 'homepage.html', context)
+            return render(request, 'radiologist/homepage.html', context)
         context = {'hospital': hospital}
 
     elif specialty == 'X-ray':
@@ -32,11 +32,11 @@ def radiologist_homepage(request):
                                                           status='pending')
             rqst_list = True
             context = {'hospital': hospital, 'rqst_list': rqst_list, 'request_list': request_list}
-            return render(request, 'homepage.html', context)
+            return render(request, 'radiologist/homepage.html', context)
         except:
             rqst_list = False
             context = {'hospital': hospital, 'rqst_list': rqst_list}
-            return render(request, 'homepage.html', context)
+            return render(request, 'radiologist/homepage.html', context)
 
 
 def request_detail(request, pk):
@@ -107,4 +107,4 @@ def remove_from_list(request, pk):
         rqst.save()
         staff.save()
 
-    return redirect('radiologist_homepage_url')
+    return redirect('radiologist/radiologist_homepage_url')
