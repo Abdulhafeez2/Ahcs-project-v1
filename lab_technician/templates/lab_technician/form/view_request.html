@@ -1,408 +1,148 @@
 {% extends 'lab_technician/homepage.html' %}
 {% block  content%}
-<ul class="nav nav-tabs">
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#x-ray">Urine Analysis Request Form</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#ultrasound">Stool Examination Request Form </a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#mri">Heamatology Lab Request Form</a></li>
+    <div class="container-fluid" xmlns="http://www.w3.org/1999/html">
 
-            </ul>
-                
-            <!-- Tab panes -->
-            <div class="tab-content p-l-0 p-r-0">
-                <div class="tab-pane" id="x-ray">
-                    <nav class="sidebar-nav">
-                        <div class="row" >
-        <div class="col-md-8">
-          <div class="card card-primary ">
-            <div class="card-header">
-              <h5 class="card-title">Urine Analysis Request Form</h5>
-            </div>
-            <div class="card-body">
-              <div class="form-group" >
-                  <div>
-                <label>Urine Chemical test</label>
-                                    <br/>
-                      <div class="row clearfix">
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <span>Albumine</span>
-                                        <input type="text" class="form-control" placeholder="Albumine">
-                                    </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <span>Blood</span>
-                                        <input type="text" class="form-control" placeholder="Blood">
-                                    </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <span>Leukocyte</span>
-                                        <input type="text" class="form-control" placeholder="Leukocyte">
-                                    </div>
-                                </div>
+            <div class="row clearfix">
+                <div class="col-lg-4 col-md-12">
+                    <div class="card profile-header">
+                        <div class="body">
+                            <div class="profile-image"> <img src="../assets/images/user.png" class="rounded-circle" alt=""> </div>
+                            <div>
+                                <h3><strong>Patient Name</strong></h3>
+                                <h4 class="m-b-0"><strong>{{user_profile.basic.first_name}}</strong> {{user_profile.basic.last_name}}</h4>
+                                <span>{{ user_profile.basic.kebele }}</span>
                             </div>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Albumine</span>
+                        </div>
+                    </div>
 
-                                    </label>
-                                    <label class="fancy-checkbox">
+                    <div class="card">
+                        <div class="header">
+                            <h2><strong>Info</strong></h2>
 
-                                        <span>Blood</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Leukocyte</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Glucose</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>PH</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Nitrate</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Urbilonogen</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Ketone</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Bilirubin</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Specific Gravity</span>
-                                    </label>
+                        </div>
+                        <div class="body">
+                            <small class="text-muted">Address: </small>
+                            <p>{{user_profile.basic.address.region}}
+                                {{user_profile.basic.address.zone}}
+                                {{user_profile.basic.address.woreda}}
+                                </p>
+                            <small class="text-muted">Age: </small>
+                            <p>{{user_profile.basic.age}}</p>
+                            <small class="text-muted">Sex: </small>
+                            <p>{{user_profile.basic.sex}}</p>
+                            <small class="text-muted">Email address: </small>
+                            <p>{{user_profile.basic.email}}</p>
+                            <small class="text-muted">Mobile: </small>
+                            <p>{{ user_profile.basic.phone }}</p>
+                            <small class="text-muted">Birth Date: </small>
+                            <p class="m-b-0">October 22th, 1990</p>
+                        </div>
+                    </div>
 
-                  </div>
-                  <div>
-                  <label>Urine Microscopic Test</label>
-                      <div>
-                      <label> Cell</label>
-                          <br>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox" required data-parsley-errors-container="#error-checkbox">
-                                        <span>Leukocytes</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Erythrocytes</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Yeast</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Bacteria</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Squamous epithelial cells</span>
-                                    </label>
-                          <br>
-                          <label> Casts</label>
-                          <br>
-                          <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Hyaline Casts</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Granular Cast</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>WBC Cast</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>RBC Cast</span>
-                                    </label>
-                          <br>
-                          <label> Casts</label>
-                          <br>
-                          <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Uric Acid</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Calcium Oxalate</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Triplate phosphate</span>
-                                    </label>
 
-                      </div>
-                  </div>
+                </div>
+                <div class="col-lg-8 col-md-12">
+                    <a class="btn btn-danger float-right"  href="{% url 'remove_from_radiology_list_url' user_profile.id %}">Remove from List</a>
+                    <div class="card">
+                            <ul class="nav nav-tabs-new2">
+                                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#add_urine_result">Add Urine Analysis Request</a></li>
+                                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#add_stool_result">Add Stool Examination Result</a></li>
+                                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#add_hematology_result">Add Hematology Result</a></li>
+                            </ul>
+                            <div class="tab-content mt-3">
 
-              </div>
+                                <div class="tab-pane " id="add_stool_result">
+                                    {% if stool %}
+                      <div class="row" >
+                        <div class="col-md-12">
+                          <div class="card card-primary ">
+                            <div class="card-header">
+                              <h5 class="card-title">Stool Examination Result Form</h5>
+                            </div>
+                            <div class="card-body">
+                                <form action="{% url 'add_stool_result_url' user_profile.id %}" method="POST">
+                                    {%csrf_token%}
+                                    <div class="form-group">
+                                        {{ stool_result_form}}
+                                    </div>
+                                    <div class="col-4">
+                                        <input type="submit" value="report" class="btn btn-success">
+                                    </div>
+                                </form>
+                            <!-- /.card-body -->
+                            </div>
+                          <!-- /.card -->
+                        </div>
+                   </div>
+                   </div>
+                                    {% else %}
+                                    <label><p> Not requested </p></label>
+                                    {% endif %}
+                   </div>
+
+                                <div class="tab-pane active" id="add_urine_result">
+                                    {% if urine %}
+                      <div class="row" >
+                        <div class="col-md-12">
+                          <div class="card card-primary ">
+                            <div class="card-header">
+                              <h5 class="card-title">Urine Analysis Result Form</h5>
+                            </div>
+                            <div class="card-body">
+                                <form action="{% url 'add_urine_result_url' user_profile.id %}" method="POST">
+                                    {%csrf_token%}
+                                    <div class="form-group">
+                                        {{ urine_result_form}}
+                                    </div>
+                                    <div class="col-4">
+                                        <input type="submit" value="report" class="btn btn-success">
+                                    </div>
+                                </form>
+                            <!-- /.card-body -->
+                            </div>
+                          <!-- /.card -->
+                        </div>
+                   </div>
+                   </div>
+                                    {% else %}
+                                    <label><p> No request </p></label>
+                                    {% endif %}
+                   </div>
+
+                                <div class="tab-pane " id="add_hematology_result">
+                                    {% if hematology %}
+                      <div class="row" >
+                        <div class="col-md-12">
+                          <div class="card card-primary ">
+                            <div class="card-header">
+                              <h5 class="card-title">Hematology Result Form</h5>
+                            </div>
+                            <div class="card-body">
+                                <form action="{% url 'add_hematology_result_url' user_profile.id %}" method="POST">
+                                    {%csrf_token%}
+                                    <div class="form-group">
+                                        {{ hematology_result_form}}
+                                    </div>
+                                    <div class="col-4">
+                                        <input type="submit" value="report" class="btn btn-success">
+                                    </div>
+                                </form>
+                            <!-- /.card-body -->
+                            </div>
+                          <!-- /.card -->
+                        </div>
+                   </div>
+                   </div>
+                                    {% else %}
+                                    <label><p> No request </p></label>
+                                    {% endif %}
+                   </div>
+                    </div>
+                </div>
             </div>
-            <!-- /.card-body -->
-          </div>
-          <!-- /.card -->
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-6">
-          <a href="#" class="btn btn-danger">Cancel</a>
-          <input type="submit" value="Send Request" class="btn btn-success float-right">
-        </div>
-      </div>
-    </nav>
+
+    </div>
 </div>
-                <div class="tab-pane p-l-15 p-r-15" id="ultrasound">
-                    <div class="row" >
-        <div class="col-md-8">
-          <div class="card card-primary ">
-            <div class="card-header">
-              <h5 class="card-title">Stool Examination Request Form</h5>
-            </div>
-            <div class="card-body">
-              <div class="form-group">
-                                    <label>Microscopic Examinaions</label>
-                                    <br/>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox" required data-parsley-errors-container="#error-checkbox">
-                                        <span>Parasites</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Puss Cell</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Red Blood Cell</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Yeast Cell</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Occult Blood Test(OBT)</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>H.pylori Stool Ag test</span>
-                                    </label>
-                                    <p id="error-checkbox"></p>
-                                </div>
-
-            </div>
-            <!-- /.card-body -->
-          </div>
-          <!-- /.card -->
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-6">
-          <input type="button" href="#" class="btn btn-danger" value="Cancel">
-          <input type="submit" value="Send Request" class="btn btn-success float-right">
-        </div>
-      </div>
-                </div>
-                <div class="tab-pane p-l-15 p-r-15" id="mri">
-                    <div class="row" >
-        <div class="col-md-8">
-          <div class="card card-primary ">
-            <div class="card-header">
-              <h5 class="card-title">Heamatology Lab Request Form</h5>
-            </div>
-            <div class="card-body">
-              <div class="form-group" >
-                <label>Heamatology Examinaions</label>
-                                    <br/>
-                                    <div class="text-primary">
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox" required data-parsley-errors-container="#error-checkbox">
-                                        <span>CBC</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>BC</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>TWC</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Differntial</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Neutrophil(%)</span>
-                                    </label>
-                                    </div>
-                                    <br>
-                                    <div class="text-success" >
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Eosinophil(%)</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox" required data-parsley-errors-container="#error-checkbox">
-                                        <span>Basophiles(%)</span>
-                                    </label>
-
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Monocyt(g/dl)</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Hemoglobin(%)</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Hemotcrit(ft)</span>
-                                    </label>
-                                    </div>
-                                    <br>
-                                    <div class="text-warning">
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>MCV</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>MCH(pg)</span>
-                                    </label>
-
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox" required data-parsley-errors-container="#error-checkbox">
-                                        <span>MCHC(pg)</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>RBC(cell/mm)</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>RBC Morphology</span>
-                                    </label>
-                                    </div>
-                                    <br>
-                                    <div class="text-danger">
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Platelet Count(*10^2)</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>ESR(mm/hr)</span>
-                                    </label>
-
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Bleeding Time Test</span>
-                                    </label>
-
-
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox" required data-parsley-errors-container="#error-checkbox">
-                                        <span>Clot Reaction</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Coagulation Time</span>
-                                    </label>
-                                    </div>
-                                    <br>
-                                    <div class="text-info">
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Prothromin Time</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>P.T.T</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>FBS/RBS</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Blood Group</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox" required data-parsley-errors-container="#error-checkbox">
-                                        <span>Fibrinogen</span>
-                                    </label>
-                                    </div>
-                                    <br>
-                                    <div class="text-secondary">
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>Coomos Test</span>
-                                    </label>
-                                    <label class="fancy-checkbox">
-                                        <input type="checkbox" name="checkbox">
-                                        <span>CD4(absolute cell/ul)</span>
-                                    </label>
-                                        </div>
-                                </div>
-
-            </div>
-            <!-- /.card-body -->
-          </div>
-          <!-- /.card -->
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-6">
-          <a href="#" class="btn btn-danger">Cancel</a>
-          <input type="submit" value="Send Request" class="btn btn-success float-right">
-        </div>
-      </div>
-                </div>
-                <div class="tab-pane p-l-15 p-r-15" id="city_scan">
-                    <div class="row" >
-        <div class="col-md-8">
-          <div class="card card-primary ">
-            <div class="card-header">
-              <h3 class="card-title">City Scan Request Form</h3>
-            </div>
-            <div class="card-body">
-              <div class="form-group" >
-                <label for="inputName">User Name</label>
-                <input type="text" id="inputName" class="form-control" class="col-md-3">
-              </div>
-              <div class="form-group">
-                <label for="inputDescription">Drug Name , Dosage Form , Frequency, Duration, Quantity, Route of administeration and other information </label>
-                <textarea id="inputDescription" class="form-control" rows="4"></textarea>
-              </div>
-            </div>
-            <!-- /.card-body -->
-          </div>
-          <!-- /.card -->
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-6">
-          <a href="#" class="btn btn-danger">Cancel</a>
-          <input type="submit" value="Attach" class="btn btn-success float-right">
-        </div>
-      </div>           
-            </div> 
-    <!-- /.content 
-
-
-
 {% endblock  %}
 
 

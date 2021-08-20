@@ -209,6 +209,9 @@ class UserRegistrationForm(forms.Form):
         elif self.cleaned_data.get('role') == 'Obstetrics':
             r = 'Physician'
             s = self.cleaned_data.get('role')
+        elif self.cleaned_data.get('role') == 'Lab_technician':
+            r = 'Lab_technician'
+            s = 'Lab_technician'
         else:
             r = self.cleaned_data.get('role')
             s = None

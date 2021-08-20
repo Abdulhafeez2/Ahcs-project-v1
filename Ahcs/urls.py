@@ -19,26 +19,27 @@ from django.urls.conf import include
 from django.urls import include, path
 from rest_framework import routers
 from api import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path('',include('login.urls')),
-  ##  path('registration/',include('registration.urls')),
-  ##  path('accounts/',include('accounts.urls')),
-   ## path('reception/',include('reception.urls')),
-    path('physician/',include('physician.urls')),
-    path('radiologist/',include('radiologist.urls')),
-    path('lab_technician/',include('lab_technician.urls')),
-    path('pharmacist/',include('pharmacist.urls')),
-    path('hospital_admin/',include('hospital_admin.urls')),
-    path('pharmacy_admin/', include('pharmacy_admin.urls')),
-    path('receptionist/',include('receptionist.urls')),
-    path('nurse/', include('nurse.urls')),
-    path('admin/', admin.site.urls),
-    path('profiles/', include('profiles.urls')),
-    path('system_admin/', include('system_admin.urls')),
-    path('searches/', include('searches.urls')),
+                  path('', include('login.urls')),
+                  ##  path('registration/',include('registration.urls')),
+                  ##  path('accounts/',include('accounts.urls')),
+                  ## path('reception/',include('reception.urls')),
+                  path('physician/', include('physician.urls')),
+                  path('radiologist/', include('radiologist.urls')),
+                  path('lab_technician/', include('lab_technician.urls')),
+                  path('pharmacist/', include('pharmacist.urls')),
+                  path('hospital_admin/', include('hospital_admin.urls')),
+                  path('pharmacy_admin/', include('pharmacy_admin.urls')),
+                  path('receptionist/', include('receptionist.urls')),
+                  path('nurse/', include('nurse.urls')),
+                  path('admin/', admin.site.urls),
+                  path('profiles/', include('profiles.urls')),
+                  path('system_admin/', include('system_admin.urls')),
+                  path('searches/', include('searches.urls')),
+                  path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+                  path('api/', include('api.urls'))
 
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('api/', include('api.urls'))
-
-]
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
