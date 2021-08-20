@@ -1,30 +1,89 @@
-from django.shortcuts import render
-
-# Create your views here.
-from django.contrib.auth.models import User, Group
-from rest_framework import viewsets
-from rest_framework import permissions
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from api.serializers import MedicationSerializer, PaitentSerializer, UserSerializer
-from patient.models import Medication, Patient
-
 from accounts.models import User
+from .models import Note
+from .serializers import *
+from patient.models import Medication, Patient
+from physician.models import Appointment
 
 
 @api_view(['GET'])
-def get_medications(request):
-    medication = Medication.objects.all()
-    serializer = MedicationSerializer(medication, many=True)
+
+def getRoutes(request):
+    routes=[
+
+        {
+            'Endpoint':'/notes/',
+            'method':'GET',
+            'body':None,
+            'descripion':'Returns an array of notes'
+        },
+        {
+            'Endpoint': '/notes/id',
+            'method': 'GET',
+            'body': None,
+            'descripion': 'Returns a single note'
+
+        },
+        {
+            'Endpoint': '/notes/create/',
+            'method': 'GET',
+            'body': None,
+            'descripion': 'create a new note'
+        }
+    ]
+    return Response(routes)
+
+@api_view(['GET'])
+def getNotes(request):
+    notes=Note.objects.all()
+    serializer=NoteSerializer(notes,many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getNote(request,pk):
+    notes = Note.objects.get(id=pk)
+    serializer = NoteSerializer(notes, many=False)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def createNote(request):
+    data=request.data
+    note=Note.objects.create(
+        body=data['body']
+    )
+    serializer= NoteSerializer(note,many=False)
+    return Response(serializer.data)
+
+@api_view(['PUT'])
+def updateNote(request,pk):
+    data=request.data
+    note=Note.objects.get(id=pk)
+    serializer= NoteSerializer(note,data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+@api_view(['DELETE'])
+
+def deleteNote(reqeust,pk):
+    note=Note.objects.get(id=pk)
+    note.delete()
+
+    return Response("Note deleted successfully")
+
+
+@api_view(['GET'])
+
+def getMedication(request,username):
+    medications=Medication.objects.filter(patient_id=Patient.objects.get(basic_id=User.objects.get(username=username).id))
+    serializer=MedicationSerializer(medications,many=True)
     return Response(serializer.data)
 
 
 @api_view(['GET'])
-def get_medication(request, pk):
-    medication = Medication.objects.filter(patient_id=pk)
-    patient = Patient.objects.get(id=pk)
-    user=User.objects.get(id=patient.basic_id)
-    serializer = MedicationSerializer(medication,many=True)
-    user_serializer=UserSerializer(user,many=False)
+def  getAppointment(request,username):
+    appointment=Appointment.objects.filter(patient_id=Patient.objects.get(basic_id=User.objects.get(username=username).id))
+    serializer=AppointmentSerializer(appointment,many=True)
     return Response(serializer.data)

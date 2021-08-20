@@ -1,14 +1,15 @@
 from django.shortcuts import render
 
 from accounts.models import User
-
+from hospital_admin.forms import UserRegistrationForm
 
 # Create your views here.
 
 def user_profile(request, pk):
     profile = User.objects.get(id=pk)
+
     found = 'True'
-    context = {'found': found, 'user_profile': profile}
+    context = {'found': found, 'user_profile': profile,'form':form}
     if request.user.is_superuser:
         return render(request, 'profiles/system_admin_users_profile.html', context)
     elif request.user.role == 'hospital admin':
@@ -20,6 +21,7 @@ def user_profile(request, pk):
     elif request.user.role == 'Receptionist':
         return render(request, 'profiles/system_admin_users_profile.html', context)
     elif request.user.role == 'Nurse':
+        print(profile)
         return render(request, 'profiles/system_admin_users_profile.html', context)
     elif request.user.role == 'Lab Technician admin':
         return render(request, 'profiles/system_admin_users_profile.html', context)
@@ -27,8 +29,12 @@ def user_profile(request, pk):
 
 def my_profile(request, pk):
     profile = User.objects.get(id=pk)
+    appointment=None
+    form=UserRegistrationForm()
     role = request.user.role
-    context = {'user_profile': profile, 'role': role}
+    if request.user.role == 'Physician':
+        appointment=True
+    context = {'user_profile': profile, 'role': role,'form':form,'appointment':appointment}
     print(role)
     if request.user.is_superuser:
         return render(request, 'profiles/system_admin_my_profile.html', context)
@@ -39,6 +45,7 @@ def my_profile(request, pk):
     elif role == 'pharmacist':
         return render(request, 'profiles/pharmacist_my_profile.html', context)
     elif role == 'Physician':
+
         return render(request, 'profiles/physician_my_profile.html', context)
     elif role == 'Receptionist':
         return render(request, 'profiles/receptionist_my_profile.html', context)

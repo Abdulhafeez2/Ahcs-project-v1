@@ -7,3 +7,6 @@ from accounts.models import Pharmacy
 def pharmacist_homepage(request):
     return render(request, 'pharmacist/homepage.html')
 
+
+def patient_detail(request):
+    return render(request, 'pharmacist/form/patient_descriptions.html')

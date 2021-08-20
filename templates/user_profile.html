@@ -50,7 +50,9 @@
                             <ul class="nav nav-tabs-new2">
                                 <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#appointment">Change Password</a></li>
                                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#referral">Edit Profile</a></li>
-                                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#register">Register</a></li>
+                                {% if appointment %}
+                                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#register">View Appointment</a></li>
+                                {% endif%}
                             </ul>
                             <div class="tab-content mt-3">
 
@@ -239,9 +241,8 @@
                     </div>
                     <div class="tab-pane" id="register">
                                     <div class="body">
-                              <div class="table-responsive">
-                                <input type="submit" class="btn btn-primary" value="Register">
-                            </div>
+                                        <h3>Calander view</h3>
+                                    <div id="calendar"></div>
                         </div>
                     </div>
 

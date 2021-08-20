@@ -18,6 +18,7 @@
     </div>
     <div class="col-lg-6 col-md-4 col-sm-12 text-right">
             <div class="col-md-10 offset-md-2">
+                <a href=" {% url 'patient_detail_url'%} " > <button class="btn btn-info">Next</button></a>
                 <form action="{% url 'pharmacist_search_patient_url' %}">
                     <div class="input-group">
                         <input type="search" name="search" class="form-control form-control-lg" placeholder="Type patient username here">

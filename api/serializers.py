@@ -1,20 +1,19 @@
 from rest_framework.serializers import ModelSerializer
+from . models import Note
+from patient.models import Medication
+from physician.models import Appointment
 
-from accounts.models import User
-from patient.models import Medication, Patient
-
+class NoteSerializer(ModelSerializer):
+    class Meta:
+        model=Note
+        fields='__all__'
 
 class MedicationSerializer(ModelSerializer):
     class Meta:
-        model = Medication
-        fields = '__all__'
-
-class PaitentSerializer(ModelSerializer):
-    class Meta:
-        model=Patient
+        model= Medication
         fields='__all__'
 
-class UserSerializer(ModelSerializer):
+class AppointmentSerializer(ModelSerializer):
     class Meta:
-        model=User
+        model=Appointment
         fields='__all__'

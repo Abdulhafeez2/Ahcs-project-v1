@@ -2,10 +2,10 @@ import datetime
 
 from django import forms
 from django.http import request
-
+from django.forms import ModelForm
 from accounts.models import Hospital, User, Staff
 from patient.models import PatientForm, Prescription, AdministeredTreatment, XrayExamination, UltraSound
-from physician.models import Referral
+from physician.models import Referral, Appointment
 
 
 class AddPatientForm(forms.Form):
@@ -205,3 +205,17 @@ class HematologyExaminationRequestForm(forms.Form):
     fibrinogen = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class': 'form-control'}))
     coombs_test = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class': 'form-control'}))
     CD4 = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class': 'form-control'}))
+
+class DateForm(forms.Form):
+    date = forms.DateTimeField(
+        input_formats=['%d/%m/%Y %H:%M'],
+        widget=forms.DateTimeInput(attrs={
+            'class': 'form-control datetimepicker-input',
+            'data-target': '#datetimepicker1'
+        })
+    )
+
+class AppointmentForm(ModelForm):
+    class Meta:
+        model=Appointment
+        fields='__all__'

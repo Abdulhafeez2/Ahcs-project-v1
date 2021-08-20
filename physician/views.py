@@ -17,8 +17,8 @@ from patient.models import Patient, VitalSign, PatientForm, UltraSound, XrayExam
     UrineAnalysis, Hematology
 from physician.forms import AddPatientForm, ReferralRequestForm, PrescriptionForm, AdministeredTreatmentForm, \
     XrayRequestForm, UltrasoundRequestForm, UrineAnalysisRequestForm, StoolExaminationRequestForm, \
-    HematologyExaminationRequestForm
-from physician.models import PatientWaitingList, Referral
+    HematologyExaminationRequestForm, AppointmentForm, DateForm
+from physician.models import PatientWaitingList, Referral, Appointment
 
 
 def physician_homepage(request):
@@ -87,6 +87,7 @@ def patient_detail(request, pk):
         referral = None
     patient_form = AddPatientForm
     prescription_form = PrescriptionForm
+    appointment_form=AppointmentForm
 
     hospital_id = Staff.objects.get(basic_id=request.user.id).hospital.id
     referral_request = ReferralRequestForm(pk=hospital_id)
@@ -95,7 +96,8 @@ def patient_detail(request, pk):
     context = {'patient': pk, 'user_profile': user_profile, 'vital_sign': vital_sign,
                'patient_form': patient_form, 'prescription_form': prescription_form,
                'referral': referral, 'referral_request': referral_request,
-               'latest_patient_form': latest_patient_form, 'administered_treatment': administered_treatment}
+               'latest_patient_form': latest_patient_form,
+               'administered_treatment': administered_treatment,'appointment_form':appointment_form}
     return render(request, "physician/patient_detail.html", context)
 
 
@@ -328,3 +330,12 @@ def add_hematology_request(request, pk):
             lab_tech.num_waiting = staff.num_waiting + 1
             lab_tech.save()
             return redirect('lab_request_url', pk)
+
+def add_appointment(request,pk):
+     if request.method=='POST':
+         appointment_form=AppointmentForm(request.POST)
+
+         context = {'appointment_form': appointment_form}
+         return redirect('patient_detail_url', pk)
+
+
