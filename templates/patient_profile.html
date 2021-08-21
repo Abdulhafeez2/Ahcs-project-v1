@@ -16,16 +16,7 @@
                     <div class="card">
                         <div class="header">
                             <h2>Info</h2>
-                            <ul class="header-dropdown">
-                                <li class="dropdown">
-                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
-                                    <ul class="dropdown-menu dropdown-menu-right">
-                                        <li><a href="javascript:void(0);">Action</a></li>
-                                        <li><a href="javascript:void(0);">Another Action</a></li>
-                                        <li><a href="javascript:void(0);">Something else</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
+
                         </div>
                         <div class="body">
                             <small class="text-muted">Address: </small>
@@ -59,6 +50,7 @@
                                 <div class="tab-pane active" id="appointment">
                                     <div class="body">
                             <div class="table-responsive">
+                                {% if appointment.all %}
                                 <table class="table m-b-0">
                                     <thead>
                                         <tr>
@@ -67,18 +59,26 @@
                                             <th>Case</th>
                                             <th>Appointment Given Date</th>
                                             <th>Appointment Date</th>
-                                            <th>Action</th>
+
                                         </tr>
                                     </thead>
+
                                     <tbody>
+
+                                        {% for appointment in appointment %}
                                         <tr>
-                                            <td>1</td>
-                                            <td><span>Dr.John</span></td>
-                                            <td><span class="text-info">Heart Disease</span></td>
-                                            <td>Sept 13, 2017</td>
-                                            <td>Sept 16, 2017</td>
-                                            <td><input type="submit" class="btn btn-success"  value="Accept"></td>
+                                            <td>{{forloop.counter}}</td>
+                                            <td><span>Dr.{{appointment.physician.basic.first_name}} {{appointment.physician.basic.last_name}}</span></td>
+                                            <td><span class="text-info">{{appointment.case}}</span></td>
+                                            <td>{{appointment.booked_date}}</td>
+                                            <td>{{appointment.appointment_date}}</td>
+
                                         </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <p>No appointment</p>
+                                    {% endif %}
+
 
                                     </tbody>
                                 </table>
@@ -90,6 +90,7 @@
                                 <div class="tab-pane" id="referral">
                                     <div class="body">
                               <div class="table-responsive">
+                                  {% if referral %}
                                 <table class="table m-b-0">
                                     <thead>
                                         <tr>
@@ -97,19 +98,25 @@
                                             <th>By </th>
                                             <th>From [Hospital]</th>
                                             <th>Referral Given Date</th>
-                                            <th>Action</th>
+                                            <th>Reason For Referral</th>
                                             <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+
+                                    {% for referral in referral %}
                                         <tr>
-                                            <td>1</td>
-                                            <td><span>Dr John</span></td>
-                                            <td><span class="text-info">Adama Hospital and medical collage</span></td>
-                                            <td>Sept 13, 2017</td>
-                                            <td><input type="submit" class="btn btn-success" value="Accept"> <input type="submit" class="btn btn-danger" value="Reject"></td>
-                                            <td><span class="badge badge-success">Admit</span></td>
+                                            <td>{{forloop.counter}}</td>
+                                            <td><span>Dr.{{referral.referred_by.basic.first_name}} {{referral.referred_by.basic.last_name}}</span></td>
+                                            <td><span class="text-info">{{referral.referring_hospital.name}}</span></td>
+                                            <td>{{referral.referral_date}}</td>
+                                            <td>{{referral.reason_for_referral}}</td>
+                                            <td>{{referral.status}}</td>
                                         </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <p>No referral </p>
+                                    {% endif %}
                                     </tbody>
                                 </table>
                             </div>

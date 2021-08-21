@@ -56,6 +56,7 @@ def radiology_requests(request, pk):
     xray_form = XrayRequestForm
     ultrasound_form = UltrasoundRequestForm
     context = {'xray_form': xray_form, 'ultrasound_form': ultrasound_form, 'pk': pk}
+
     return render(request, "physician/forms/xray_form.html", context)
 
 

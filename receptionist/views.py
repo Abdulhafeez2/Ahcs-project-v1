@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -11,6 +12,7 @@ from xhtml2pdf import pisa
 from accounts.models import User
 
 # Create your views here.
+from physician.models import Appointment
 from receptionist.models import Triage
 
 
@@ -31,6 +33,9 @@ def register_new_patient(request):
             hospital = Staff.objects.get(basic_id=request.user.id).hospital.id
             context = {'hospital': hospital}
             new_user = form.save_patient(context)
+            messages.success(request, "Patient Registered Successfully")
+
+
             username = new_user['username']
             context = {'username': new_user['username'], 'password': new_user['password']}
             template_path = 'receptionist/credentials.html'
@@ -45,9 +50,11 @@ def register_new_patient(request):
             html = template.render(context)
             # create a pdf
             pisa_status = pisa.CreatePDF(html, dest=response)
-            # if error then show some funy view
+            # if error then show some funny view
+
             if pisa_status.err:
                 return HttpResponse('We had some errors <pre>' + html + '</pre>')
+
             return response
 
     else:
@@ -59,7 +66,8 @@ def register_new_patient(request):
 def patient_profile(request, pk):
     profile = User.objects.get(id=pk)
     # info = UserInfo.objects.get(user_id=pk)
-    print(profile)
+
+
     context = {'patient': profile}
     return render(request, 'receptionist/patient_profile.html', context)
 
@@ -78,3 +86,16 @@ def admit_to_triage(request, pk):
     )
     triage_list.save()
     return redirect('receptionist_homepage_url')
+
+def view_appointment(request,pk):
+    try:
+        appointemnt=Appointment.objects.get(patient_id=pk,status='pending')
+        print(appointemnt.case)
+    except:
+        appointemnt=None
+
+    context = {'appointment': appointemnt}
+    return render(request, 'profiles/receptionist_patient_profile.html', context)
+
+
+

@@ -4,6 +4,7 @@ from django.shortcuts import render
 from accounts.models import User, Hospital, Pharmacy, Staff
 from patient.models import Patient
 from pharmacist.forms import Medication_Form
+from physician.models import Appointment, Referral
 
 
 def search_staff(request):
@@ -64,7 +65,12 @@ def search_patient(request):
     try:
         patient = Patient.objects.get(basic_id=User.objects.get(username=search_query).id)
         found = True
-        context = {'found': found, 'user_profile': patient}
+        appointment=Appointment.objects.filter(patient_id=patient.id,status="pending")
+        referral=Referral.objects.filter(patient_id=patient.id,status="pending")
+        print(appointment)
+        print(referral)
+
+        context = {'found': found,'user_profile': patient,'appointment':appointment,'referral':referral}
         return render(request, 'profiles/receptionist_patient_profile.html', context)
     except:
         notfound = True
