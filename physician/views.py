@@ -2,6 +2,7 @@ import datetime
 from time import timezone
 
 from django import forms
+from django.contrib import messages
 from django.shortcuts import render, redirect
 
 from accounts.models import Staff, User, Hospital
@@ -66,6 +67,7 @@ def remove_from_list(request, pk):
     staff = Staff.objects.get(basic_id=request.user.id)
     staff.num_waiting = staff.num_waiting - 1
     staff.save()
+    messages.success(request, "Removed from list")
     return redirect('physician_homepage_url')
 
 
@@ -119,6 +121,7 @@ def add_patient_form(request, pk):
         if patient_form.is_valid():
             patient_form.save_patient_form(context)
             # nxt = request.POST.get('next', '/')
+            messages.success(request, "Patient form updated")
             return redirect('patient_detail_url', pk)
         else:
             patient_form = AddPatientForm(request.POST)
@@ -137,6 +140,7 @@ def add_referral(request, pk):
         if referral_form.is_valid():
             referral_form.save_referral(context)
             # nxt = request.POST.get('next', '/')
+            messages.success(request, "Referral request sent successfully")
             return redirect('patient_detail_url', pk)
         else:
             print(referral_form.errors)
@@ -151,6 +155,7 @@ def add_prescription(request, pk):
         context = {'patient': patient, 'staff': staff, 'hospital': hospital}
         if prescription_form.is_valid():
             prescription_form.save_prescription(context)
+            messages.success(request, "Prescription added Successfully")
             # nxt = request.POST.get('next', '/')
             return redirect('patient_detail_url', pk)
 
@@ -164,6 +169,7 @@ def administered_treatment(request, pk):
         context = {'patient': patient, 'staff': staff, 'hospital': hospital}
         if administered_treatment_form.is_valid():
             administered_treatment_form.save_administered_treatment(context)
+            messages.success(request, "Treatment Added Successfully")
             # nxt = request.POST.get('next', '/')
             return redirect('patient_detail_url', pk)
 
@@ -179,6 +185,7 @@ def add_xray_request(request, pk):
         if xray_form.is_valid():
             xray_form.save_xray_request(context)
             # nxt = request.POST.get('next', '/')
+            messages.success(request, "Request Sent ")
             return redirect('radiology_request_url', pk)
         else:
             print(xray_form.errors)
@@ -193,6 +200,7 @@ def add_ultrasound_request(request, pk):
     context = {'patient': patient, 'staff': staff, 'hospital': hospital}
     if ultrasound_request.is_valid():
         ultrasound_request.save_ultrasound_request(context)
+        messages.success(request, "Staff registered Successfully")
         # nxt = request.POST.get('next', '/')
         return redirect('radiology_request_url', pk)
     else:
@@ -263,6 +271,7 @@ def add_stool_examination_request(request, pk):
             lab_tech = Staff.objects.get(id=lab_technician.id)
             lab_tech.num_waiting = staff.num_waiting + 1
             lab_tech.save()
+            messages.success(request, "Request Sent")
             return redirect('lab_request_url', pk)
 
 
@@ -296,6 +305,7 @@ def add_urine_analysis_request(request, pk):
             lab_tech = Staff.objects.get(id=lab_technician.id)
             lab_tech.num_waiting = staff.num_waiting + 1
             lab_tech.save()
+            messages.success(request, "Request Sent")
             return redirect('lab_request_url', pk)
 
 
@@ -329,6 +339,7 @@ def add_hematology_request(request, pk):
             lab_tech = Staff.objects.get(id=lab_technician.id)
             lab_tech.num_waiting = staff.num_waiting + 1
             lab_tech.save()
+            messages.success(request, "Request Sent")
             return redirect('lab_request_url', pk)
 
 def add_appointment(request,pk):
@@ -340,6 +351,7 @@ def add_appointment(request,pk):
         appointment_form=AppointmentForm(request.POST)
         if appointment_form.is_valid():
             appointment_form.save_appointment(context)
+            messages.success(request, "Appointement Added Successfully")
             return redirect('patient_detail_url', pk)
 
 
