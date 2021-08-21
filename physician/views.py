@@ -332,10 +332,14 @@ def add_hematology_request(request, pk):
             return redirect('lab_request_url', pk)
 
 def add_appointment(request,pk):
-     if request.method=='POST':
-         appointment_form=AppointmentForm(request.POST)
-
-         context = {'appointment_form': appointment_form}
-         return redirect('patient_detail_url', pk)
+    if request.method=='POST':
+        patient = Patient.objects.get(id=pk)
+        staff = Staff.objects.get(basic_id=request.user.id)
+        hospital = staff.hospital
+        context = {'patient': patient, 'staff': staff, 'hospital': hospital}
+        appointment_form=AppointmentForm(request.POST)
+        if appointment_form.is_valid():
+            appointment_form.save_appointment(context)
+            return redirect('patient_detail_url', pk)
 
 

@@ -25,7 +25,7 @@ class Appointment(models.Model):
     physician = models.ForeignKey(Staff, on_delete=models.CASCADE, )
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, )
     hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE, null=True)
-    booked_date = models.DateTimeField()
+    booked_date = models.DateTimeField(auto_now=True)
     appointment_date = models.DateTimeField(null=True)
     case = models.CharField(max_length=50)
     status = models.CharField(max_length=50)

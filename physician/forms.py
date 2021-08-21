@@ -215,7 +215,16 @@ class DateForm(forms.Form):
         })
     )
 
-class AppointmentForm(ModelForm):
-    class Meta:
-        model=Appointment
-        fields='__all__'
+class AppointmentForm(forms.Form):
+    case=forms.CharField(required=True,widget=forms.Textarea(attrs={"class":"form-control"}))
+    appointment_date=forms.DateTimeField(required=True,widget=forms.DateTimeInput(attrs={"class":"form-control"}))
+
+    def save_appointment(self,context):
+        new_appointment=Appointment.objects.create(
+            physician_id=context['hospital'].id,
+            hospital_id=context['hospital'].id,
+            patient_id=context['patient'].id,
+            appointment_date=self.cleaned_data.get('appointment_date'),
+            case=self.cleaned_data.get('case'),
+            status="pending")
+        new_appointment.save()
