@@ -12,20 +12,21 @@ from xhtml2pdf import pisa
 from accounts.models import User
 
 # Create your views here.
+from login import decorators
 from physician.models import Appointment
 from receptionist.models import Triage
 
 
 @login_required(login_url='login_url')
-# @decorators.allowed_users(allowed_roles=['Receptionist'])
-# @decorators.receptionistonly
+@decorators.allowed_users(allowed_roles=['Receptionist'])
 def receptionist_dashboard(request):
     hospital = Hospital.objects.get(id=Staff.objects.get(basic_id=request.user.id).hospital_id)
     context = {'hospital': hospital}
     return render(request, "receptionist/homepage.html", context)
 
 
-
+@login_required(login_url='login_url')
+@decorators.allowed_users(allowed_roles=['Receptionist'])
 def register_new_patient(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
@@ -62,7 +63,8 @@ def register_new_patient(request):
     context = {'form': form}
     return render(request, 'receptionist/form/registration_form.html', context)
 
-
+@login_required(login_url='login_url')
+@decorators.allowed_users(allowed_roles=['Receptionist'])
 def patient_profile(request, pk):
     profile = User.objects.get(id=pk)
     # info = UserInfo.objects.get(user_id=pk)
@@ -75,7 +77,8 @@ def patient_profile(request, pk):
 
     ##else:
 
-
+@login_required(login_url='login_url')
+@decorators.allowed_users(allowed_roles=['Receptionist'])
 def admit_to_triage(request, pk):
     triage_list = Triage.objects.create(
         hospital_id=Hospital.objects.get(id=Staff.objects.get(basic_id=request.user.id).hospital_id).id,
@@ -86,7 +89,8 @@ def admit_to_triage(request, pk):
     )
     triage_list.save()
     return redirect('receptionist_homepage_url')
-
+@login_required(login_url='login_url')
+@decorators.allowed_users(allowed_roles=['Receptionist'])
 def view_appointment(request,pk):
     try:
         appointemnt=Appointment.objects.get(patient_id=pk,status='pending')

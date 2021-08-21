@@ -9,18 +9,20 @@ from django.urls import reverse
 from django.http import HttpResponse
 from accounts.models import Staff, User, Hospital
 from login import decorators, urls
+from login.decorators import allowed_users
 from login.views import user_logout
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-# @login_required(login_url='login_url')
+
 # @decorators.nurseonly
 from patient.forms import VitalSignForm
 from patient.models import Patient
 from physician.models import PatientWaitingList
 from receptionist.models import Triage
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Nurse'])
 def nurse_homepage(request):
     try:
         triage_list = Triage.objects.filter(hospital_id=Staff.objects.get(basic_id=request.user.id).hospital_id,
@@ -33,7 +35,8 @@ def nurse_homepage(request):
         context = {'triage': triage}
         return render(request, "nurse/homepage.html", context)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Nurse'])
 def add_vital_sign(request, pk):
 
     if request.method == 'POST':
@@ -59,7 +62,8 @@ def add_vital_sign(request, pk):
         context = {'form': form, 'patient': patient}
         return render(request, "nurse/form/vital_sign_form.html", context)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Nurse'])
 def admit_to_dr(request, pk):
     distinct = Staff.objects.filter(hospital_id=Staff.objects.get(basic_id=request.user.id).
                                     hospital_id).values('specialty').exclude(specialty=None).distinct()
@@ -69,7 +73,8 @@ def admit_to_dr(request, pk):
     context = {'form': form, 'patient': patient, 'distinct': distinct}
     return render(request, "nurse/form/admit_to_dr.html", context)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Nurse'])
 def find_available_physician(request, value):
     """free_dr = PatientWaitingList.objects.filter(hospital_id=Staff.objects.get(basic_id=request.user.id).hospital_id,
                                             physician_speciality=value, status='pending').annotate(
@@ -78,7 +83,8 @@ def find_available_physician(request, value):
     free_dr = Staff.objects.filter(hospital_id=hospital_id, specialty=value).order_by('-num_waiting').last().basic
     return HttpResponse(free_dr)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Nurse'])
 def assign_doctor(request):
     doctor = request.POST['doctor']
     patient = request.POST['patient']

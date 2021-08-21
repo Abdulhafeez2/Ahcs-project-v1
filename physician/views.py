@@ -13,8 +13,9 @@ from django.contrib.auth.decorators import login_required
 from login import decorators
 # Create your views here.
 
-# @login_required(login_url='login_url')
+#
 # @decorators.physicianonly
+from login.decorators import allowed_users
 from patient.models import Patient, VitalSign, PatientForm, UltraSound, XrayExamination, StoolExamination, \
     UrineAnalysis, Hematology, Prescription, AdministeredTreatment
 from physician.forms import AddPatientForm, ReferralRequestForm, PrescriptionForm, AdministeredTreatmentForm, \
@@ -22,7 +23,8 @@ from physician.forms import AddPatientForm, ReferralRequestForm, PrescriptionFor
     HematologyExaminationRequestForm, AppointmentForm, DateForm
 from physician.models import PatientWaitingList, Referral, Appointment
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Physician'])
 def physician_homepage(request):
     try:
         hospital = Hospital.objects.get(id=Staff.objects.get(basic_id=request.user.id).hospital_id)
@@ -39,21 +41,24 @@ def physician_homepage(request):
         return render(request, "physician/physician_dashboard.html", context)
 
 
-# @login_required(login_url='login_url')
+
 # @decorators.physicianonly
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Physician'])
 def view_waiting_list(request):
     context = {}
     return render(request, "physician/forms/view_waiting_list.html", context)
 
 
 @login_required(login_url='login_url')
-@decorators.physicianonly
+@allowed_users(allowed_roles=['Physician'])
 def add_prescription(request):
     context = {}
     return render(request, "physician/forms/prescription_form.html", context)
 
 
-# @login_required(login_url='login_url')
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Physician'])
 def radiology_requests(request, pk):
     hospital_id = Staff.objects.get(basic_id=request.user.id).hospital.id
     xray_form = XrayRequestForm
@@ -62,7 +67,8 @@ def radiology_requests(request, pk):
 
     return render(request, "physician/forms/xray_form.html", context)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Physician'])
 def remove_from_list(request, pk):
     waiting_list = PatientWaitingList.objects.get(patient_id=pk, status='pending')
     waiting_list.status = 'approved'
@@ -74,7 +80,8 @@ def remove_from_list(request, pk):
     messages.success(request, "Removed from list")
     return redirect('physician_homepage_url')
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Physician'])
 def patient_detail(request, pk):
     user_profile = Patient.objects.get(id=pk)
     try:
@@ -106,7 +113,8 @@ def patient_detail(request, pk):
                'administered_treatment': administered_treatment,'appointment_form':appointment_form}
     return render(request, "physician/patient_detail.html", context)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Physician'])
 def lab_request(request, pk):
     urine_analysis = UrineAnalysisRequestForm
     stool = StoolExaminationRequestForm
@@ -114,7 +122,8 @@ def lab_request(request, pk):
     context = {'urine_analysis': urine_analysis, 'stool': stool, 'hematology': hematology, 'pk': pk}
     return render(request, "physician/forms/lab_request_form.html", context)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Physician'])
 def add_patient_form(request, pk):
     if request.method == 'POST':
         patient_form = AddPatientForm(request.POST)
@@ -133,7 +142,8 @@ def add_patient_form(request, pk):
             context = {'patient_form': patient_form, 'patient': patient}
             return render(request, "nurse/form/vital_sign_form.html", context)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Physician'])
 def add_referral(request, pk):
     if request.method == 'POST':
         referral_form = ReferralRequestForm(request.POST)
@@ -149,7 +159,8 @@ def add_referral(request, pk):
         else:
             print(referral_form.errors)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Physician'])
 def add_prescription(request, pk):
     if request.method == 'POST':
         prescription_form = PrescriptionForm(request.POST)
@@ -163,7 +174,8 @@ def add_prescription(request, pk):
             # nxt = request.POST.get('next', '/')
             return redirect('patient_detail_url', pk)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Physician'])
 def administered_treatment(request, pk):
     if request.method == 'POST':
         administered_treatment_form = AdministeredTreatmentForm(request.POST)
@@ -177,7 +189,8 @@ def administered_treatment(request, pk):
             # nxt = request.POST.get('next', '/')
             return redirect('patient_detail_url', pk)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Physician'])
 def add_xray_request(request, pk):
     if request.method == 'POST':
         xray_form = XrayRequestForm(request.POST)
@@ -194,7 +207,8 @@ def add_xray_request(request, pk):
         else:
             print(xray_form.errors)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Physician'])
 def add_ultrasound_request(request, pk):
     ultrasound_request = UltrasoundRequestForm(request.POST)
     print(ultrasound_request.is_valid())
@@ -210,7 +224,8 @@ def add_ultrasound_request(request, pk):
     else:
         print(ultrasound_request.errors)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Physician'])
 def view_lab_result_waiting_list(request):
     hospital = Hospital.objects.get(id=Staff.objects.get(basic_id=request.user.id).hospital_id)
     staff = Staff.objects.get(basic_id=request.user.id)
@@ -223,7 +238,8 @@ def view_lab_result_waiting_list(request):
     context = {}
     return render(request, "physician/forms/lab_result_waiting_list.html", context)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Physician'])
 def view_radiology_result_waiting_list(request):
     hospital = Hospital.objects.get(id=Staff.objects.get(basic_id=request.user.id).hospital_id)
     staff = Staff.objects.get(basic_id=request.user.id)
@@ -237,7 +253,8 @@ def view_radiology_result_waiting_list(request):
     context = {'ultra_report': ultra_report, 'xray_report': xray_report, 'reports': reports}
     return render(request, "physician/forms/radiology_result_wating_list.html", context)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Physician'])
 def patient_radiology_result_detail(request, pk):
     hospital = Hospital.objects.get(id=Staff.objects.get(basic_id=request.user.id).hospital_id)
     staff = Staff.objects.get(basic_id=request.user.id)
@@ -246,7 +263,8 @@ def patient_radiology_result_detail(request, pk):
     context = {'ultra_report': ultra_report, 'xray_report': xray_report, 'pk': pk}
     return render(request, "physician/forms/Patient_radiology_result.html", context)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Physician'])
 def medical_history(request,pk):
 
     all_patient_form = PatientForm.objects.filter(patient_id=pk).order_by('-date')
@@ -269,7 +287,8 @@ def medical_history(request,pk):
     print(all_vital_sign)
     return render(request, "physician/forms/medical_history.html",context)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['physician'])
 def add_stool_examination_request(request, pk):
     if request.method == 'POST':
         stool = StoolExaminationRequestForm(request.POST)
@@ -296,7 +315,8 @@ def add_stool_examination_request(request, pk):
             messages.success(request, "Request Sent")
             return redirect('lab_request_url', pk)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['physician'])
 def add_urine_analysis_request(request, pk):
     if request.method == 'POST':
         urine_analysis = UrineAnalysisRequestForm(request.POST)
@@ -330,7 +350,8 @@ def add_urine_analysis_request(request, pk):
             messages.success(request, "Request Sent")
             return redirect('lab_request_url', pk)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['physician'])
 def add_hematology_request(request, pk):
     if request.method == 'POST':
         hematology_request = HematologyExaminationRequestForm(request.POST)
@@ -363,7 +384,8 @@ def add_hematology_request(request, pk):
             lab_tech.save()
             messages.success(request, "Request Sent")
             return redirect('lab_request_url', pk)
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['physician'])
 def add_appointment(request,pk):
     if request.method=='POST':
         patient = Patient.objects.get(id=pk)

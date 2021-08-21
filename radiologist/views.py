@@ -1,13 +1,16 @@
 import datetime
 
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 # Create your views here.
 from accounts.models import Hospital, Staff
+from login.decorators import allowed_users
 from patient.models import UltraSound, XrayExamination, Patient
 from radiologist.forms import XrayResultForm, UltraSoundResultForm
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Radiology'])
 def radiologist_homepage(request):
     hospital = Hospital.objects.get(id=Staff.objects.get(basic_id=request.user.id).hospital_id)
     staff = Staff.objects.get(basic_id=request.user.id)
@@ -38,7 +41,8 @@ def radiologist_homepage(request):
             context = {'hospital': hospital, 'rqst_list': rqst_list}
             return render(request, 'radiologist/homepage.html', context)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Radiology'])
 def request_detail(request, pk):
     hospital = Hospital.objects.get(id=Staff.objects.get(basic_id=request.user.id).hospital_id)
     staff = Staff.objects.get(basic_id=request.user.id)
@@ -86,7 +90,8 @@ def request_detail(request, pk):
 
 
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Radiology'])
 def remove_from_list(request, pk):
     hospital = Hospital.objects.get(id=Staff.objects.get(basic_id=request.user.id).hospital_id)
     staff = Staff.objects.get(basic_id=request.user.id)

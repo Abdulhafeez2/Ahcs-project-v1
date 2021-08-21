@@ -1,14 +1,17 @@
 import datetime
 
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 # Create your views here.
 from accounts.models import Hospital, Staff
 from lab_technician.forms import StoolResultForm, UrineResultForm, HematologyResultForm
 from lab_technician.models import UrineAnalysisWaitingList, HematologyWaitingList
+from login.decorators import allowed_users
 from patient.models import Hematology, UrineAnalysis, StoolExamination, Patient
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Lab_technician'])
 def lab_technician_homepage(request):
     hospital = Hospital.objects.get(id=Staff.objects.get(basic_id=request.user.id).hospital_id)
     staff = Staff.objects.get(basic_id=request.user.id)
@@ -28,7 +31,8 @@ def lab_technician_homepage(request):
 
     return render(request, 'lab_technician/homepage.html', context)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Lab_technician'])
 def view_lab_request_detail(request, pk):
     hospital = Hospital.objects.get(id=Staff.objects.get(basic_id=request.user.id).hospital_id)
     staff = Staff.objects.get(basic_id=request.user.id)
@@ -61,7 +65,8 @@ def view_lab_request_detail(request, pk):
     context['user_profile'] = Patient.objects.get(id=pk)
     return render(request, "lab_technician/form/view_request.html", context)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Lab_technician'])
 def add_stool_result(request, pk):
     if request.method == 'POST':
         stool = StoolResultForm(request.POST, instance=pk)
@@ -81,7 +86,8 @@ def add_stool_result(request, pk):
             rqst.save()
             return redirect('request_detail_url', pk)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Lab_technician'])
 def add_urine_result(request, pk):
     if request.method == 'POST':
         urine = UrineResultForm(request.POST, instance=pk)
@@ -105,7 +111,8 @@ def add_urine_result(request, pk):
             waiting.save()
             return redirect('request_detail_url', pk)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Lab_technician'])
 def add_hematology_result(request, pk):
     if request.method == 'POST':
         hematology = HematologyResultForm(request.POST, instance=pk)
@@ -129,7 +136,8 @@ def add_hematology_result(request, pk):
             waiting.save()
             return redirect('request_detail_url', pk)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['Lab_technician'])
 def remove_from_list(request, pk):
     hospital = Hospital.objects.get(id=Staff.objects.get(basic_id=request.user.id).hospital_id)
     staff = Staff.objects.get(basic_id=request.user.id)

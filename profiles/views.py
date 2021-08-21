@@ -1,10 +1,15 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from accounts.models import User
 from hospital_admin.forms import UserRegistrationForm
 
 # Create your views here.
+from login.decorators import allowed_users
 
+
+@login_required(login_url='login_url')
+###############################################################
 def user_profile(request, pk):
     profile = User.objects.get(id=pk)
 
@@ -26,7 +31,8 @@ def user_profile(request, pk):
     elif request.user.role == 'Lab Technician admin':
         return render(request, 'profiles/system_admin_users_profile.html', context)
 
-
+@login_required(login_url='login_url')
+@allowed_users(allowed_roles=['*'])
 def my_profile(request, pk):
     profile = User.objects.get(id=pk)
     appointment=None

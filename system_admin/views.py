@@ -1,16 +1,20 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from accounts.models import *
 # Create your views here.
 from hospital_admin.forms import UserRegistrationForm
+from login import decorators
 from system_admin.forms import HealthCareProviderRegistrationForm
 from django.contrib import messages
-
+@login_required(login_url='login_url')
+@decorators.allowed_users(allowed_roles=['system admin'])
 def homepage(request):
     context = {}
 
     return render(request, 'system_admin/homepage.html', context)
 
-
+@login_required(login_url='login_url')
+@decorators.allowed_users(allowed_roles=['system admin'])
 def add_new_healthcare_provider(request):
     msg = None
     if request.method == 'POST':
@@ -33,13 +37,15 @@ def add_new_healthcare_provider(request):
     context = {'form': form, 'form1': form1}
     return render(request, 'system_admin/healthcare_provider_add.html', context)
 
-
+@login_required(login_url='login_url')
+@decorators.allowed_users(allowed_roles=['system admin'])
 def view_hospital_admins(request):
     hospital = Hospital.objects.all()
     context = {'hospital': hospital}
     return render(request, 'forms/all_hospital_admins.html', context)
 
-
+@login_required(login_url='login_url')
+@decorators.allowed_users(allowed_roles=['system admin'])
 def view_pharmacy_admins(request):
     pharmacy = Pharmacy.objects.all()
     context = {'pharmacy': pharmacy}

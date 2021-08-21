@@ -1,13 +1,16 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 # Create your views here.
 from accounts.models import User, Hospital, Pharmacy, Staff
+from login import decorators
 from patient.models import Patient
 from pharmacist.forms import Medication_Form
 from physician.models import Appointment, Referral
 from receptionist.models import Triage
 
-
+@login_required(login_url='login_url')
+@decorators.allowed_users(allowed_roles=['hospital admin'])
 def search_staff(request):
     search_query = request.GET.get('search')
     try:
@@ -37,7 +40,8 @@ def search_staff(request):
         context = {'searched': searched, 'notfound': notfound, 'search_query': search_query}
         return render(request, 'profiles/hospital_admin_users_profile.html', context)
 
-
+@login_required(login_url='login_url')
+@decorators.allowed_users(allowed_roles=['pharmacy admin'])
 def search_pharmacist(request):
     search_query = request.GET.get('search')
     try:
@@ -59,7 +63,8 @@ def search_pharmacist(request):
         context = {'searched': searched, 'notfound': notfound, 'search_query': search_query}
         return render(request, 'profiles/hospital_admin_users_profile.html', context)
 
-
+@login_required(login_url='login_url')
+@decorators.allowed_users(allowed_roles=['Receptionist','Nurse'])
 def search_patient(request):
     search_query = request.GET.get('search')
     print(search_query)
@@ -84,7 +89,8 @@ def search_patient(request):
         context = {'searched': searched, 'search_query': search_query, 'notfound': notfound}
         return render(request, 'profiles/receptionist_patient_profile.html', context)
 
-
+@login_required(login_url='login_url')
+@decorators.allowed_users(allowed_roles=['system admin'])
 def search_healthcare_provider(request):
     search_query = request.GET.get('search')
     try:
@@ -98,7 +104,8 @@ def search_healthcare_provider(request):
         context = {'searched': searched, 'notfound': notfound, 'search_query': search_query}
         return render(request, 'system_admin/hospital_profile.html', context)
 
-
+@login_required(login_url='login_url')
+@decorators.allowed_users(allowed_roles=['hospital admin'])
 def search_nurse(request):
     search_query = request.GET.get('search')
     try:
@@ -120,7 +127,8 @@ def search_nurse(request):
         context = {'searched': searched, 'notfound': notfound, 'search_query': search_query}
         return render(request, 'profiles/hospital_admin_users_profile.html', context)
 
-
+@login_required(login_url='login_url')
+@decorators.allowed_users(allowed_roles=['hospital admin'])
 def search_physician(request):
     search_query = request.GET.get('search')
     try:
@@ -142,7 +150,8 @@ def search_physician(request):
         context = {'searched': searched, 'notfound': notfound, 'search_query': search_query}
         return render(request, 'profiles/hospital_admin_users_profile.html', context)
 
-
+@login_required(login_url='login_url')
+@decorators.allowed_users(allowed_roles=['hospital admin'])
 def search_radiologist(request):
     search_query = request.GET.get('search')
     try:
@@ -164,7 +173,8 @@ def search_radiologist(request):
         context = {'searched': searched, 'notfound': notfound, 'search_query': search_query}
         return render(request, 'profiles/hospital_admin_users_profile.html', context)
 
-
+@login_required(login_url='login_url')
+@decorators.allowed_users(allowed_roles=['hospital admin'])
 def search_lab_technician(request):
     search_query = request.GET.get('search')
     try:
@@ -184,6 +194,9 @@ def search_lab_technician(request):
         searched = 'Staff'
         context = {'searched': searched, 'notfound': notfound, 'search_query': search_query}
         return render(request, 'profiles/hospital_admin_users_profile.html', context)
+
+@login_required(login_url='login_url')
+@decorators.allowed_users(allowed_roles=['pharmacist'])
 def pharmacist_search_patient(request):
     medication=Medication_Form()
     search_query = request.GET.get('search')
