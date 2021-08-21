@@ -3,6 +3,7 @@ from time import timezone
 
 from django import forms
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 
 from accounts.models import Staff, User, Hospital
@@ -15,7 +16,7 @@ from login import decorators
 # @login_required(login_url='login_url')
 # @decorators.physicianonly
 from patient.models import Patient, VitalSign, PatientForm, UltraSound, XrayExamination, StoolExamination, \
-    UrineAnalysis, Hematology
+    UrineAnalysis, Hematology, Prescription, AdministeredTreatment
 from physician.forms import AddPatientForm, ReferralRequestForm, PrescriptionForm, AdministeredTreatmentForm, \
     XrayRequestForm, UltrasoundRequestForm, UrineAnalysisRequestForm, StoolExaminationRequestForm, \
     HematologyExaminationRequestForm, AppointmentForm, DateForm
@@ -24,11 +25,13 @@ from physician.models import PatientWaitingList, Referral, Appointment
 
 def physician_homepage(request):
     try:
+        hospital = Hospital.objects.get(id=Staff.objects.get(basic_id=request.user.id).hospital_id)
+
         patient_waiting_list = PatientWaitingList.objects.filter(
             physician_id=Staff.objects.get(basic_id=request.user.id).id,
             status='pending')
         waiting_list = True
-        context = {'patient_waiting_list': patient_waiting_list, 'waiting_list': waiting_list}
+        context = {'patient_waiting_list': patient_waiting_list, 'waiting_list': waiting_list,'hospital': hospital}
         return render(request, "physician/physician_dashboard.html", context)
     except:
         waiting_list = False
@@ -244,9 +247,27 @@ def patient_radiology_result_detail(request, pk):
     return render(request, "physician/forms/Patient_radiology_result.html", context)
 
 
-def medical_history(request):
-    context = {}
-    return render(request, "physician/forms/medical_history.html", context)
+def medical_history(request,pk):
+
+    all_patient_form = PatientForm.objects.filter(patient_id=pk).order_by('-date')
+    all_patient_form_paginator=Paginator(all_patient_form,2)
+    page=request.GET.get('page')
+    form_paginate=all_patient_form_paginator.get_page(page)
+
+
+    all_vital_sign=VitalSign.objects.filter(patient_id=pk).order_by('-taken_date')
+    vital_sign_paginator=Paginator(all_vital_sign,5)
+    vital_page=request.GET.get('page')
+    vital_sign_paginate=vital_sign_paginator.get_page(vital_page)
+
+    all_prescriptions=Prescription.objects.filter(patient_id=pk).order_by('-date')
+    administered_treatment=AdministeredTreatment.objects.filter(patient_id=pk).order_by('-medication_date')
+
+
+    context = {'all_patient_form':form_paginate,'all_vital_sign':vital_sign_paginate,
+               'all_prescriptions':all_prescriptions,'all_administered_treatment':administered_treatment}
+    print(all_vital_sign)
+    return render(request, "physician/forms/medical_history.html",context)
 
 
 def add_stool_examination_request(request, pk):

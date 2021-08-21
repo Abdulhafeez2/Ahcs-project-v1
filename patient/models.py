@@ -29,7 +29,7 @@ class VitalSign(models.Model):
     blood_sugar_R = models.CharField(max_length=10)
     blood_sugar_F = models.CharField(max_length=10)
     taken_by = models.ForeignKey(Staff, on_delete=models.CASCADE)
-    taken_date = models.DateTimeField()
+    taken_date = models.DateTimeField(auto_now_add=True)
     taken_at_hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE)
     comment = models.TextField()
 

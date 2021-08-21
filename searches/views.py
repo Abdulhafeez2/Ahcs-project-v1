@@ -5,6 +5,7 @@ from accounts.models import User, Hospital, Pharmacy, Staff
 from patient.models import Patient
 from pharmacist.forms import Medication_Form
 from physician.models import Appointment, Referral
+from receptionist.models import Triage
 
 
 def search_staff(request):
@@ -67,10 +68,15 @@ def search_patient(request):
         found = True
         appointment=Appointment.objects.filter(patient_id=patient.id,status="pending")
         referral=Referral.objects.filter(patient_id=patient.id,status="pending")
+        try:
+            registerd=Triage.objects.get(id=patient.id,status="pending")
+        except:
+            registerd=None
+        print()
         print(appointment)
         print(referral)
 
-        context = {'found': found,'user_profile': patient,'appointment':appointment,'referral':referral}
+        context = {'found': found,'user_profile': patient,'appointment':appointment,'referral':referral,'registered':registerd}
         return render(request, 'profiles/receptionist_patient_profile.html', context)
     except:
         notfound = True

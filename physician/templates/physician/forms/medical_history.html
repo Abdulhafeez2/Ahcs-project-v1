@@ -4,6 +4,7 @@
                 <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#patient_form">Patient Form</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#ultrasound">Vital Signs</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#prescribed_medication">Prescribed medications</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#treatment">Administered Treatment</a></li>
 
             </ul>
                 
@@ -21,20 +22,41 @@
                 <div class="row clearfix">
 
                                 <div class="col-md-12">
+
+                                    <h6>Patient Form</h6>
+
+                                    {% if all_patient_form %}
+                                    {% for patient_form in all_patient_form %}
                                     <div>
-                                <p class="m-b-0 float-right"><b>Date: </b>{{vital_sign.taken_date.date}}</p>
+                                <p class="m-b-0 float-right"><b>Date: </b>{{patient_form.date.date}}</p>
                                         <br>
-                                <p class="m-b-0 float-right"><b>At: </b>{{vital_sign.taken_date.time}}</p>
+                                <p class="m-b-0 float-right"><b>At: </b>{{patient.date.time}}</p>
                                     </div>
-                                    <h6>Last Patient Form</h6>
-                                    {% if latest_patient_form %}
                                     <div class="col-md-12 text-right">
                                     <p class="m-b-0"><b>Date Added: </b>{{latest_patient_form.date.date}}</p>
                                     </div>
-                                    <p>{{latest_patient_form.note}}</p>
+                                    <p>{{patient_form.note}}</p>
+                                    <br>
+                                    <hr>
+                                    {% endfor %}
                                     {% else %}
                                     <p><strong>No patient form yet</strong></p>
                                     {% endif %}
+
+                                    <div class="float-right">
+                                        {% if all_patient_form.has_previous %}
+                                        <a href="?page=1">&laquo First</a>
+                                        <a href="?page={{all_patient_form.previous_page_number}}">&laquo Previous</a>
+                                        {% endif %}
+                                        Page {{all_patient_form.number}} of {{all_patient_form.paginator.num_pages}}
+                                        {% if all_patient_form.has_next %}
+                                        <a href="?page={{all_patient_form.next_page_number}}">Next &raquo</a>
+                                        <a href="?page={{all_patient_form.paginator.num_pages}}">Last &raquo</a>
+
+                                        {% endif%}
+                                    </div>
+
+
                                 </div>
                             </div>
             </div>
@@ -51,23 +73,22 @@
         <div class="col-md-8">
           <div class="card card-primary ">
             <div class="card-header">
-              <h5 class="card-title">Prescription Forms</h5>
+              <h5 class="card-title">Prescriptions History</h5>
             </div>
             <div class="card-body">
                 <div class="row clearfix">
 
                                 <div class="col-md-12">
-                                    <div>
-                                <p class="m-b-0 float-right"><b>Date: </b>{{vital_sign.taken_date.date}}</p>
-                                        <br>
-                                <p class="m-b-0 float-right"><b>At: </b>{{vital_sign.taken_date.time}}</p>
-                                    </div>
+
                                     <h6>Medication Prescription</h6>
-                                        {% if latest_patient_form %}
+                                        {% if all_prescriptions %}
+                                    {% for prescription in all_prescriptions %}
                                     <div class="col-md-12 text-right">
-                                    <p class="m-b-0"><b>Date Added: </b>{{latest_patient_form.date.date}}</p>
+                                    <p class="m-b-0"><b>Date Added: </b>{{prescription.date}}</p>
                                     </div>
-                                    <p>{{latest_patient_form.note}}</p>
+                                    <p>{{prescription.prescription_detail}}</p>
+                                    <hr>
+                                    {% endfor%}
                                     {% else %}
                                     <p><strong>No prescription Yet</strong></p>
                                     {% endif %}
@@ -90,47 +111,108 @@
                         </div>
                         <div class="body">
                             <div class="table-responsive">
+                                {% if all_vital_sign %}
                                 <table class="table table-hover js-basic-example dataTable table-custom">
                                     <thead class="thead-success">
                                         <tr>
                                             <th>No</th>
-                                            <th>Date</th>
+                                            <th>Date and Time</th>
                                             <th>Weight</th>
                                             <th>Height</th>
                                             <th>BMI</th>
                                             <th>Systolic BP</th>
                                             <th>Diastolic BP</th>
+                                            <th>Respiratory Rate</th>
                                             <th>Heart Rate</th>
+                                            <th>Urine OutPut</th>
                                             <th>Temp</th>
+                                            <th>Blood Suger R</th>
+                                            <th>Blood Suger F</th>
                                             <th>Allergies</th>
-                                            <th>Action</th>
+
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {% for patient in patient_waiting_list %}
+                                    {% for vital_sign in all_vital_sign %}
                                             <tr>
                                                 <td>{{forloop.counter}}</td>
-                                                <td>{{patient.patient.basic.username}}</td>
-                                                <td>{{patient.patient.basic.first_name}}</td>
-                                                <td>{{patient.patient.basic.last_name}}</td>
-                                                <td>{{patient.patient.basic.middle_name}}</td>
-                                                <td>{{patient.patient.basic.age}}</td>
-                                                <td>{{patient.patient.basic.sex}}</td>
-                                                <td><a href="{% url 'patient_detail_url' patient.patient.id %}">
-                                                        <button type="button" class="btn btn-primary">Accept</button>
-                                                    </a>
-                                                </td>
+                                                <td>{{vital_sign.taken_date}}</td>
+                                                <td>{{vital_sign.weight}} Kg</td>
+                                                <td>{{vital_sign.height}} cm</td>
+                                                <td>{{vital_sign.bmi}} Kg/m2</td>
+                                                <td>{{vital_sign.systolic_BP}} mmHg</td>
+                                                <td>{{vital_sign.diastolic_BP}} mmHg</td>
+                                                <td>{{vital_sign.respiratory_rate}} BPM</td>
+                                                <td>{{vital_sign.heart_rate}} BPM</td>
+                                                <td>{{vital_sign.urine_output}} units</td>
+                                                <td>{{vital_sign.temperature}} oC</td>
+                                                <td>{{vital_sign.blood_sugar_R}} mmol/L</td>
+                                                <td>{{vital_sign.blood_sugar_F}} mmol/L</td>
+                                                <td>{{vital_sign.comment}}</td>
+
                                             <tr>
                                     {% endfor %}
 
                                     </tbody>
                                 </table>
+                                <div class="float-right">
+                                        {% if all_vital_sign.has_previous %}
+                                        <a href="?page=1">&laquo First</a>
+                                        <a href="?page={{all_patient_form.previous_page_number}}">&laquo Previous</a>
+                                        {% endif %}
+                                        Page {{all_vital_sign.number}} of {{all_vital_sign.paginator.num_pages}}
+                                        {% if all_vital_sign.has_next %}
+                                        <a href="?page={{all_patient_form.next_page_number}}">Next &raquo</a>
+                                        <a href="?page={{all_patient_form.paginator.num_pages}}">Last &raquo</a>
+
+                                        {% endif%}
+                                    </div>
+                                {% else %}
+                                <p>No vital sign</p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
                 </div>
+                <div class="tab-pane " id="treatment">
+                    <nav class="sidebar-nav">
+                        <div class="row" >
+        <div class="col-md-8">
+          <div class="card card-primary ">
+            <div class="card-header">
+              <h5 class="card-title">Administered Treatments</h5>
+            </div>
+            <div class="card-body">
+                <div class="row clearfix">
+
+                                <div class="col-md-12">
+
+                                    <h6>Medication Prescription</h6>
+                                        {% if all_administered_treatment %}
+                                    {% for administered_treatment in all_administered_treatment %}
+                                    <div class="col-md-12 text-right">
+                                    <p class="m-b-0"><b>Date Added: </b>{{administered_treatment.medication_date}}</p>
+
+                                    </div>
+                                    <p><strong>Medication Name : {{administered_treatment.medication_name}}</strong></p>
+                                    <p>{{administered_treatment.description}}</p>
+                                    <hr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <p><strong>No prescription Yet</strong></p>
+                                    {% endif %}
+                                </div>
+                            </div>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+    </nav>
+</div>
 
             </div> 
     <!-- /.content 

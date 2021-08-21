@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 
+from django.contrib import messages
 from django.db.models import Count, Min
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -34,7 +35,7 @@ def nurse_homepage(request):
 
 
 def add_vital_sign(request, pk):
-    msg = 'successfully added'
+
     if request.method == 'POST':
         form = VitalSignForm(request.POST)
         patient = Patient.objects.get(basic_id=pk)
@@ -43,6 +44,7 @@ def add_vital_sign(request, pk):
         context = {'patient': patient, 'staff': staff, 'hospital': hospital}
         if form.is_valid():
             form.save_vital_sign(context)
+            messages.success(request, "Vital Sign added Successfully ")
             # nxt = request.POST.get('next', '/')
             return redirect('admit_to_dr_url', pk)
         else:

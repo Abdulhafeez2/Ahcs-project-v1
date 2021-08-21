@@ -55,7 +55,7 @@ class VitalSignForm(forms.Form):
             taken_by_id=context['staff'].id,
             comment=self.cleaned_data.get('comment'),
 
-            taken_date=datetime.datetime.now(),
+            #taken_date=datetime.datetime.now(),
             taken_at_hospital_id=context['hospital'].id
 
         )
