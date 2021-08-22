@@ -385,7 +385,7 @@ def add_hematology_request(request, pk):
             messages.success(request, "Request Sent")
             return redirect('lab_request_url', pk)
 @login_required(login_url='login_url')
-@allowed_users(allowed_roles=['physician'])
+@allowed_users(allowed_roles=['Physician'])
 def add_appointment(request,pk):
     if request.method=='POST':
         patient = Patient.objects.get(id=pk)
