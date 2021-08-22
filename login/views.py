@@ -79,7 +79,8 @@ def user_login(request):
             msg = form.errors
     context = {'form': form, 'msg': msg}
     return render(request, 'login_page.html', context)
-
+def error_404(request,exception):
+    return render(request,'404.html')
 
 def user_logout(request):
     logout(request)
