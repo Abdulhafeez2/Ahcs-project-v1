@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from accounts.models import *
@@ -50,3 +52,19 @@ def view_pharmacy_admins(request):
     pharmacy = Pharmacy.objects.all()
     context = {'pharmacy': pharmacy}
     return render(request, 'forms/all_pharmacy_admins.html', context)
+
+def view_hospital_log(request):
+    hospitals=Hospital.objects.all().count()
+    pharmacy=Pharmacy.objects.all().count()
+    print(hospitals)
+    today=datetime.date.today()
+    this_month=today.month
+    #hos_no_reg_in_month=User.objects.values("hospital admin",'')
+    print(this_month)
+
+    context={"hospitals":hospitals,'pharmacy':pharmacy}
+    return render(request,'system_admin/hospital_log.html',context)
+
+def view_pharamcy_log(request):
+    context={}
+    return render(request,'system_admin/pharmacy_log.html',context)
